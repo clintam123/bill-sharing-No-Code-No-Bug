@@ -1,247 +1,174 @@
--- MySQL Workbench Forward Engineering
+create schema bill_sharing;
+use bill_sharing;
 
-SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
-SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
-SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+create table if not exists category
+(
+    id      bigint auto_increment
+        primary key,
+    title   varchar(75) not null,
+    content text        null,
+    code    varchar(45) not null
+);
 
--- -----------------------------------------------------
--- Schema mydb
--- -----------------------------------------------------
--- -----------------------------------------------------
--- Schema shop
--- -----------------------------------------------------
-DROP SCHEMA IF EXISTS `shop` ;
+create table if not exists user
+(
+    id            bigint auto_increment
+        primary key,
+    passwordHash  varchar(32) not null,
+    registered_at datetime    not null,
+    last_login    datetime    null,
+    username      varchar(45) not null
+);
 
--- -----------------------------------------------------
--- Schema shop
--- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `shop` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ;
-USE `shop` ;
+create table if not exists customer
+(
+    id         bigint      not null
+        primary key,
+    first_name varchar(45) not null,
+    last_name  varchar(45) not null,
+    phone      varchar(15) not null,
+    email      varchar(45) not null,
+    user_id    bigint      not null,
+    admin      tinyint     not null,
+    constraint fk_customer_user1
+        foreign key (user_id) references user (id)
+);
 
--- -----------------------------------------------------
--- Table `shop`.`category`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `shop`.`category` ;
+create index fk_customer_user1_idx
+    on customer (user_id);
 
-CREATE TABLE IF NOT EXISTS `shop`.`category` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `title` VARCHAR(75) NOT NULL,
-  `content` TEXT NULL DEFAULT NULL,
-  `code` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_unicode_ci;
+create table if not exists vendor
+(
+    id       bigint auto_increment
+        primary key,
+    intro    tinytext    not null,
+    profile  text        not null,
+    address  varchar(45) not null,
+    city     varchar(45) not null,
+    province varchar(45) not null,
+    user_id  bigint      not null,
+    constraint fk_vendor_user
+        foreign key (user_id) references user (id)
+);
 
+create table if not exists `order`
+(
+    id          bigint auto_increment,
+    session_id  varchar(100)       null,
+    token       varchar(100)       null,
+    status      smallint default 0 not null,
+    shipping    float    default 0 not null,
+    total       float    default 0 not null,
+    discount    float    default 0 not null,
+    grand_total float    default 0 not null,
+    created_at  datetime           not null,
+    updated_at  datetime           null,
+    vendor_id   bigint             not null,
+    customer_id bigint             not null,
+    primary key (id),
+    constraint fk_order_customer1
+        foreign key (customer_id) references customer (id),
+    constraint fk_order_vendor1
+        foreign key (vendor_id) references vendor (id)
+);
 
--- -----------------------------------------------------
--- Table `shop`.`user`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `shop`.`user` ;
+create index fk_order_customer1_idx
+    on `order` (customer_id);
 
-CREATE TABLE IF NOT EXISTS `shop`.`user` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `passwordHash` VARCHAR(32) NOT NULL,
-  `registered_at` DATETIME NOT NULL,
-  `last_login` DATETIME NULL DEFAULT NULL,
-  `role_id` BIGINT NOT NULL,
-  `username` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_unicode_ci;
+create index fk_order_vendor1_idx
+    on `order` (vendor_id);
 
+create table if not exists product
+(
+    id          bigint auto_increment
+        primary key,
+    title       varchar(75)          not null,
+    description text                 null,
+    sku         varchar(100)         not null,
+    price       float      default 0 not null,
+    discount    float      default 0 null,
+    quantity    smallint   default 0 not null,
+    status      tinyint(1) default 0 not null,
+    created_at  datetime             not null,
+    updated_at  datetime             null,
+    vendor_id   bigint               not null,
+    constraint fk_product_vendor1
+        foreign key (vendor_id) references vendor (id)
+);
 
--- -----------------------------------------------------
--- Table `shop`.`customer`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `shop`.`customer` ;
+create table if not exists order_item
+(
+    id          bigint auto_increment
+        primary key,
+    product_id  bigint             not null,
+    order_id    bigint             not null,
+    quantity    smallint default 0 not null,
+    created_at  datetime           not null,
+    updated_at  datetime           null,
+    content     text               null,
+    customer_id bigint             not null,
+    total       float              not null,
+    constraint fk_order_item_customer1
+        foreign key (customer_id) references customer (id),
+    constraint fk_order_item_order
+        foreign key (order_id) references `order` (id),
+    constraint fk_order_item_product
+        foreign key (product_id) references product (id)
+);
 
-CREATE TABLE IF NOT EXISTS `shop`.`customer` (
-  `id` BIGINT NOT NULL,
-  `first_name` VARCHAR(45) NOT NULL,
-  `last_name` VARCHAR(45) NOT NULL,
-  `phone` VARCHAR(15) NOT NULL,
-  `email` VARCHAR(45) NOT NULL,
-  `user_id` BIGINT NOT NULL,
-  `admin` TINYINT NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_customer_user1_idx` (`user_id` ASC) VISIBLE,
-  CONSTRAINT `fk_customer_user1`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `shop`.`user` (`id`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_unicode_ci;
+create index fk_order_item_customer1_idx
+    on order_item (customer_id);
 
+create index idx_order_item_order
+    on order_item (order_id);
 
--- -----------------------------------------------------
--- Table `shop`.`vendor`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `shop`.`vendor` ;
+create index idx_order_item_product
+    on order_item (product_id);
 
-CREATE TABLE IF NOT EXISTS `shop`.`vendor` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `intro` INT NOT NULL,
-  `profile` VARCHAR(45) NOT NULL,
-  `address` VARCHAR(45) NOT NULL,
-  `city` VARCHAR(45) NOT NULL,
-  `province` VARCHAR(45) NOT NULL,
-  `user_id` BIGINT NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_vendor_user_idx` (`user_id` ASC) VISIBLE,
-  CONSTRAINT `fk_vendor_user`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `shop`.`user` (`id`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_unicode_ci;
+create index fk_product_vendor1_idx
+    on product (vendor_id);
 
+create table if not exists product_category
+(
+    product_id  bigint not null,
+    category_id bigint not null,
+    primary key (product_id, category_id),
+    constraint fk_pc_category
+        foreign key (category_id) references category (id),
+    constraint fk_pc_product
+        foreign key (product_id) references product (id)
+);
 
--- -----------------------------------------------------
--- Table `shop`.`order`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `shop`.`order` ;
+create index idx_pc_category
+    on product_category (category_id);
 
-CREATE TABLE IF NOT EXISTS `shop`.`order` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `session_id` VARCHAR(100) NOT NULL,
-  `token` VARCHAR(100) NOT NULL,
-  `status` SMALLINT NOT NULL DEFAULT '0',
-  `shipping` FLOAT NOT NULL DEFAULT '0',
-  `total` FLOAT NOT NULL DEFAULT '0',
-  `discount` FLOAT NOT NULL DEFAULT '0',
-  `grand_total` FLOAT NOT NULL DEFAULT '0',
-  `created_at` DATETIME NOT NULL,
-  `updated_at` DATETIME NULL DEFAULT NULL,
-  `vendor_id` BIGINT NOT NULL,
-  `customer_id` BIGINT NOT NULL,
-  PRIMARY KEY (`id`, `vendor_id`, `customer_id`),
-  INDEX `fk_order_vendor1_idx` (`vendor_id` ASC) VISIBLE,
-  INDEX `fk_order_customer1_idx` (`customer_id` ASC) VISIBLE,
-  CONSTRAINT `fk_order_customer1`
-    FOREIGN KEY (`customer_id`)
-    REFERENCES `shop`.`customer` (`id`),
-  CONSTRAINT `fk_order_vendor1`
-    FOREIGN KEY (`vendor_id`)
-    REFERENCES `shop`.`vendor` (`id`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_unicode_ci;
+create index idx_pc_product
+    on product_category (product_id);
 
+create table if not exists product_review
+(
+    id          bigint auto_increment,
+    product_id  bigint             not null,
+    title       varchar(100)       not null,
+    rating      smallint default 0 not null,
+    created_at  datetime           not null,
+    modified_at datetime           null,
+    content     text               null,
+    customer_id bigint             not null,
+    primary key (id, customer_id),
+    constraint fk_product_review_customer1
+        foreign key (customer_id) references customer (id),
+    constraint fk_review_product
+        foreign key (product_id) references product (id)
+);
 
--- -----------------------------------------------------
--- Table `shop`.`product`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `shop`.`product` ;
+create index fk_product_review_customer1_idx
+    on product_review (customer_id);
 
-CREATE TABLE IF NOT EXISTS `shop`.`product` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `title` VARCHAR(75) NOT NULL,
-  `summary` TINYTEXT NULL DEFAULT NULL,
-  `type` SMALLINT NOT NULL DEFAULT '0',
-  `sku` VARCHAR(100) NOT NULL,
-  `price` FLOAT NOT NULL DEFAULT '0',
-  `discount` FLOAT NOT NULL DEFAULT '0',
-  `quantity` SMALLINT NOT NULL DEFAULT '0',
-  `shop` TINYINT(1) NOT NULL DEFAULT '0',
-  `created_at` DATETIME NOT NULL,
-  `updated_at` DATETIME NULL DEFAULT NULL,
-  `published_at` DATETIME NULL DEFAULT NULL,
-  `vendor_id` BIGINT NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_product_vendor1_idx` (`vendor_id` ASC) VISIBLE,
-  CONSTRAINT `fk_product_vendor1`
-    FOREIGN KEY (`vendor_id`)
-    REFERENCES `shop`.`vendor` (`id`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_unicode_ci;
+create index idx_review_product
+    on product_review (product_id);
 
-
--- -----------------------------------------------------
--- Table `shop`.`order_item`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `shop`.`order_item` ;
-
-CREATE TABLE IF NOT EXISTS `shop`.`order_item` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `product_id` BIGINT NOT NULL,
-  `order_id` BIGINT NOT NULL,
-  `quantity` SMALLINT NOT NULL DEFAULT '0',
-  `created_at` DATETIME NOT NULL,
-  `updated_at` DATETIME NULL DEFAULT NULL,
-  `content` TEXT NULL DEFAULT NULL,
-  `customer_id` BIGINT NOT NULL,
-  `total` FLOAT NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `idx_order_item_product` (`product_id` ASC) VISIBLE,
-  INDEX `idx_order_item_order` (`order_id` ASC) VISIBLE,
-  INDEX `fk_order_item_customer1_idx` (`customer_id` ASC) VISIBLE,
-  CONSTRAINT `fk_order_item_customer1`
-    FOREIGN KEY (`customer_id`)
-    REFERENCES `shop`.`customer` (`id`),
-  CONSTRAINT `fk_order_item_order`
-    FOREIGN KEY (`order_id`)
-    REFERENCES `shop`.`order` (`id`),
-  CONSTRAINT `fk_order_item_product`
-    FOREIGN KEY (`product_id`)
-    REFERENCES `shop`.`product` (`id`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_unicode_ci;
+create index fk_vendor_user_idx
+    on vendor (user_id);
 
 
--- -----------------------------------------------------
--- Table `shop`.`product_category`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `shop`.`product_category` ;
-
-CREATE TABLE IF NOT EXISTS `shop`.`product_category` (
-  `product_id` BIGINT NOT NULL,
-  `category_id` BIGINT NOT NULL,
-  PRIMARY KEY (`product_id`, `category_id`),
-  INDEX `idx_pc_category` (`category_id` ASC) VISIBLE,
-  INDEX `idx_pc_product` (`product_id` ASC) VISIBLE,
-  CONSTRAINT `fk_pc_category`
-    FOREIGN KEY (`category_id`)
-    REFERENCES `shop`.`category` (`id`),
-  CONSTRAINT `fk_pc_product`
-    FOREIGN KEY (`product_id`)
-    REFERENCES `shop`.`product` (`id`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_unicode_ci;
-
-
--- -----------------------------------------------------
--- Table `shop`.`product_review`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `shop`.`product_review` ;
-
-CREATE TABLE IF NOT EXISTS `shop`.`product_review` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `product_id` BIGINT NOT NULL,
-  `title` VARCHAR(100) NOT NULL,
-  `rating` SMALLINT NOT NULL DEFAULT '0',
-  `created_at` DATETIME NOT NULL,
-  `published_at` DATETIME NULL DEFAULT NULL,
-  `content` TEXT NULL DEFAULT NULL,
-  `customer_id` BIGINT NOT NULL,
-  PRIMARY KEY (`id`, `customer_id`),
-  INDEX `idx_review_product` (`product_id` ASC) VISIBLE,
-  INDEX `fk_product_review_customer1_idx` (`customer_id` ASC) VISIBLE,
-  CONSTRAINT `fk_product_review_customer1`
-    FOREIGN KEY (`customer_id`)
-    REFERENCES `shop`.`customer` (`id`),
-  CONSTRAINT `fk_review_product`
-    FOREIGN KEY (`product_id`)
-    REFERENCES `shop`.`product` (`id`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_unicode_ci;
-
-
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
