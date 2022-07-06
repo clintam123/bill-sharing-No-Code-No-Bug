@@ -1,15 +1,18 @@
 package com.nocodenobug.billsharing.controller;
 
 import com.nocodenobug.billsharing.model.dto.ProductReviewDto;
+import com.nocodenobug.billsharing.response.DefaultResponse;
 import com.nocodenobug.billsharing.response.SampleResponse;
 import com.nocodenobug.billsharing.service.CreateReviewService;
 import com.nocodenobug.billsharing.service.DeleteReviewService;
 import com.nocodenobug.billsharing.service.GetReviewService;
 import com.nocodenobug.billsharing.service.UpdateReviewService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/v1.0/product-review")
 public class ProductReviewController {
@@ -31,14 +34,7 @@ public class ProductReviewController {
             @RequestParam(value = "page") int page,
             @RequestParam(value = "page_size") int pageSize
     ) {
-        if (getReviewService.getReviewsOfProduct(id, page, pageSize) == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(SampleResponse.builder()
-                .success(true)
-                .message("Get review success")
-                .data(getReviewService.getReviewsOfProduct(id, page, pageSize))
-                .build());
+        return ResponseEntity.ok(DefaultResponse.success(getReviewService.getReviewsOfProduct(id, page, pageSize)));
     }
 
     @PostMapping("/create-review")
@@ -57,9 +53,6 @@ public class ProductReviewController {
             @PathVariable("review_id") int id,
             @RequestBody ProductReviewDto productReviewDto
     ){
-        if (updateReviewService.updateReview(id, productReviewDto) == null) {
-            return ResponseEntity.notFound().build();
-        }
         return ResponseEntity.ok(SampleResponse.builder()
                 .success(true)
                 .message("Update review success")
@@ -71,15 +64,10 @@ public class ProductReviewController {
     public ResponseEntity<?> deleteReview(
             @PathVariable("review_id") int id
     ){
-        if(deleteReviewService.deleteReview(id)){
-            return ResponseEntity.ok(SampleResponse.builder()
-                    .success(true)
-                    .message("Delete success")
-                    .build());
-        }
         return ResponseEntity.ok(SampleResponse.builder()
-                .success(false)
-                .message("Delete failed")
+                .success(true)
+                .message("Delete success")
                 .build());
+
     }
 }

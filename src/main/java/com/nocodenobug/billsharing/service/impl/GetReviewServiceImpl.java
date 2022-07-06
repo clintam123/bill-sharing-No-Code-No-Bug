@@ -1,5 +1,7 @@
 package com.nocodenobug.billsharing.service.impl;
 
+import com.nocodenobug.billsharing.constants.ResponseStatusConstant;
+import com.nocodenobug.billsharing.exceptions.ObjectNotFoundException;
 import com.nocodenobug.billsharing.model.dto.ProductReviewDto;
 import com.nocodenobug.billsharing.model.entity.ProductReview;
 import com.nocodenobug.billsharing.repository.ProductReviewRepository;
@@ -20,11 +22,11 @@ public class GetReviewServiceImpl implements GetReviewService {
     private ModelMapper modelMapper;
 
     @Override
-    public Page<ProductReviewDto> getReviewsOfProduct(int productId, int page, int pageSize) {
+    public Page<ProductReviewDto> getReviewsOfProduct(int productId, int page, int pageSize) throws ObjectNotFoundException {
         Page<ProductReview> productReviews = productReviewRepository.findAllByProductId(productId, PageRequest.of(page, pageSize));
         if (productReviews.getTotalElements() > 0) {
             return productReviews.map(productReview -> modelMapper.map(productReview, ProductReviewDto.class));
         }
-        return null;
+        throw new ObjectNotFoundException(ResponseStatusConstant.NOT_FOUND_PRODUCT_REVIEW);
     }
 }

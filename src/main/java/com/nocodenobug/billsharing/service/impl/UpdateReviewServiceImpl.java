@@ -1,5 +1,7 @@
 package com.nocodenobug.billsharing.service.impl;
 
+import com.nocodenobug.billsharing.constants.ResponseStatusConstant;
+import com.nocodenobug.billsharing.exceptions.ObjectNotFoundException;
 import com.nocodenobug.billsharing.model.dto.ProductReviewDto;
 import com.nocodenobug.billsharing.model.entity.ProductReview;
 import com.nocodenobug.billsharing.repository.ProductReviewRepository;
@@ -28,6 +30,6 @@ public class UpdateReviewServiceImpl implements UpdateReviewService {
                 product.setRating(review.getRating() == null ? product.getRating() : review.getRating());
                 return modelMapper.map(productReviewRepository.save(product), ProductReviewDto.class);
             }
-            return null;
+            throw new ObjectNotFoundException(ResponseStatusConstant.NOT_FOUND_REVIEW);
     }
 }
