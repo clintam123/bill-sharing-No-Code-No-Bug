@@ -1,8 +1,8 @@
 package com.nocodenobug.billsharing.controller;
 
 import com.nocodenobug.billsharing.model.dto.ProductReviewDto;
+import com.nocodenobug.billsharing.response.DefaultPagingResponse;
 import com.nocodenobug.billsharing.response.DefaultResponse;
-import com.nocodenobug.billsharing.response.SampleResponse;
 import com.nocodenobug.billsharing.service.CreateReviewService;
 import com.nocodenobug.billsharing.service.DeleteReviewService;
 import com.nocodenobug.billsharing.service.GetReviewService;
@@ -34,18 +34,16 @@ public class ProductReviewController {
             @RequestParam(value = "page") int page,
             @RequestParam(value = "page_size") int pageSize
     ) {
-        return ResponseEntity.ok(DefaultResponse.success(getReviewService.getReviewsOfProduct(id, page, pageSize)));
+        return ResponseEntity.ok(DefaultPagingResponse.success(getReviewService.getReviewsOfProduct(id, page, pageSize)));
     }
 
-    @PostMapping("/create-review")
+    @PostMapping("/create-review/{product_id}")
     public ResponseEntity<?> createReview(
+            @PathVariable("product_id") int productId,
             @RequestBody ProductReviewDto productReviewDto
     ){
-        return ResponseEntity.ok(SampleResponse.builder()
-                .success(true)
-                .message("Create review success")
-                .data(createReviewService.createReview(productReviewDto))
-                .build());
+
+        return ResponseEntity.ok(DefaultResponse.success(createReviewService.createReview(productId, productReviewDto)));
     }
 
     @PutMapping("/update-review/{review_id}")
@@ -53,21 +51,13 @@ public class ProductReviewController {
             @PathVariable("review_id") int id,
             @RequestBody ProductReviewDto productReviewDto
     ){
-        return ResponseEntity.ok(SampleResponse.builder()
-                .success(true)
-                .message("Update review success")
-                .data(updateReviewService.updateReview(id, productReviewDto))
-                .build());
+        return ResponseEntity.ok(DefaultResponse.success(updateReviewService.updateReview(id, productReviewDto)));
     }
 
     @DeleteMapping("/delete-review/{review_id}")
     public ResponseEntity<?> deleteReview(
             @PathVariable("review_id") int id
     ){
-        return ResponseEntity.ok(SampleResponse.builder()
-                .success(true)
-                .message("Delete success")
-                .build());
-
+        return ResponseEntity.ok(DefaultResponse.success(deleteReviewService.deleteReview(id)));
     }
 }

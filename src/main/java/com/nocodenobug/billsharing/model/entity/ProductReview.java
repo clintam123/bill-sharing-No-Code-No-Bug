@@ -1,15 +1,14 @@
 package com.nocodenobug.billsharing.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "product_review")
@@ -29,7 +28,6 @@ public class ProductReview {
     private String content;
 
     @JsonProperty("customer_id")
-    @Column(name = "customer_id")
     private Integer customerId;
 
     @JsonProperty("created_at")

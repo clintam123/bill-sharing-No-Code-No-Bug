@@ -19,10 +19,12 @@ public class CreateReviewServiceImpl implements CreateReviewService {
     private ModelMapper modelMapper;
 
     @Override
-    public ProductReviewDto createReview(ProductReviewDto review) {
-        ProductReview product = modelMapper.map(review, ProductReview.class);
-        product.setCreatedAt(LocalDateTime.now());
-        product.setModifiedAt(LocalDateTime.now());
-        return modelMapper.map(productReviewRepository.save(product), ProductReviewDto.class);
+    public ProductReviewDto createReview(int productId, ProductReviewDto newReview) {
+        ProductReview review = modelMapper.map(newReview, ProductReview.class);
+        review.setProductId(productId);
+        review.setCreatedAt(LocalDateTime.now());
+        review.setModifiedAt(LocalDateTime.now());
+        productReviewRepository.save(review);
+        return newReview;
     }
 }

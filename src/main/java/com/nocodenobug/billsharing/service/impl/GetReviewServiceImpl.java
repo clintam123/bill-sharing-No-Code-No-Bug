@@ -1,32 +1,31 @@
 package com.nocodenobug.billsharing.service.impl;
 
 import com.nocodenobug.billsharing.constants.ResponseStatusConstant;
+import com.nocodenobug.billsharing.daos.ProductReviewDao;
 import com.nocodenobug.billsharing.exceptions.ObjectNotFoundException;
-import com.nocodenobug.billsharing.model.dto.ProductReviewDto;
-import com.nocodenobug.billsharing.model.entity.ProductReview;
-import com.nocodenobug.billsharing.repository.ProductReviewRepository;
+import com.nocodenobug.billsharing.model.dto.CustomerReviewDto;
 import com.nocodenobug.billsharing.service.GetReviewService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class GetReviewServiceImpl implements GetReviewService {
 
     @Autowired
-    private ProductReviewRepository productReviewRepository;
-
-    @Autowired
-    private ModelMapper modelMapper;
+    private ProductReviewDao productReviewDao;
 
     @Override
-    public Page<ProductReviewDto> getReviewsOfProduct(int productId, int page, int pageSize) throws ObjectNotFoundException {
-        Page<ProductReview> productReviews = productReviewRepository.findAllByProductId(productId, PageRequest.of(page, pageSize));
-        if (productReviews.getTotalElements() > 0) {
-            return productReviews.map(productReview -> modelMapper.map(productReview, ProductReviewDto.class));
+    public Page<CustomerReviewDto> getReviewsOfProduct(int productId, int page, int pageSize) {
+        Page reviews = productReviewDao.getUserWithReviewByProductId(productId, PageRequest.of(page, pageSize));
+        Page page1 = new PageImpl(reviews.getContent(), PageRequest.of(page, pageSize), reviews.getTotalElements());
+        if (reviews.isEmpty()) {
+            throw new ObjectNotFoundException(ResponseStatusConstant.NOT_FOUND_PRODUCT_REVIEW);
         }
-        throw new ObjectNotFoundException(ResponseStatusConstant.NOT_FOUND_PRODUCT_REVIEW);
+        return reviews;
     }
 }
