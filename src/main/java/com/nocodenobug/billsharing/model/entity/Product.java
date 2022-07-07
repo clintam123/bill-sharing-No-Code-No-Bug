@@ -6,6 +6,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -31,6 +32,15 @@ public class Product {
     private LocalDateTime updatedAt;
 
     @ManyToOne
-    @JoinColumn(name = "vendor_id")
-    private Vendor vendor;
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+//    @Column(name = "category_id")
+//    private Long categoryId;
+
+//    @Column(name = "product_group_id")
+//    private Long productGroupId;
+    @ManyToOne
+    @JoinColumn(name = "product_group_id")
+    private ProductGroup productGroup;
 }

@@ -15,9 +15,6 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "session_id")
-    private String sessionId;
-    private String token;
     private int status;
     private float shipping;
     private float total;
