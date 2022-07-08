@@ -12,6 +12,7 @@ import com.nocodenobug.billsharing.service.product_group.UpdateProductGroupServi
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -59,7 +60,7 @@ public class ProductGroupController {
     }
 
     @PostMapping("")
-    public ResponseEntity<SampleResponse> create(@RequestBody ProductGroupDto productGroupDto) {
+    public ResponseEntity<SampleResponse> create(@Validated @RequestBody ProductGroupDto productGroupDto) {
         return ResponseEntity.ok(
                 SampleResponse.builder()
                         .success(true)
@@ -70,7 +71,7 @@ public class ProductGroupController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<SampleResponse> update(@PathVariable Long id, @RequestBody ProductGroupDto productGroupDto) {
+    public ResponseEntity<SampleResponse> update(@PathVariable Long id,@Validated @RequestBody ProductGroupDto productGroupDto) {
         return ResponseEntity.ok(
                 SampleResponse.builder()
                         .success(true)

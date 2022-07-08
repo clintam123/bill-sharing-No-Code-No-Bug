@@ -1,11 +1,13 @@
 package com.nocodenobug.billsharing.model.entity;
 
+import com.nocodenobug.billsharing.constants.ProductStatus;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Entity
@@ -15,13 +17,14 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
     private String title;
     private String description;
     private String sku;
     private float price;
     private int quantity;
     private float discount;
-    private int status;
+    private ProductStatus status;
 
     @Column(name = "created_at")
     @CreationTimestamp
@@ -43,4 +46,12 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "product_group_id")
     private ProductGroup productGroup;
+
+    @PrePersist
+    public void prePersist() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        String date =  LocalDateTime.now().format(formatter);
+        this.sku = this.category.getCode() + ".sku." + date;
+        this.status = ProductStatus.valueOf("ACTIVE");
+    }
 }

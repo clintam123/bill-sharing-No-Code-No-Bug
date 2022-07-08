@@ -2,15 +2,23 @@ package com.nocodenobug.billsharing.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
 
 @Data
 public class ProductDto {
     private Long id;
+    @NotBlank(message = "Tên sản phẩm không được để trống")
+    @Length(min = 1, max = 100, message = "Tên sản phẩm phải nhỏ hơn 100 kí tự")
     private String title;
     private String description;
     private String sku;
+    @Positive(message = "Giá sản phẩm phải lớn hơn 0")
     private float price;
     private float discount;
+    @Positive(message = "Số lượng sản phẩm phải lớn hơn 0")
     private int quantity;
 
     @JsonProperty("category_id")

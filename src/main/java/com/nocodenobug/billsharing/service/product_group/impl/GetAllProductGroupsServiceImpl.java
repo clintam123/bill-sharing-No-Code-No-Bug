@@ -31,6 +31,6 @@ public class GetAllProductGroupsServiceImpl implements GetAllProductGroupsServic
         if(productGroups.getTotalElements() > 0){
             return productGroups.map(productGroup -> modelMapper.map(productGroup, ProductGroupDetailDto.class));
         }
-        throw new EntityNotFoundException("Not found");
+        throw new EntityNotFoundException("Product group not exist");
     }
 }
