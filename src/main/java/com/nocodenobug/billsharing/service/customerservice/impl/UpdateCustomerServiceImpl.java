@@ -10,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
-
 @Service
 public class UpdateCustomerServiceImpl implements UpdateCustomerService {
     @Autowired
@@ -22,7 +20,7 @@ public class UpdateCustomerServiceImpl implements UpdateCustomerService {
     @Override
     public CustomerDto updateCustomer(Long id, CustomerDto customerDto){
         if (customerRepository.findById(id).isEmpty()){
-            throw new NotFoundException(HttpStatus.NOT_FOUND.value(), "Id customer NotFound",null );
+            throw new NotFoundException(HttpStatus.NOT_FOUND.value(), "Id customer NotFound");
         }
         Customer customer=mapper.map(customerDto,Customer.class);
         customer.setId(id);

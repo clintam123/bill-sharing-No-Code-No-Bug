@@ -2,7 +2,6 @@ package com.nocodenobug.billsharing.service.product_group.impl;
 
 import com.nocodenobug.billsharing.exceptions.NotFoundException;
 import com.nocodenobug.billsharing.model.dto.ProductGroupDetailDto;
-import com.nocodenobug.billsharing.model.dto.ProductGroupDto;
 import com.nocodenobug.billsharing.model.entity.ProductGroup;
 import com.nocodenobug.billsharing.repository.ProductGroupRepository;
 import com.nocodenobug.billsharing.service.product_group.GetAllProductGroupsService;
@@ -12,8 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
-import javax.persistence.EntityNotFoundException;
 
 @Service
 public class GetAllProductGroupsServiceImpl implements GetAllProductGroupsService {
@@ -33,6 +30,6 @@ public class GetAllProductGroupsServiceImpl implements GetAllProductGroupsServic
         if(productGroups.getTotalElements() > 0){
             return productGroups.map(productGroup -> modelMapper.map(productGroup, ProductGroupDetailDto.class));
         }
-        throw new NotFoundException(HttpStatus.NOT_FOUND.value(), "Product group" + " Not Found", null);
+        throw new NotFoundException(HttpStatus.NOT_FOUND.value(), "Product group" + " Not Found");
     }
 }

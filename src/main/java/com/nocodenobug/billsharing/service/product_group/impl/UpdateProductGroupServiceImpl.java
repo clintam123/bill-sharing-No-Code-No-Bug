@@ -10,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
-
 @Service
 public class UpdateProductGroupServiceImpl implements UpdateProductGroupService {
     private final ProductGroupRepository productGroupRepository;
@@ -27,7 +25,7 @@ public class UpdateProductGroupServiceImpl implements UpdateProductGroupService 
     @Override
     public ProductGroupDto updateProductGroup(Long id, ProductGroupDto productGroupDto) {
         if(productGroupRepository.findById(id).isEmpty()){
-            throw new NotFoundException(HttpStatus.NOT_FOUND.value(), "Product with id" + id + " Not Found", null);
+            throw new NotFoundException(HttpStatus.NOT_FOUND.value(), "Product with id" + id + " Not Found");
         }
         ProductGroup productGroup = modelMapper.map(productGroupDto, ProductGroup.class);
         return modelMapper.map(productGroupRepository.save(productGroup), ProductGroupDto.class);

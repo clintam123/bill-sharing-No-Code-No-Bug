@@ -10,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
-
 @Service
 public class GetProductByIdServiceImpl implements GetProductByIdService {
     private final ProductRepository productRepository;
@@ -27,7 +25,7 @@ public class GetProductByIdServiceImpl implements GetProductByIdService {
     @Override
     public ProductDto getProductById(Long id) {
         Product product = productRepository.findById(id).orElseThrow(
-                () -> new NotFoundException(HttpStatus.NOT_FOUND.value(), "Product with id" + id + " Not Found", null)
+                () -> new NotFoundException(HttpStatus.NOT_FOUND.value(), "Product with id" + id + " Not Found")
         );
         return modelMapper.map(product, ProductDto.class);
     }

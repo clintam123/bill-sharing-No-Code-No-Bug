@@ -1,6 +1,5 @@
 package com.nocodenobug.billsharing.exceptions;
 
-import com.nocodenobug.billsharing.constants.ResponseStatusConstant;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class NotFoundException extends ProjectException{
 
-    public NotFoundException(int code, String message, Object data){
-        super(code,message,data);
+    public NotFoundException(int code, String message){
+        super(code,message);
     }
 }

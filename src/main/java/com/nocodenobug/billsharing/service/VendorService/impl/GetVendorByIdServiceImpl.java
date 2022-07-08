@@ -26,6 +26,6 @@ public class GetVendorByIdServiceImpl implements GetVendorByIdService {
             return mapper.map(vendor.get(),VendorDto.class);
         }
 
-        throw new NotFoundException(HttpStatus.NOT_FOUND.value(), "Id vendor NotFound",null );
+        throw new NotFoundException(HttpStatus.NOT_FOUND.value(), "Id vendor NotFound");
     }
 }

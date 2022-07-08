@@ -14,9 +14,4 @@ public class ProjectException extends RuntimeException {
 
     private int code;
     private String message;
-    private Object data;
-
-
-    public ProjectException(int code, String message) {
-    }
 }

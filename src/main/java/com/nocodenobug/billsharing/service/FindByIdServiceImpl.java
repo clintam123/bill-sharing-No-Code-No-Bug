@@ -1,15 +1,12 @@
 package com.nocodenobug.billsharing.service;
 
-import com.nocodenobug.billsharing.exception.ExceptionObject;
 import com.nocodenobug.billsharing.exceptions.NotFoundException;
 import com.nocodenobug.billsharing.model.entity.*;
 import com.nocodenobug.billsharing.reponsitory.*;
-import com.nocodenobug.billsharing.service.FindByIdService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
 
 @Service
@@ -36,7 +33,7 @@ public class FindByIdServiceImpl implements FindByIdService {
         if(optional.isPresent()){
             return optional.get();
         }
-        throw new NotFoundException(HttpStatus.NOT_FOUND.value(), "Id Order NotFound",null );
+        throw new NotFoundException(HttpStatus.NOT_FOUND.value(), "Id Order NotFound");
     }
 
     @Override
@@ -45,7 +42,7 @@ public class FindByIdServiceImpl implements FindByIdService {
         if(optional.isPresent()){
             return optional.get();
         }
-        throw new NotFoundException(HttpStatus.NOT_FOUND.value(), "Id Product NotFound",null );
+        throw new NotFoundException(HttpStatus.NOT_FOUND.value(), "Id Product NotFound");
     }
 
     @Override
@@ -54,7 +51,7 @@ public class FindByIdServiceImpl implements FindByIdService {
         if(optional.isPresent()){
             return optional.get();
         }
-        throw new NotFoundException(HttpStatus.NOT_FOUND.value(), "Id Order Item NotFound",null );
+        throw new NotFoundException(HttpStatus.NOT_FOUND.value(), "Id Order Item NotFound");
     }
 
     @Override
@@ -63,7 +60,7 @@ public class FindByIdServiceImpl implements FindByIdService {
         if(optional.isPresent()){
             return optional.get();
         }
-        throw new NotFoundException(HttpStatus.NOT_FOUND.value(), "Id vendor NotFound",null );
+        throw new NotFoundException(HttpStatus.NOT_FOUND.value(), "Id vendor NotFound");
     }
 
     @Override
@@ -72,7 +69,7 @@ public class FindByIdServiceImpl implements FindByIdService {
         if(optional.isPresent()){
             return optional.get();
         }
-        throw new NotFoundException(HttpStatus.NOT_FOUND.value(), "Id customer NotFound",null );
+        throw new NotFoundException(HttpStatus.NOT_FOUND.value(), "Id customer NotFound");
     }
 
 }

@@ -10,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
-
 @Service
 public class UpdateCategoryServiceImpl implements UpdateCategoryService {
     private final CategoryRepository categoryRepository;
@@ -26,7 +24,7 @@ public class UpdateCategoryServiceImpl implements UpdateCategoryService {
     @Override
     public CategoryDto updateCategory(Long id, CategoryDto newCategory) {
         if(categoryRepository.findById(id).isEmpty()){
-            throw new NotFoundException(HttpStatus.NOT_FOUND.value(), "Id category NotFound",null );
+            throw new NotFoundException(HttpStatus.NOT_FOUND.value(), "Id category NotFound");
         }
         Category category = modelMapper.map(newCategory, Category.class);
         return modelMapper.map(categoryRepository.save(category), CategoryDto.class);

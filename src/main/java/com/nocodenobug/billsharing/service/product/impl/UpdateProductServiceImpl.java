@@ -10,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
-
 @Service
 public class UpdateProductServiceImpl implements UpdateProductService {
 
@@ -26,7 +24,7 @@ public class UpdateProductServiceImpl implements UpdateProductService {
     @Override
     public ProductDto updateProduct(Long id, ProductDto newProduct) {
         if(productRepository.findById(id).isEmpty()){
-            throw new NotFoundException(HttpStatus.NOT_FOUND.value(), "Product with id" + id + " Not Found", null);
+            throw new NotFoundException(HttpStatus.NOT_FOUND.value(), "Product with id" + id + " Not Found");
         }
         Product product = modelMapper.map(newProduct, Product.class);
         return modelMapper.map(productRepository.save(product), ProductDto.class);

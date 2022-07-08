@@ -11,8 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
-
 @Service
 public class UpdateVendorServiceImpl implements UpdateVendorService {
     @Autowired
@@ -23,7 +21,7 @@ public class UpdateVendorServiceImpl implements UpdateVendorService {
     @Override
     public VendorDto updateVendor(Long id,VendorDto vendorDto){
         if (vendoRepository.findById(id).isEmpty()){
-            throw new NotFoundException(HttpStatus.NOT_FOUND.value(), "Id vendor NotFound",null );
+            throw new NotFoundException(HttpStatus.NOT_FOUND.value(), "Id vendor NotFound");
 
         }
         Vendor vendor=mapper.map(vendorDto,Vendor.class);

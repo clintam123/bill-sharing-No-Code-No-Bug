@@ -12,14 +12,12 @@ import com.nocodenobug.billsharing.reponsitory.ProductReponsotory;
 import com.nocodenobug.billsharing.service.order.UpdateOrderService;
 import com.nocodenobug.billsharing.service.order_item.CreateOrderItemService;
 import com.nocodenobug.billsharing.service.FindByIdService;
-import com.nocodenobug.billsharing.service.order_item.UpdateOrderItemService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 @Service
 public class CreateOrderItemServiceImpl implements CreateOrderItemService {
@@ -76,7 +74,7 @@ public class CreateOrderItemServiceImpl implements CreateOrderItemService {
 
                 return modelMapper.map(orderItem1, OrderItemDto.class);
         } else {
-            throw new NotFoundException(HttpStatus.NOT_FOUND.value(), "Sản phẩm không đủ số lượng",null );
+            throw new NotFoundException(HttpStatus.NOT_FOUND.value(), "Sản phẩm không đủ số lượng");
         }
     }
 

@@ -26,7 +26,7 @@ public class GetCustomerByIdServiceImpl implements GetCustomerByIdService {
             if (customer.isPresent()){
                 return mapper.map(customer.get(), CustomerDto.class);
             }
-            throw new NotFoundException(HttpStatus.BAD_REQUEST.value(), "Id customer NotFound",null );
+            throw new NotFoundException(HttpStatus.BAD_REQUEST.value(), "Id customer NotFound");
 
 
 

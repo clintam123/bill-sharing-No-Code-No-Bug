@@ -12,8 +12,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
-
 @Service
 public class GetProductsByCategoryTitleImpl implements GetProductsByCategoryTitle {
     private final ProductRepository productRepository;
@@ -33,6 +31,6 @@ public class GetProductsByCategoryTitleImpl implements GetProductsByCategoryTitl
         if (products.getTotalElements() > 0) {
             return products.map((product -> modelMapper.map(product, ProductDto.class)));
         }
-        throw new NotFoundException(HttpStatus.NOT_FOUND.value(), "Product with category: " + title + " NotFound", null);
+        throw new NotFoundException(HttpStatus.NOT_FOUND.value(), "Product with category: " + title + " NotFound");
     }
 }

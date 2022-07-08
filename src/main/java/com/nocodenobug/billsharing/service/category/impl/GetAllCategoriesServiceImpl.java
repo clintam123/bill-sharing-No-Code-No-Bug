@@ -29,6 +29,6 @@ public class GetAllCategoriesServiceImpl implements GetAllCategoriesService {
         if(categories.getTotalElements() > 0){
             return categories.map(category -> modelMapper.map(category, CategoryDto.class));
         }
-        throw new NotFoundException(HttpStatus.NOT_FOUND.value(), "Categories dont exist",null );
+        throw new NotFoundException(HttpStatus.NOT_FOUND.value(), "Categories dont exist");
     }
 }

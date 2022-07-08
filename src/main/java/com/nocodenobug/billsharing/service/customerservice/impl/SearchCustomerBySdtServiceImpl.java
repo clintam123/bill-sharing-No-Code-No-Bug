@@ -26,7 +26,7 @@ public class SearchCustomerBySdtServiceImpl implements SearchCustomerBySdtServic
      if (customer.isPresent()){
          return mapper.map(customer.get(),CustomerDto.class);
      }else {
-         throw new NotFoundException(HttpStatus.NOT_FOUND.value(), "Phone number customer NotFound",null );
+         throw new NotFoundException(HttpStatus.NOT_FOUND.value(), "Phone number customer NotFound");
      }
     }
 }
