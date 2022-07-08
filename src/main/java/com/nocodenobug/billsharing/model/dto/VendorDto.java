@@ -1,52 +1,56 @@
-package com.nocodenobug.billsharing.model.entity;
+package com.nocodenobug.billsharing.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.nocodenobug.billsharing.constants.RegexConstants;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.*;
+import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.time.LocalTime;
 
-@Entity
-@Data
-public class Vendor {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@Getter
+@Setter
+public class VendorDto {
+    private Integer id;
 
-    @Column(name = "intro")
+    @NotBlank
+    @Size(max = 200)
     private String intro;
 
-    @Column(name = "profile")
+    @NotBlank
     private String profile;
 
-    @Column(name = "address")
+    @NotBlank
+    @Size(max = 45)
     private String address;
 
-    @Column(name = "district")
+    @NotBlank
+    @Size(max = 45)
     private String district;
 
-    @Column(name = "province")
+    @NotBlank
+    @Size(max = 45)
     private String province;
+
+    @NotBlank
+    @Pattern(regexp = RegexConstants.PHONE_REGEX)
+    @Length(max = 10)
+    private String phone;
 
 
     @JsonProperty("opening_time")
     @Column(name = "opening_time")
     private LocalTime openingTime;
 
-
     @JsonProperty("closing_time")
     @Column(name = "closing_time")
     private LocalTime closingTime;
 
-    private String phone;
-
     @JsonProperty("user_id")
-    @JoinColumn(name = "user_id")
     private Long userId;
 }

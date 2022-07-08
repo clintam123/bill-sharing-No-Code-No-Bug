@@ -1,5 +1,6 @@
 package com.nocodenobug.billsharing.service.product_group.impl;
 
+import com.nocodenobug.billsharing.exceptions.NotFoundException;
 import com.nocodenobug.billsharing.model.dto.ProductGroupDetailDto;
 import com.nocodenobug.billsharing.model.dto.ProductGroupDto;
 import com.nocodenobug.billsharing.model.entity.ProductGroup;

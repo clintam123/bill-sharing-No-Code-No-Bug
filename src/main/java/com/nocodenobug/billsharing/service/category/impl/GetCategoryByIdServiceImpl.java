@@ -1,5 +1,6 @@
 package com.nocodenobug.billsharing.service.category.impl;
 
+import com.nocodenobug.billsharing.exceptions.NotFoundException;
 import com.nocodenobug.billsharing.model.dto.CategoryDto;
 import com.nocodenobug.billsharing.model.entity.Category;
 import com.nocodenobug.billsharing.repository.CategoryRepository;
