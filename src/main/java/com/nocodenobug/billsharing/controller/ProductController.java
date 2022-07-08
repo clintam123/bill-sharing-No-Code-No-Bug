@@ -5,12 +5,18 @@ import com.nocodenobug.billsharing.response.Pagination;
 import com.nocodenobug.billsharing.response.SamplePagingResponse;
 import com.nocodenobug.billsharing.response.SampleResponse;
 import com.nocodenobug.billsharing.service.product.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+@Tag(
+        description = "Product controller",
+        name = "Các api về sản phẩm (dành cho vendor)"
+)
 @RestController
 @RequestMapping("/api/v1/product")
 public class ProductController {
@@ -28,6 +34,10 @@ public class ProductController {
         this.deleteService = deleteService;
         this.getProductsByCategoryTitle = getProductsByCategoryTitle;
     }
+
+    @Operation(summary = "Lấy tất cả sản phẩm theo tên thể loại", description =
+            "page: trang hiện tại (bắt đầu từ 0), page_size: số record trong trang hiện tại," +
+                    "category_title: tên thể loại ")
 
     @GetMapping("/category")
     public ResponseEntity<SamplePagingResponse> findByCategoryTitle(@RequestParam(value = "category_title") String categoryTitle,
@@ -47,6 +57,7 @@ public class ProductController {
 
     }
 
+    @Operation(summary = "Lấy sản phẩm theo Id", description = "Lấy sản phẩm theo Id")
     @GetMapping("/{id}")
     public ResponseEntity<SampleResponse> getById(@PathVariable Long id){
         return ResponseEntity.ok(
@@ -57,6 +68,8 @@ public class ProductController {
                         .build()
         );
     }
+
+    @Operation(summary = "Tạo sản phẩm", description = "Tạo sản phẩm")
     @PostMapping("")
     public ResponseEntity<SampleResponse> create(@Validated @RequestBody ProductDto productDto){
         return ResponseEntity.ok(
@@ -68,6 +81,7 @@ public class ProductController {
         );
     }
 
+    @Operation(summary = "Update sản phẩm", description = "Update sản phẩm")
     @PutMapping("/{id}")
     public ResponseEntity<SampleResponse> update(@PathVariable Long id,
                                                  @Validated @RequestBody ProductDto productDto){
@@ -80,6 +94,7 @@ public class ProductController {
         );
     }
 
+    @Operation(summary = "Xóa sản phẩm", description = "Xóa sản phẩm")
     @DeleteMapping("/{id}")
     public ResponseEntity<SampleResponse> delete(@PathVariable Long id){
         deleteService.deleteProduct(id);

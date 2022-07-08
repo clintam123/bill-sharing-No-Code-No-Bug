@@ -22,6 +22,6 @@ public class ProductGroup {
 //    private Vendor vendor;
     @Column(name = "vendor_id")
     private Long vendorId;
-    @OneToMany(mappedBy = "productGroup")
+    @OneToMany(mappedBy = "productGroup", cascade = CascadeType.ALL)
     private List<Product> productList;
 }

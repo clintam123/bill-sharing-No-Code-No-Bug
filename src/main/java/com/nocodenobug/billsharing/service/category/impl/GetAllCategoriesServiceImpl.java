@@ -1,9 +1,7 @@
 package com.nocodenobug.billsharing.service.category.impl;
 
 import com.nocodenobug.billsharing.model.dto.CategoryDto;
-import com.nocodenobug.billsharing.model.dto.ProductGroupDetailDto;
 import com.nocodenobug.billsharing.model.entity.Category;
-import com.nocodenobug.billsharing.model.entity.ProductGroup;
 import com.nocodenobug.billsharing.repository.CategoryRepository;
 import com.nocodenobug.billsharing.service.category.GetAllCategoriesService;
 import org.modelmapper.ModelMapper;
