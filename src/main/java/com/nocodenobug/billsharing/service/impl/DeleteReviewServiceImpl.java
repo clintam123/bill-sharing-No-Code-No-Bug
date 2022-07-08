@@ -19,7 +19,7 @@ public class DeleteReviewServiceImpl implements DeleteReviewService {
     public Boolean deleteReview(int reviewId) {
         productReviewRepository.deleteById(reviewId);
         Optional<ProductReview> product = productReviewRepository.findById(reviewId);
-        product.map(productReview -> new ObjectNotFoundException(ResponseStatusConstant.COMMON_FAIL));
+        product.map(productReview -> new ObjectNotFoundException(ResponseStatusConstant.NOT_FOUND_REVIEW));
         return true;
     }
 }

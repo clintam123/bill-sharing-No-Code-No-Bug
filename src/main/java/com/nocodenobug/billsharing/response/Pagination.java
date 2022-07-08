@@ -16,5 +16,5 @@ public class Pagination {
     private int totalPage;
 
     @JsonProperty("total_item")
-    private long totalRecord;
+    private long totalItem;
 }

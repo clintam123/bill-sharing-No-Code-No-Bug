@@ -8,7 +8,8 @@ public enum ResponseStatusConstant {
     SUCCESS(1, "Thành công."),
 
     NOT_FOUND_PRODUCT_REVIEW(100, "Sản phẩm chưa có đánh giá nào"),
-    NOT_FOUND_REVIEW(100, "Review không tồn tại");
+    NOT_FOUND_REVIEW(100, "Review không tồn tại"),
+    NO_MORE_COMMENT(102, "Không còn bình luận nào");
 
     private final int code;
     private final String message;

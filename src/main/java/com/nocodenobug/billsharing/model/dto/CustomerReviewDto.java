@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
         @ConstructorResult(
             targetClass = CustomerReviewDto.class,
             columns = {
-              @ColumnResult(name = "username", type = String.class),
+              @ColumnResult(name = "customer_name", type = String.class),
               @ColumnResult(name = "title", type = String.class),
               @ColumnResult(name = "rating", type = Integer.class),
               @ColumnResult(name = "content", type = String.class),
@@ -27,7 +27,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class CustomerReviewDto {
     @Id
-    private String username;
+    private String customer_name;
     private String title;
     private Integer rating;
     private String content;

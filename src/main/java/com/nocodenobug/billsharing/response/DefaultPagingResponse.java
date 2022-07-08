@@ -1,10 +1,8 @@
 package com.nocodenobug.billsharing.response;
 
 import com.nocodenobug.billsharing.constants.ResponseStatusConstant;
-import com.nocodenobug.billsharing.exceptions.ProjectException;
 import lombok.Data;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 
 import java.util.List;
 
@@ -25,7 +23,7 @@ public class DefaultPagingResponse<T> {
                 .page(page.getPageable().getPageNumber())
                 .pageSize(page.getPageable().getPageSize())
                 .totalPage(page.getTotalPages())
-                .totalRecord(page.getTotalElements())
+                .totalItem(page.getTotalElements())
                 .build());
         return response;
     }

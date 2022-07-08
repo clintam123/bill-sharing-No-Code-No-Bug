@@ -3,7 +3,6 @@ package com.nocodenobug.billsharing.daos;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
@@ -25,24 +24,31 @@ public class ProductReviewDao {
                         + "        r.rating AS rating, "
                         + "        r.content AS content, "
                         + "        r.modified_at AS modified_at, "
-                        + "        concat(c.first_name,' ' ,c.last_name) AS username "
+                        + "        concat(c.first_name,' ' ,c.last_name) AS customer_name "
                         + " FROM product_review r "
                         + " JOIN customer c ON c.id = r.customer_id "
                         + " WHERE r.product_id = :productId "
                         + " ORDER BY r.modified_at DESC ";
 
         Query query = entityManager.createNativeQuery(strQuery, "CustomerReviewDto");
-
         query.setParameter("productId", productId);
-        query.setParameter("productId", productId);
-        query.setFirstResult(pageable.getPageNumber() * pageable.getPageSize());
-        query.setMaxResults(pageable.getPageSize());
 
+        int total = 0;
+        int index;
+        if (pageable != null) {
+            total = getTotalReviewByProductId(productId);
+            index = pageable.getPageNumber() * pageable.getPageSize();
+            query.setFirstResult(index);
+            query.setMaxResults(pageable.getPageSize());
+            if (index >= total) {
+                return Page.empty();
+            }
+        } else {
+            query.setMaxResults(50);
+        }
         List list = query.getResultList();
 
-        int total = getTotalReviewByProductId(productId);
-
-        return new PageImpl<>(list, pageable, total);
+        return pageable == null ? new PageImpl(list) : new PageImpl(list, pageable, total);
     }
 
     //tính tổng sổ bình luận của sản phẩm
