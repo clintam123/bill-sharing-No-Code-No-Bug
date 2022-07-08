@@ -26,7 +26,8 @@ public class UpdateReviewServiceImpl implements UpdateReviewService {
             product.setContent(review.getContent());
             product.setTitle(review.getTitle());
             product.setRating(review.getRating());
-            product.setModifiedAt(LocalDateTime.now());
+            review.setModifiedAt(LocalDateTime.now());
+            product.setModifiedAt(review.getModifiedAt());
             productReviewRepository.save(product);
             return review;
         }

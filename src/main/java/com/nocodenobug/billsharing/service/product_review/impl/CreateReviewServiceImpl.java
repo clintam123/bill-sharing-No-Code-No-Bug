@@ -20,10 +20,11 @@ public class CreateReviewServiceImpl implements CreateReviewService {
 
     @Override
     public ProductReviewDto createReview(int productId, ProductReviewDto newReview) {
+        newReview.setModifiedAt(LocalDateTime.now());
         ProductReview review = modelMapper.map(newReview, ProductReview.class);
         review.setProductId(productId);
         review.setCreatedAt(LocalDateTime.now());
-        review.setModifiedAt(LocalDateTime.now());
+        review.setModifiedAt(newReview.getModifiedAt());
         productReviewRepository.save(review);
         return newReview;
     }
