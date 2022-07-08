@@ -6,6 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -21,7 +22,7 @@ public class Product {
     private String title;
     private String description;
     private String sku;
-    private float price;
+    private BigDecimal price;
     private int quantity;
     private float discount;
     private ProductStatus status;
