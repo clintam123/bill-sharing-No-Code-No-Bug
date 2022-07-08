@@ -1,10 +1,10 @@
-package com.nocodenobug.billsharing.service.impl;
+package com.nocodenobug.billsharing.service.product_review.impl;
 
 import com.nocodenobug.billsharing.constants.ResponseStatusConstant;
 import com.nocodenobug.billsharing.exceptions.ObjectNotFoundException;
 import com.nocodenobug.billsharing.model.entity.ProductReview;
 import com.nocodenobug.billsharing.repository.ProductReviewRepository;
-import com.nocodenobug.billsharing.service.DeleteReviewService;
+import com.nocodenobug.billsharing.service.product_review.DeleteReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

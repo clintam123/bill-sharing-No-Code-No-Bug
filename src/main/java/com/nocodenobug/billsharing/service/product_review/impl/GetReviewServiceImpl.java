@@ -1,9 +1,9 @@
-package com.nocodenobug.billsharing.service.impl;
+package com.nocodenobug.billsharing.service.product_review.impl;
 
 import com.nocodenobug.billsharing.constants.ResponseStatusConstant;
 import com.nocodenobug.billsharing.daos.ProductReviewDao;
 import com.nocodenobug.billsharing.exceptions.ObjectNotFoundException;
-import com.nocodenobug.billsharing.service.GetReviewService;
+import com.nocodenobug.billsharing.service.product_review.GetReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

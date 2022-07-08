@@ -1,4 +1,4 @@
-package com.nocodenobug.billsharing.service;
+package com.nocodenobug.billsharing.service.product_review;
 
 import com.nocodenobug.billsharing.model.dto.ProductReviewDto;
 

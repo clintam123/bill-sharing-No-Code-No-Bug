@@ -1,4 +1,4 @@
-package com.nocodenobug.billsharing.service;
+package com.nocodenobug.billsharing.service.product_review;
 
 import org.springframework.data.domain.Page;
 
