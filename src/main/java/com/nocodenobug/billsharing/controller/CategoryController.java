@@ -46,7 +46,7 @@ public class CategoryController {
                         .data(categoryDtoPage.getContent())
                         .pagination(Pagination.builder().page(page).pageSize(pageSize)
                                 .totalPage(categoryDtoPage.getTotalPages())
-                                .totalRecord(categoryDtoPage.getTotalElements()).build())
+                                .totalItem(categoryDtoPage.getTotalElements()).build())
                         .build()
         );
     }
