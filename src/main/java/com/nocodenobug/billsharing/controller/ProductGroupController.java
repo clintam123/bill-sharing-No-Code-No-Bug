@@ -52,7 +52,7 @@ public class ProductGroupController {
                         .data(productGroupDtoPage.getContent())
                         .pagination(Pagination.builder().page(page).pageSize(pageSize)
                                 .totalPage(productGroupDtoPage.getTotalPages())
-                                .totalRecord(productGroupDtoPage.getTotalElements()).build())
+                                .totalItem(productGroupDtoPage.getTotalElements()).build())
                         .build()
         );
     }

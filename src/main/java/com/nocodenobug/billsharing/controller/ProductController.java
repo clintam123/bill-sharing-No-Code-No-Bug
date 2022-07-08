@@ -51,7 +51,7 @@ public class ProductController {
                         .data(productPage.getContent())
                         .pagination(Pagination.builder().page(page).pageSize(pageSize)
                                 .totalPage(productPage.getTotalPages())
-                                .totalRecord(productPage.getTotalElements()).build())
+                                .totalItem(productPage.getTotalElements()).build())
                         .build()
         );
 
