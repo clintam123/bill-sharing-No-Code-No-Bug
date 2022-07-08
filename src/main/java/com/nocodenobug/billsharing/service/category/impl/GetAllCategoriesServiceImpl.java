@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -29,6 +30,6 @@ public class GetAllCategoriesServiceImpl implements GetAllCategoriesService {
         if(categories.getTotalElements() > 0){
             return categories.map(category -> modelMapper.map(category, CategoryDto.class));
         }
-        throw new EntityNotFoundException("Category not exist");
+        throw new NotFoundException(HttpStatus.NOT_FOUND.value(), "Categories dont exist",null );
     }
 }

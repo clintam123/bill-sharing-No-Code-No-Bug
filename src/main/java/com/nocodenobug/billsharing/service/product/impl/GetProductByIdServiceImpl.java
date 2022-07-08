@@ -6,6 +6,7 @@ import com.nocodenobug.billsharing.repository.ProductRepository;
 import com.nocodenobug.billsharing.service.product.GetProductByIdService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -25,7 +26,7 @@ public class GetProductByIdServiceImpl implements GetProductByIdService {
     @Override
     public ProductDto getProductById(Long id) {
         Product product = productRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("Product with id: " + id + "not found")
+                () -> new NotFoundException(HttpStatus.NOT_FOUND.value(), "Product with id" + id + " Not Found", null)
         );
         return modelMapper.map(product, ProductDto.class);
     }
