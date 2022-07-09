@@ -13,7 +13,6 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 @Entity
-
 @Getter
 @Setter
 public class Customer {
@@ -37,4 +36,5 @@ public class Customer {
     @JsonProperty("user_id")
     @Column(name = "user_id")
     private Long userId;
+
 }
