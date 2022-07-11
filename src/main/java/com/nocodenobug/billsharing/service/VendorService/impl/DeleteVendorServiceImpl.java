@@ -1,8 +1,7 @@
 package com.nocodenobug.billsharing.service.VendorService.impl;
 
 import com.nocodenobug.billsharing.model.dto.VendorDto;
-import com.nocodenobug.billsharing.model.entity.Vendor;
-import com.nocodenobug.billsharing.repository.VendoRepository;
+import com.nocodenobug.billsharing.repository.VendorRepository;
 
 import com.nocodenobug.billsharing.service.VendorService.DeleteVendorService;
 import org.modelmapper.ModelMapper;
@@ -12,7 +11,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class DeleteVendorServiceImpl implements DeleteVendorService {
     @Autowired
-    private VendoRepository vendoRepository;
+    private VendorRepository vendorRepository;
     @Autowired
     private ModelMapper mapper;
 
@@ -21,7 +20,7 @@ public class DeleteVendorServiceImpl implements DeleteVendorService {
     @Override
     public void deleteVendor(Long id){
         VendorDto vendorDto= getVendorByIdService.getVendorById(id);
-        vendoRepository.deleteById(id);
+        vendorRepository.deleteById(id);
 
     }
 }

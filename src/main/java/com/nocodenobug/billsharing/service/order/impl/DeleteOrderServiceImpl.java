@@ -1,8 +1,8 @@
 package com.nocodenobug.billsharing.service.order.impl;
 
-import com.nocodenobug.billsharing.contants.OrderStatus;
+import com.nocodenobug.billsharing.constants.OrderStatus;
 import com.nocodenobug.billsharing.model.entity.Order;
-import com.nocodenobug.billsharing.reponsitory.OrderReponsitory;
+import com.nocodenobug.billsharing.repository.OrderRepository;
 import com.nocodenobug.billsharing.service.order.DeleteOrderService;
 import com.nocodenobug.billsharing.service.FindByIdService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 public class DeleteOrderServiceImpl implements DeleteOrderService {
 
     @Autowired
-    private OrderReponsitory orderReponsitory;
+    private OrderRepository orderRepository;
 
     @Autowired
     private FindByIdService findByIdService;
@@ -24,7 +24,7 @@ public class DeleteOrderServiceImpl implements DeleteOrderService {
 
         order.setStatus(OrderStatus.INACTIVE.getStatus());
 
-        return orderReponsitory.save(order);
+        return orderRepository.save(order);
     }
 
 }
