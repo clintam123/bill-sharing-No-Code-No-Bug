@@ -1,11 +1,20 @@
 package com.nocodenobug.billsharing.model.entity;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.nocodenobug.billsharing.constants.RegexConstants;
+
+
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 @Entity
-@Data
+@Getter
+@Setter
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,13 +22,19 @@ public class Customer {
 
     @Column(name = "first_name")
     private String firstName;
-    @Column(name = "last_name")
+
+
+    @Column(name="last_name")
     private String lastName;
+
     private String phone;
+
     private String email;
+
     private int admin;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JsonProperty("user_id")
+    @Column(name = "user_id")
+    private Long userId;
+
 }

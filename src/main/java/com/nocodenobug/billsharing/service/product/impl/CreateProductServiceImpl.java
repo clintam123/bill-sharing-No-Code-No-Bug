@@ -37,6 +37,7 @@ public class CreateProductServiceImpl implements CreateProductService {
         Product product = modelMapper.map(newProduct, Product.class);
         product.setProductGroup(modelMapper.map(productGroupDto, ProductGroup.class));
         product.setCategory(modelMapper.map(category, Category.class));
+        productRepository.save(product);
         return newProduct;
     }
 }

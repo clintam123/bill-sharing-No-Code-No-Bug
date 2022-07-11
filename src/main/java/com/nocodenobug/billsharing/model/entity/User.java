@@ -14,7 +14,7 @@ public class User {
 
     @Column(name = "username")
     private String username;
-    @Column(name = "passwordHash")
+    @Column(name = "password_hash")
     private String passwordHash;
     @Column(name = "registered_at")
     private LocalDateTime registeredAt;
