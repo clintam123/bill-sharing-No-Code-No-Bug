@@ -2,7 +2,7 @@ package com.nocodenobug.billsharing.service;
 
 import com.nocodenobug.billsharing.exceptions.NotFoundException;
 import com.nocodenobug.billsharing.model.entity.*;
-import com.nocodenobug.billsharing.reponsitory.*;
+import com.nocodenobug.billsharing.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -12,23 +12,23 @@ import java.util.Optional;
 @Service
 public class FindByIdServiceImpl implements FindByIdService {
     @Autowired
-    private ProductReponsitory productReponsitory;
+    private ProductRepository productRepository;
 
     @Autowired
-    private OrderReponsitory orderReponsitory;
+    private OrderRepository orderRepository;
 
     @Autowired
-    private OrderItemReponsitory orderItemReponsitory;
+    private OrderItemRepository orderItemRepository;
 
     @Autowired
-    private CustomerReponsitory customerReponsitory;
+    private CustomerRepository customerRepository;
 
     @Autowired
-    private VenderReponsitory venderReponsitory;
+    private VendorRepository vendorRepository;
 
     @Override
     public Order checkIdOrder(Long id){
-        Optional<Order> optional = orderReponsitory.findById(id);
+        Optional<Order> optional = orderRepository.findById(id);
         System.out.println(optional.get()+"+++++++++++");
         if(optional.isPresent()){
             return optional.get();
@@ -38,7 +38,7 @@ public class FindByIdServiceImpl implements FindByIdService {
 
     @Override
     public Product checkIdProduct(Long id){
-        Optional<Product> optional = productReponsitory.findById(id);
+        Optional<Product> optional = productRepository.findById(id);
         if(optional.isPresent()){
             return optional.get();
         }
@@ -47,7 +47,7 @@ public class FindByIdServiceImpl implements FindByIdService {
 
     @Override
     public OrderItem checkIdOrderItem(Long id){
-        Optional<OrderItem> optional = orderItemReponsitory.findById(id);
+        Optional<OrderItem> optional = orderItemRepository.findById(id);
         if(optional.isPresent()){
             return optional.get();
         }
@@ -56,7 +56,7 @@ public class FindByIdServiceImpl implements FindByIdService {
 
     @Override
     public Vendor checkIdVendor(Long id){
-        Optional<Vendor> optional = venderReponsitory.findById(id);
+        Optional<Vendor> optional = vendorRepository.findById(id);
         if(optional.isPresent()){
             return optional.get();
         }
@@ -65,7 +65,7 @@ public class FindByIdServiceImpl implements FindByIdService {
 
     @Override
     public Customer checkIdCustomer(Long id){
-        Optional<Customer> optional = customerReponsitory.findById(id);
+        Optional<Customer> optional = customerRepository.findById(id);
         if(optional.isPresent()){
             return optional.get();
         }

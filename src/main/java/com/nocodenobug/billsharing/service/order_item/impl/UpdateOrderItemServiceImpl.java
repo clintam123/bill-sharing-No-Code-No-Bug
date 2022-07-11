@@ -1,15 +1,16 @@
 package com.nocodenobug.billsharing.service.order_item.impl;
 
-import com.nocodenobug.billsharing.exception.ExceptionObject;
+import com.nocodenobug.billsharing.exceptions.NotFoundException;
 import com.nocodenobug.billsharing.model.dto.OrderItemDto;
 import com.nocodenobug.billsharing.model.entity.Order;
 import com.nocodenobug.billsharing.model.entity.OrderItem;
 import com.nocodenobug.billsharing.model.entity.Product;
-import com.nocodenobug.billsharing.reponsitory.OrderItemReponsitory;
+import com.nocodenobug.billsharing.repository.OrderItemRepository;
 import com.nocodenobug.billsharing.service.FindByIdService;
 import com.nocodenobug.billsharing.service.order_item.UpdateOrderItemService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -19,7 +20,7 @@ import java.time.LocalDateTime;
 public class UpdateOrderItemServiceImpl implements UpdateOrderItemService {
 
     @Autowired
-    OrderItemReponsitory orderItemReponsitory;
+    OrderItemRepository orderItemReponsitory;
 
     @Autowired
     private FindByIdService findByIdService;
@@ -47,7 +48,7 @@ public class UpdateOrderItemServiceImpl implements UpdateOrderItemService {
     public OrderItemDto updateQuantityOrderItem(Long id, OrderItemDto orderItemDto){
         OrderItem orderItemId = findByIdService.checkIdOrderItem(id);
         if(orderItemId == null){
-            throw ExceptionObject.builder().message("OrderItemId khong ton tai").build();
+            throw new NotFoundException(HttpStatus.NOT_FOUND.value(), "Order item id khong ton tai");
         }
 
         OrderItem orderItemOld = orderItemId;

@@ -2,7 +2,7 @@ package com.nocodenobug.billsharing.service.order_item.impl;
 
 import com.nocodenobug.billsharing.model.entity.OrderItem;
 import com.nocodenobug.billsharing.model.entity.Product;
-import com.nocodenobug.billsharing.reponsitory.OrderItemReponsitory;
+import com.nocodenobug.billsharing.repository.OrderItemRepository;
 import com.nocodenobug.billsharing.service.FindByIdService;
 import com.nocodenobug.billsharing.service.order_item.GetOrderItemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ public class GetOrderItemServiceImpl implements GetOrderItemService {
 
 
     @Autowired
-    private OrderItemReponsitory orderItemReponsitory;
+    private OrderItemRepository orderItemRepository;
 
     @Autowired
     private FindByIdService findByIdService;
@@ -24,7 +24,7 @@ public class GetOrderItemServiceImpl implements GetOrderItemService {
     @Override
     public double getAmount(Long id){
         double sum =0;
-        List<OrderItem> orderItemList = orderItemReponsitory.findAllByOrderId(id);
+        List<OrderItem> orderItemList = orderItemRepository.findAllByOrderId(id);
         for (OrderItem list: orderItemList) {
             Product findById = findByIdService.checkIdProduct(list.getProductId());
             double price = Double.parseDouble(findById.getPrice()+"");

@@ -1,7 +1,7 @@
 package com.nocodenobug.billsharing.service.order_item.impl;
 
 import com.nocodenobug.billsharing.model.entity.OrderItem;
-import com.nocodenobug.billsharing.reponsitory.OrderItemReponsitory;
+import com.nocodenobug.billsharing.repository.OrderItemRepository;
 import com.nocodenobug.billsharing.service.order_item.DeleteOrderItemService;
 import com.nocodenobug.billsharing.service.FindByIdService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class DeleteOrderItemServiceImpl implements DeleteOrderItemService {
     @Autowired
-    private OrderItemReponsitory orderItemReponsitory;
+    private OrderItemRepository orderItemRepository;
 
     @Autowired
     private FindByIdService findByIdService;
@@ -19,7 +19,7 @@ public class DeleteOrderItemServiceImpl implements DeleteOrderItemService {
     public void deleteOrderItem(Long id){
         OrderItem orderItem =findByIdService.checkIdOrderItem(id);
 
-        orderItemReponsitory.deleteById(orderItem.getId());
+        orderItemRepository.deleteById(orderItem.getId());
     }
 
 }

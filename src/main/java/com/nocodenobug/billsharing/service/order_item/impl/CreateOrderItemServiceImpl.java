@@ -1,17 +1,16 @@
 package com.nocodenobug.billsharing.service.order_item.impl;
 
-import com.nocodenobug.billsharing.contants.OrderStatus;
-import com.nocodenobug.billsharing.exception.ExceptionObject;
+import com.nocodenobug.billsharing.constants.OrderStatus;
 import com.nocodenobug.billsharing.exceptions.NotFoundException;
 import com.nocodenobug.billsharing.model.dto.OrderItemDto;
 import com.nocodenobug.billsharing.model.entity.Order;
 import com.nocodenobug.billsharing.model.entity.OrderItem;
 import com.nocodenobug.billsharing.model.entity.Product;
-import com.nocodenobug.billsharing.reponsitory.OrderItemReponsitory;
-import com.nocodenobug.billsharing.reponsitory.ProductReponsotory;
+import com.nocodenobug.billsharing.repository.OrderItemRepository;
+import com.nocodenobug.billsharing.repository.ProductRepository;
+import com.nocodenobug.billsharing.service.FindByIdService;
 import com.nocodenobug.billsharing.service.order.UpdateOrderService;
 import com.nocodenobug.billsharing.service.order_item.CreateOrderItemService;
-import com.nocodenobug.billsharing.service.FindByIdService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,7 +22,7 @@ import java.math.BigDecimal;
 public class CreateOrderItemServiceImpl implements CreateOrderItemService {
 
     @Autowired
-    private OrderItemReponsitory orderItemReponsitory;
+    private OrderItemRepository orderItemRepository;
 
     @Autowired
     private UpdateOrderService updateOrderService;
@@ -32,7 +31,7 @@ public class CreateOrderItemServiceImpl implements CreateOrderItemService {
     private FindByIdService findByIdService;
 
     @Autowired
-    private ProductReponsotory productReponsotory;
+    private ProductRepository productRepository;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -43,7 +42,7 @@ public class CreateOrderItemServiceImpl implements CreateOrderItemService {
 
         Order orderOld = findByIdService.checkIdOrder(orderItemDto.getOrder().getId());
         if (orderOld.getStatus() == OrderStatus.INACTIVE.getStatus()) {
-            throw ExceptionObject.builder().message("Order id không tồn tại").build();
+            throw new NotFoundException(HttpStatus.NOT_FOUND.value(), "Order khong ton tai");
         }
 
         Product productOld = findByIdService.checkIdProduct(orderItemDto.getProductId());
@@ -56,7 +55,7 @@ public class CreateOrderItemServiceImpl implements CreateOrderItemService {
                 orderItem.setTotal(total);
 
                 // lưu thông tin OrderItem
-                OrderItem orderItem1 = orderItemReponsitory.save(orderItem);
+                OrderItem orderItem1 = orderItemRepository.save(orderItem);
 
                 // cập nhật lại số lượng trong product
                 int qtyProduct = productOld.getQuantity();
@@ -81,7 +80,7 @@ public class CreateOrderItemServiceImpl implements CreateOrderItemService {
     public Product updateQuantityProduct(Long id, Integer quantity) {
         Product product = findByIdService.checkIdProduct(id);
         product.setQuantity(quantity);
-        return productReponsotory.save(product);
+        return productRepository.save(product);
     }
 
 

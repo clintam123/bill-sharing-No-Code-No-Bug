@@ -3,11 +3,11 @@ package com.nocodenobug.billsharing.service.order.impl;
 import com.nocodenobug.billsharing.model.dto.OrderDto;
 import com.nocodenobug.billsharing.model.entity.Customer;
 import com.nocodenobug.billsharing.model.entity.Order;
-import com.nocodenobug.billsharing.contants.OrderStatus;
+import com.nocodenobug.billsharing.constants.OrderStatus;
 import com.nocodenobug.billsharing.model.entity.OrderItem;
 import com.nocodenobug.billsharing.model.entity.Vendor;
-import com.nocodenobug.billsharing.reponsitory.OrderItemReponsitory;
-import com.nocodenobug.billsharing.reponsitory.OrderReponsitory;
+import com.nocodenobug.billsharing.repository.OrderItemRepository;
+import com.nocodenobug.billsharing.repository.OrderRepository;
 import com.nocodenobug.billsharing.service.order.CreateOrderService;
 import com.nocodenobug.billsharing.service.FindByIdService;
 import com.nocodenobug.billsharing.service.order_item.GetOrderItemService;
@@ -22,10 +22,10 @@ import java.util.List;
 public class CreateOrderServiceImpl implements CreateOrderService {
 
     @Autowired
-    private OrderReponsitory orderReponsitory;
+    private OrderRepository orderRepository;
 
     @Autowired
-    private OrderItemReponsitory orderItemReponsitory;
+    private OrderItemRepository orderItemRepository;
 
     @Autowired
     private FindByIdService findByIdService;
@@ -56,7 +56,7 @@ public class CreateOrderServiceImpl implements CreateOrderService {
         Order order = modelMapper.map(orderDto,Order.class);
 
 
-        List<OrderItem> orderItems = orderItemReponsitory.findAll();
+        List<OrderItem> orderItems = orderItemRepository.findAll();
 
         order.setId(orderDto.getId());
         order.setStatus(OrderStatus.ACTIVE.getStatus());
@@ -69,7 +69,7 @@ public class CreateOrderServiceImpl implements CreateOrderService {
 
         System.out.println(order.getId() + "idddđ");
         System.out.println(order.getTotal() + "llll");
-        return modelMapper.map(orderReponsitory.save(order),OrderDto.class);
+        return modelMapper.map(orderRepository.save(order),OrderDto.class);
     }
 
 

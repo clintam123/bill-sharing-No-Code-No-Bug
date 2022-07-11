@@ -1,4 +1,4 @@
-package com.nocodenobug.billsharing.contants;
+package com.nocodenobug.billsharing.constants;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

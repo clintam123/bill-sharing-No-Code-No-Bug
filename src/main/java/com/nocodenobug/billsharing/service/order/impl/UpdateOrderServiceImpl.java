@@ -1,15 +1,16 @@
 package com.nocodenobug.billsharing.service.order.impl;
 
-import com.nocodenobug.billsharing.contants.OrderStatus;
-import com.nocodenobug.billsharing.exception.ExceptionObject;
+import com.nocodenobug.billsharing.constants.OrderStatus;
+import com.nocodenobug.billsharing.exceptions.NotFoundException;
 import com.nocodenobug.billsharing.model.dto.OrderDto;
 import com.nocodenobug.billsharing.model.entity.Order;
-import com.nocodenobug.billsharing.reponsitory.OrderReponsitory;
+import com.nocodenobug.billsharing.repository.OrderRepository;
 import com.nocodenobug.billsharing.service.FindByIdService;
 import com.nocodenobug.billsharing.service.order.UpdateOrderService;
 import com.nocodenobug.billsharing.service.order_item.GetOrderItemService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -19,7 +20,7 @@ import java.time.LocalDateTime;
 public class UpdateOrderServiceImpl implements UpdateOrderService {
 
     @Autowired
-    private OrderReponsitory orderReponsitory;
+    private OrderRepository orderRepository;
 
     @Autowired
     private FindByIdService findByIdService;
@@ -36,7 +37,7 @@ public class UpdateOrderServiceImpl implements UpdateOrderService {
 
         Order orderId = findByIdService.checkIdOrder(id);
         if(orderId.getStatus() == OrderStatus.INACTIVE.getStatus()){
-            throw ExceptionObject.builder().message("Order không tồn tại").build();
+            throw new NotFoundException(HttpStatus.NOT_FOUND.value(), "Order khong ton tai");
         }
 
         Order orderOld = orderId;
@@ -51,7 +52,7 @@ public class UpdateOrderServiceImpl implements UpdateOrderService {
         double total = Double.parseDouble(orderOld.getTotal()+"");
         orderId.setGrandTotal(BigDecimal.valueOf(total + orderOld.getShipping() - orderDto.getDiscount()));
 
-        return modelMapper.map(orderReponsitory.save(orderId),OrderDto.class);
+        return modelMapper.map(orderRepository.save(orderId),OrderDto.class);
     }
 
     @Override
@@ -59,7 +60,7 @@ public class UpdateOrderServiceImpl implements UpdateOrderService {
 
         Order orderId = findByIdService.checkIdOrder(id);
         if(orderId.getStatus() == OrderStatus.INACTIVE.getStatus()){
-            throw ExceptionObject.builder().message("Order không tồn tại").build();
+            throw new NotFoundException(HttpStatus.NOT_FOUND.value(), "Order khong ton tai");
         }
 
         orderId.setTotal(BigDecimal.valueOf(getOrderItemService.getAmount(id)));
@@ -67,7 +68,7 @@ public class UpdateOrderServiceImpl implements UpdateOrderService {
         double total = Double.parseDouble(orderId.getTotal()+"");
         orderId.setGrandTotal(BigDecimal.valueOf(total + orderId.getShipping() - orderId.getDiscount()));
 
-        return modelMapper.map(orderReponsitory.save(orderId),OrderDto.class);
+        return modelMapper.map(orderRepository.save(orderId),OrderDto.class);
     }
 
 }
