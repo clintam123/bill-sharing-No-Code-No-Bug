@@ -5,12 +5,18 @@ import com.nocodenobug.billsharing.response.Pagination;
 import com.nocodenobug.billsharing.response.SamplePagingResponse;
 import com.nocodenobug.billsharing.response.SampleResponse;
 import com.nocodenobug.billsharing.service.VendorService.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+@Tag(
+        description = "vendor controller",
+        name = "Các api về vendor (dành cho admin)"
+)
 @RestController
 @RequestMapping("/api/v1.0/admin/vendor")
 public class VendorController {
@@ -26,7 +32,9 @@ public class VendorController {
     private SearchVendorBySdtService searchVendorBySdtService;
     @Autowired
     private UpdateVendorService updateVendorService;
-
+    @Operation(summary = "Lấy tất cả vendor", description =
+            "page: trang hiện tại (bắt đầu từ 0), page_size: số record trong trang hiện tại,"
+                    )
     @GetMapping("/get-all")
     public ResponseEntity<?> getAll(
             @RequestParam(value = "page") int page,
@@ -47,6 +55,7 @@ public class VendorController {
                 .build());
     }
 
+    @Operation(summary = "Lấy vendor theo Id", description = "Lấy vendor theo Id")
     @GetMapping("/get-vendor/{id}")
     public ResponseEntity<?> getAll(
             @PathVariable Long id
@@ -59,6 +68,7 @@ public class VendorController {
                 .build()
         );
     }
+    @Operation(summary = "Tạo vendor", description = "Tạo vendor")
     @PostMapping("/add-vendor")
     public ResponseEntity<?> addVendor(@Validated  @RequestBody VendorDto vendorDto){
         return ResponseEntity.ok(SampleResponse.builder()
@@ -68,7 +78,7 @@ public class VendorController {
                 .build()
         );
     }
-
+    @Operation(summary = "Update vendor", description = "Update vendor")
     @PutMapping("/update-vendor/{id}")
     public ResponseEntity<?> updateVendor(@PathVariable Long id,@Validated @RequestBody VendorDto vendorDto){
         return ResponseEntity.ok(SampleResponse.builder()
@@ -78,6 +88,7 @@ public class VendorController {
                 .build()
         );
     }
+    @Operation(summary = "Xóa vendor", description = "Xóa vendor")
     @DeleteMapping("/delete-vendor/{id}")
     public ResponseEntity<?> deleteCustomer(
             @PathVariable Long id
@@ -91,6 +102,7 @@ public class VendorController {
                  .build()
                 );
     }
+    @Operation(summary = "Tìm kiếm vendor theo SDT", description = "Tìm kiếm vendor theo SDT")
     @GetMapping("/search-vendorByPhone/{phone}")
     public ResponseEntity<?> searchVendorByPhone(
             @PathVariable String phone
