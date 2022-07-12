@@ -43,5 +43,7 @@ public class OrderItem {
     @JoinColumn(name = "order_id")
     private Order order;
 
-
+    @OneToOne
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
 }
