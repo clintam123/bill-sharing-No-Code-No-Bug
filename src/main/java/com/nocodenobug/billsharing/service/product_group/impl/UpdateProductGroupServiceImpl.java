@@ -28,6 +28,7 @@ public class UpdateProductGroupServiceImpl implements UpdateProductGroupService 
             throw new NotFoundException(HttpStatus.NOT_FOUND.value(), "Product with id" + id + " Not Found");
         }
         ProductGroup productGroup = modelMapper.map(productGroupDto, ProductGroup.class);
+        productGroup.setId(id);
         return modelMapper.map(productGroupRepository.save(productGroup), ProductGroupDto.class);
     }
 }

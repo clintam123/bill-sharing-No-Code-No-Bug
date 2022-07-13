@@ -61,7 +61,7 @@ public class OrderRestController {
                 .success(true).data(order).build());
     }
 
-    @Operation(summary = "Get vender id", description = "Get vendor by id")
+    @Operation(summary = "Get vendor id", description = "Get vendor by id")
     @GetMapping("/vendor/{id}")
     public ResponseEntity<SamplePagingResponse> findByAllVendorId(
             @PathVariable("id") Long id,

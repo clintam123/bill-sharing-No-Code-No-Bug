@@ -1,6 +1,7 @@
 package com.nocodenobug.billsharing.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.nocodenobug.billsharing.model.entity.Customer;
 import com.nocodenobug.billsharing.model.entity.Order;
 import com.nocodenobug.billsharing.model.entity.Product;
 import lombok.Getter;
@@ -31,6 +32,8 @@ public class OrderItemDto {
 
     @JsonProperty("product_id")
     private Long productId;
+
+    private Customer customer;
 
 //    @JsonProperty("order_id")
 //    private Long orderId;

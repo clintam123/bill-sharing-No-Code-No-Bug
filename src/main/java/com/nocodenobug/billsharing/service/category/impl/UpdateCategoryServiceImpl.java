@@ -27,6 +27,7 @@ public class UpdateCategoryServiceImpl implements UpdateCategoryService {
             throw new NotFoundException(HttpStatus.NOT_FOUND.value(), "Id category NotFound");
         }
         Category category = modelMapper.map(newCategory, Category.class);
+        category.setId(id);
         return modelMapper.map(categoryRepository.save(category), CategoryDto.class);
     }
 }
