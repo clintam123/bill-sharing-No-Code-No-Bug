@@ -20,4 +20,8 @@ public class User {
     private LocalDateTime registeredAt;
     @Column(name = "last_login")
     private LocalDateTime lastLogin;
+
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
 }

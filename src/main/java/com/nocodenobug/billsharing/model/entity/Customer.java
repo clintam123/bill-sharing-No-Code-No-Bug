@@ -31,8 +31,6 @@ public class Customer {
 
     private String email;
 
-    private int admin;
-
     @JsonProperty("user_id")
     @Column(name = "user_id")
     private Long userId;
