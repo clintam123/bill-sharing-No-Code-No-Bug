@@ -6,15 +6,11 @@ import com.nocodenobug.billsharing.model.request.GroupLinkRequest;
 import com.nocodenobug.billsharing.response.SampleResponse;
 import com.nocodenobug.billsharing.service.group_order.GroupOrderService;
 import com.nocodenobug.billsharing.utils.GroupLinkUtils;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v2/group-order")
@@ -27,13 +23,18 @@ public class GroupOrderController {
     private GroupLink groupLink;
 
     @GetMapping("/get-group-link")
-    public GroupLink getGroupLink(){
+    public SampleResponse getGroupLink(){
         groupLink.setLink(GroupLinkUtils.generateRandomString());
-        return groupLink;
+        return SampleResponse.builder()
+                .success(true)
+                .message("Group Link")
+                .data(groupLink)
+                .build();
     }
 
     @PostMapping("")
     public SampleResponse checkLink(@Validated @RequestBody GroupLinkRequest link){
+        System.out.println(link);
         return SampleResponse.builder()
                 .success(groupOrderService.checkLink(link))
                 .message("Group link is valid")

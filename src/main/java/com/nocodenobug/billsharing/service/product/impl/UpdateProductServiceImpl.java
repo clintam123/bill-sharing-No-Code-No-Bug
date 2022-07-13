@@ -27,6 +27,7 @@ public class UpdateProductServiceImpl implements UpdateProductService {
             throw new NotFoundException(HttpStatus.NOT_FOUND.value(), "Product with id" + id + " Not Found");
         }
         Product product = modelMapper.map(newProduct, Product.class);
+        product.setId(id);
         return modelMapper.map(productRepository.save(product), ProductDto.class);
     }
 }

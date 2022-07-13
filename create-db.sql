@@ -82,7 +82,6 @@ CREATE TABLE IF NOT EXISTS `bill_sharing`.`vendor` (
   `profile` TEXT NOT NULL,
   `phone` varchar(13) not null,
   `address` VARCHAR(45) NOT NULL,
-  `city` VARCHAR(45) NOT NULL,
   `province` VARCHAR(45) NOT NULL,
   `district` varchar(50) NOT NULL,
   `opening_time` time not null,
