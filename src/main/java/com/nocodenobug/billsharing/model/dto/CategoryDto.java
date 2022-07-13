@@ -1,5 +1,6 @@
 package com.nocodenobug.billsharing.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -13,4 +14,7 @@ public class CategoryDto {
     private String title;
     private String content;
     private String code;
+
+    @JsonProperty("admin_id")
+    private Long adminId;
 }
