@@ -1,7 +1,7 @@
 package com.nocodenobug.billsharing.controller;
 
 import com.nocodenobug.billsharing.model.dto.OrderItemDto;
-import com.nocodenobug.billsharing.response.SampleResponse;
+import com.nocodenobug.billsharing.payload.response.SampleResponse;
 import com.nocodenobug.billsharing.service.order_item.CreateOrderItemService;
 import com.nocodenobug.billsharing.service.order_item.DeleteOrderItemService;
 import com.nocodenobug.billsharing.service.order_item.UpdateOrderItemService;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
         name = "Order item Resource")
 @RestController
 @RequestMapping("/api/v1.0/order-item")
-public class OrderItemRestController {
+public class OrderItemController {
 
     @Autowired
     private DeleteOrderItemService deleteOrderItemService;

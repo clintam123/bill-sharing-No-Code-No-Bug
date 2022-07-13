@@ -1,4 +1,4 @@
-package com.nocodenobug.billsharing.response;
+package com.nocodenobug.billsharing.payload.response;
 
 import lombok.Builder;
 import lombok.Data;

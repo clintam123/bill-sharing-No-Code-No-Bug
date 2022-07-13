@@ -62,9 +62,9 @@ CREATE TABLE IF NOT EXISTS `bill_sharing`.`user`
 (
     `id`            BIGINT       NOT NULL AUTO_INCREMENT,
     `registered_at` DATETIME     NOT NULL,
-    `last_login`    DATETIME     NULL DEFAULT NULL,
     `username`      VARCHAR(45)  NOT NULL,
-    `password_hash` VARCHAR(255) NULL DEFAULT NULL,
+    `password_hash` VARCHAR(255) NOT NULL,
+    `email`			VARCHAR(255) NOT NULL,
     `role_id`       bigint       not null,
     foreign key (`role_id`) references `bill_sharing`.`role` (`id`),
     PRIMARY KEY (`id`)

@@ -1,9 +1,9 @@
 package com.nocodenobug.billsharing.controller;
 
 import com.nocodenobug.billsharing.model.dto.ProductDto;
-import com.nocodenobug.billsharing.response.Pagination;
-import com.nocodenobug.billsharing.response.SamplePagingResponse;
-import com.nocodenobug.billsharing.response.SampleResponse;
+import com.nocodenobug.billsharing.payload.response.Pagination;
+import com.nocodenobug.billsharing.payload.response.SamplePagingResponse;
+import com.nocodenobug.billsharing.payload.response.SampleResponse;
 import com.nocodenobug.billsharing.service.product.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

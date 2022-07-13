@@ -1,4 +1,4 @@
-package com.nocodenobug.billsharing.response;
+package com.nocodenobug.billsharing.payload.response;
 
 import com.nocodenobug.billsharing.constants.ResponseStatusConstant;
 import com.nocodenobug.billsharing.exceptions.ProjectException;
@@ -11,6 +11,7 @@ public class DefaultResponse<T> {
     private Integer status;
     private String message;
     private T data;
+
 
     public static <T> DefaultResponse<T> success(T body) {
         DefaultResponse<T> response = new DefaultResponse<>();

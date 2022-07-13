@@ -1,8 +1,8 @@
 package com.nocodenobug.billsharing.controller;
 
 import com.nocodenobug.billsharing.model.dto.ProductReviewDto;
-import com.nocodenobug.billsharing.response.DefaultPagingResponse;
-import com.nocodenobug.billsharing.response.DefaultResponse;
+import com.nocodenobug.billsharing.payload.response.DefaultPagingResponse;
+import com.nocodenobug.billsharing.payload.response.DefaultResponse;
 import com.nocodenobug.billsharing.service.product_review.CreateReviewService;
 import com.nocodenobug.billsharing.service.product_review.DeleteReviewService;
 import com.nocodenobug.billsharing.service.product_review.GetReviewService;

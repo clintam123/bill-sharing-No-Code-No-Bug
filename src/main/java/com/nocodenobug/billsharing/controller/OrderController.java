@@ -1,9 +1,9 @@
 package com.nocodenobug.billsharing.controller;
 
 import com.nocodenobug.billsharing.model.dto.OrderDto;
-import com.nocodenobug.billsharing.response.Pagination;
-import com.nocodenobug.billsharing.response.SamplePagingResponse;
-import com.nocodenobug.billsharing.response.SampleResponse;
+import com.nocodenobug.billsharing.payload.response.Pagination;
+import com.nocodenobug.billsharing.payload.response.SamplePagingResponse;
+import com.nocodenobug.billsharing.payload.response.SampleResponse;
 import com.nocodenobug.billsharing.service.order.CreateOrderService;
 import com.nocodenobug.billsharing.service.order.DeleteOrderService;
 import com.nocodenobug.billsharing.service.order.GetOrderService;
@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.*;
         name = "Order Resource")
 @RestController
 @RequestMapping("/api/v1.0/order")
-public class OrderRestController {
+public class OrderController {
 
     @Autowired
     private CreateOrderService createOrderService;

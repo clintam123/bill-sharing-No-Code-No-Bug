@@ -1,9 +1,9 @@
 package com.nocodenobug.billsharing.controller;
 
 import com.nocodenobug.billsharing.model.dto.VendorDto;
-import com.nocodenobug.billsharing.response.Pagination;
-import com.nocodenobug.billsharing.response.SamplePagingResponse;
-import com.nocodenobug.billsharing.response.SampleResponse;
+import com.nocodenobug.billsharing.payload.response.Pagination;
+import com.nocodenobug.billsharing.payload.response.SamplePagingResponse;
+import com.nocodenobug.billsharing.payload.response.SampleResponse;
 import com.nocodenobug.billsharing.service.VendorService.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
