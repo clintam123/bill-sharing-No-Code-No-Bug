@@ -52,6 +52,8 @@ CREATE TABLE IF NOT EXISTS `bill_sharing`.`role`
     DEFAULT CHARACTER SET = utf8mb4
     COLLATE = utf8mb4_0900_ai_ci;
 
+INSERT INTO `bill_sharing`.`role` (name)
+VALUES ("ROLE_ADMIN"), ("ROLE_CUSTOMER"), ("ROLE_VENDOR");
 
 -- -----------------------------------------------------
 -- Table `bill_sharing`.`user`

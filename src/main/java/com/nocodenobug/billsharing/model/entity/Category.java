@@ -25,7 +25,10 @@ public class Category {
     @UpdateTimestamp
     private LocalDateTime modifiedAt;
 
-    @ManyToOne
-    @JoinColumn(name = "admin_id")
-    private Admin admin;
+//    @ManyToOne
+//    @JoinColumn(name = "admin_id")
+//    private Admin admin;
+
+    @Column(name = "admin_id")
+    private Long adminId;
 }

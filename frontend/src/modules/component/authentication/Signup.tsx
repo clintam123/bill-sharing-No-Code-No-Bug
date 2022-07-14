@@ -1,12 +1,11 @@
-import axios from 'axios';
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import authenService from '../../services/authentication';
 
 const Signup = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
-  const [role, setRole] = useState('');
+  const [role, setRole] = useState('ROLE_CUSTOMER');
 
   const handleUsernameChange = (e: any) => {
     setUsername(e.target.value);
@@ -21,9 +20,15 @@ const Signup = () => {
     setRole(e.target.value);
   };
 
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    console.log(role);
+    authenService.signup({ username, password, email, role });
+  };
+
   return (
     <div>
-      <form onSubmit={authenService.login}>
+      <form onSubmit={handleSubmit}>
         <div>
           Username
           <input
@@ -54,20 +59,17 @@ const Signup = () => {
             onChange={handleEmailChange}
           />
         </div>
-        <div>
-          Role
-          <input
-            id="password"
-            type="password"
-            value={password}
-            name="Password"
-            onChange={handlePasswordChange}
-          />
-        </div>
+        Role:
+        <select id="role" onChange={handleRoleChange} value={role}>
+          <option value="ROLE_CUSTOMER">Customer</option>
+          <option value="ROLE_VENDOR">Admin</option>
+        </select>
         <button id="login-button" type="submit">
-          login
+          Signup
         </button>
       </form>
     </div>
   );
 };
+
+export default Signup;

@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
         name = "Các api về vendor (dành cho admin)"
 )
 @RestController
-@RequestMapping("/api/v1.0/admin/vendor")
+@RequestMapping("/api/v1/vendor")
 public class VendorController {
     @Autowired
     private CreateVendorService createVendorService;
@@ -71,7 +71,7 @@ public class VendorController {
     }
     @Operation(summary = "Tạo vendor", description = "Tạo vendor")
     @PostMapping("/add-vendor")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('VENDOR')")
     public ResponseEntity<?> addVendor(@Validated  @RequestBody VendorDto vendorDto){
         return ResponseEntity.ok(SampleResponse.builder()
                 .success(true)
@@ -82,7 +82,7 @@ public class VendorController {
     }
     @Operation(summary = "Update vendor", description = "Update vendor")
     @PutMapping("/update-vendor/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('VENDOR')")
     public ResponseEntity<?> updateVendor(@PathVariable Long id,@Validated @RequestBody VendorDto vendorDto){
         return ResponseEntity.ok(SampleResponse.builder()
                 .success(true)
@@ -93,7 +93,7 @@ public class VendorController {
     }
     @Operation(summary = "Xóa vendor", description = "Xóa vendor")
     @DeleteMapping("/delete-vendor/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('VENDOR')")
     public ResponseEntity<?> deleteCustomer(
             @PathVariable Long id
     ){
