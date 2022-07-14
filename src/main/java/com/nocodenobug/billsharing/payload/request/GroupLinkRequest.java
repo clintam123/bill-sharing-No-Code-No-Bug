@@ -1,4 +1,4 @@
-package com.nocodenobug.billsharing.model.request;
+package com.nocodenobug.billsharing.payload.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
