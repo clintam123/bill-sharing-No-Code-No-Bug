@@ -72,7 +72,7 @@ public class ProductController {
 
     @Operation(summary = "Tạo sản phẩm", description = "Tạo sản phẩm")
     @PostMapping("")
-    @PreAuthorize("hasAuthority('VENDOR')")
+    @PreAuthorize("hasRole('VENDOR')")
     public ResponseEntity<SampleResponse> create(@Validated @RequestBody ProductDto productDto){
         return ResponseEntity.ok(
                 SampleResponse.builder()
@@ -85,7 +85,7 @@ public class ProductController {
 
     @Operation(summary = "Update sản phẩm", description = "Update sản phẩm")
     @PutMapping("/{id}")
-    @PreAuthorize("hasAuthority('VENDOR')")
+    @PreAuthorize("hasRole('VENDOR')")
     public ResponseEntity<SampleResponse> update(@PathVariable Long id,
                                                  @Validated @RequestBody ProductDto productDto){
         return ResponseEntity.ok(
@@ -99,7 +99,7 @@ public class ProductController {
 
     @Operation(summary = "Xóa sản phẩm", description = "Xóa sản phẩm")
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('VENDOR')")
+    @PreAuthorize("hasRole('VENDOR')")
     public ResponseEntity<SampleResponse> delete(@PathVariable Long id){
         deleteService.deleteProduct(id);
         return ResponseEntity.ok(

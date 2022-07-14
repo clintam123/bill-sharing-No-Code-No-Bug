@@ -27,13 +27,9 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<SampleResponse> loginUser(@Validated @RequestBody LoginRequest loginRequest) {
-        System.out.println("+++++");
         UserInfoResponse userLoginResponse = authService.login(loginRequest);
         ResponseCookie jwtCookie = authService.generateJwtCookie();
-
-
         SampleResponse response = new SampleResponse(true, "Đăng nhập thành công!", userLoginResponse);
-        System.out.println("------");
         return ResponseEntity.status(HttpStatus.OK).header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
                 .body(response);
     }

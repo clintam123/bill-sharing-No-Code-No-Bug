@@ -36,7 +36,7 @@ public class CustomerController {
             "page: trang hiện tại (bắt đầu từ 0), page_size: số record trong trang hiện tại,"
     )
     @GetMapping("/get-all")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> getAll(
             @RequestParam(value = "page") int page,
             @RequestParam(value = "page_size") int pageSize
@@ -59,7 +59,7 @@ public class CustomerController {
     }
     @Operation(summary = "Lấy customer theo Id", description = "Lấy customer theo Id")
     @GetMapping("/get-customer/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('CUSTOMER')")
     public ResponseEntity<?> getAll(
             @PathVariable Long id
     ){
@@ -73,7 +73,7 @@ public class CustomerController {
     }
     @Operation(summary = "Tạo customer", description = "Tạo customer")
     @PostMapping("/add-customer")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<?> addCustomer(@Validated @RequestBody CustomerDto customerDto){
        return ResponseEntity.ok(SampleResponse.builder()
                .success(true)
@@ -84,7 +84,7 @@ public class CustomerController {
     }
     @Operation(summary = "Update customer", description = "Update customer")
     @PutMapping("/update-customer/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<?> updateCustomer(@PathVariable Long id,@Validated @RequestBody CustomerDto customerDto){
         return ResponseEntity.ok(SampleResponse.builder()
                 .success(true)
@@ -95,7 +95,7 @@ public class CustomerController {
     }
     @Operation(summary = "Xóa customer", description = "Xóa customer")
     @DeleteMapping("/delete-customer/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<?> deleteCustomer(
             @PathVariable Long id
     ){

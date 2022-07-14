@@ -25,7 +25,7 @@ public class GetCategoryByIdServiceImpl implements GetCategoryByIdService {
     @Override
     public CategoryDto getCategoryById(long id) {
         Category category = categoryRepository.findById(id).orElseThrow(
-                () -> new NotFoundException(HttpStatus.NOT_FOUND.value(), "Id vendor NotFound")
+                () -> new NotFoundException(HttpStatus.NOT_FOUND.value(), "Id category not found")
         );
         return modelMapper.map(category, CategoryDto.class);
     }

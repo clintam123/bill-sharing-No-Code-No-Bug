@@ -64,7 +64,7 @@ public class OrderController {
 
     @Operation(summary = "Get vendor id", description = "Get vendor by id")
     @GetMapping("/vendor/{id}")
-    @PreAuthorize("hasAuthority('VENDOR')")
+    @PreAuthorize("hasRole('VENDOR')")
     public ResponseEntity<SamplePagingResponse> findByAllVendorId(
             @PathVariable("id") Long id,
             @RequestParam(value = "page") int page,
@@ -78,7 +78,7 @@ public class OrderController {
 
     @Operation(summary = "Get customer id", description = "Get customer by id")
     @GetMapping("/customer/{id}")
-    @PreAuthorize("hasAuthority('CUSTOMER')")
+    @PreAuthorize("hasRole('CUSTOMER')")
     private ResponseEntity<SamplePagingResponse> findAllByCustomerId(
             @PathVariable("id") Long id,
             @RequestParam(value = "page") int page,
@@ -92,7 +92,7 @@ public class OrderController {
 
     @Operation(summary = "Delete Order", description = "Delete order with id")
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('CUSTOMER')")
+    @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<SampleResponse> deleteOrder(@PathVariable("id") Long id){
         return ResponseEntity.ok(SampleResponse.builder().success(true).message("Delete success")
                 .data(deleteOrderService.deleteOrder(id)).build());
@@ -112,7 +112,7 @@ public class OrderController {
                             content = {@Content(examples = {@ExampleObject(value = "")})})
             })
     @PostMapping()
-    @PreAuthorize("hasAuthority('CUSTOMER')")
+    @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<SampleResponse> createOrder(@Validated @RequestBody OrderDto orderDto){
         return ResponseEntity.ok(SampleResponse.builder().
                 success(true).message("Create success").data(createOrderService.createOrder(orderDto)).build());
@@ -121,7 +121,7 @@ public class OrderController {
 
     @Operation(summary = "Update order", description = "Update order with id")
     @PutMapping("/{id}")
-    @PreAuthorize("hasAuthority('CUSTOMER')")
+    @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<SampleResponse> updateOrder(
             @PathVariable("id") Long id,@Validated @RequestBody OrderDto orderDto){
 

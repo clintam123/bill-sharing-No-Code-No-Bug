@@ -1,6 +1,7 @@
 package com.nocodenobug.billsharing.model.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.nocodenobug.billsharing.model.entity.Admin;
 import lombok.Data;
 
@@ -16,5 +17,8 @@ public class CategoryDto {
     private String content;
     private String code;
 
-    private Admin admin;
+    //private Admin admin;
+    @JsonProperty("admin_id")
+    private Long adminId;
+
 }
