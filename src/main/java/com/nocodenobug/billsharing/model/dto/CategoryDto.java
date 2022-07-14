@@ -1,5 +1,6 @@
 package com.nocodenobug.billsharing.model.dto;
 
+import com.nocodenobug.billsharing.model.entity.Admin;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -13,4 +14,5 @@ public class CategoryDto {
     private String title;
     private String content;
     private String code;
+    private Admin admin;
 }

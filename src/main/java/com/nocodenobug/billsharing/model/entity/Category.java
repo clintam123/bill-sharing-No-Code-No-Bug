@@ -1,15 +1,11 @@
 package com.nocodenobug.billsharing.model.entity;
 
-import com.nocodenobug.billsharing.constants.ProductStatus;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Collection;
-import java.util.List;
 
 @Entity
 @Data
@@ -29,6 +25,7 @@ public class Category {
     @UpdateTimestamp
     private LocalDateTime modifiedAt;
 
-    @Column(name = "admin_id")
-    private Long adminId;
+    @ManyToOne
+    @JoinColumn(name = "admin_id")
+    private Admin admin;
 }
