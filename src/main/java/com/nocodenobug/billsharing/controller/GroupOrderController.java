@@ -2,8 +2,8 @@ package com.nocodenobug.billsharing.controller;
 
 import com.nocodenobug.billsharing.model.dto.OrderItemDto;
 import com.nocodenobug.billsharing.model.entity.GroupLink;
-import com.nocodenobug.billsharing.model.request.GroupLinkRequest;
-import com.nocodenobug.billsharing.response.SampleResponse;
+import com.nocodenobug.billsharing.payload.request.GroupLinkRequest;
+import com.nocodenobug.billsharing.payload.response.SampleResponse;
 import com.nocodenobug.billsharing.service.group_order.GroupOrderService;
 import com.nocodenobug.billsharing.utils.GroupLinkUtils;
 import org.springframework.beans.factory.annotation.Autowired;

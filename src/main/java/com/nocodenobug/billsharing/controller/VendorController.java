@@ -1,15 +1,16 @@
 package com.nocodenobug.billsharing.controller;
 
 import com.nocodenobug.billsharing.model.dto.VendorDto;
-import com.nocodenobug.billsharing.response.Pagination;
-import com.nocodenobug.billsharing.response.SamplePagingResponse;
-import com.nocodenobug.billsharing.response.SampleResponse;
+import com.nocodenobug.billsharing.payload.response.Pagination;
+import com.nocodenobug.billsharing.payload.response.SamplePagingResponse;
+import com.nocodenobug.billsharing.payload.response.SampleResponse;
 import com.nocodenobug.billsharing.service.VendorService.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -70,6 +71,7 @@ public class VendorController {
     }
     @Operation(summary = "Tạo vendor", description = "Tạo vendor")
     @PostMapping("/add-vendor")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> addVendor(@Validated  @RequestBody VendorDto vendorDto){
         return ResponseEntity.ok(SampleResponse.builder()
                 .success(true)
@@ -80,6 +82,7 @@ public class VendorController {
     }
     @Operation(summary = "Update vendor", description = "Update vendor")
     @PutMapping("/update-vendor/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> updateVendor(@PathVariable Long id,@Validated @RequestBody VendorDto vendorDto){
         return ResponseEntity.ok(SampleResponse.builder()
                 .success(true)
@@ -90,6 +93,7 @@ public class VendorController {
     }
     @Operation(summary = "Xóa vendor", description = "Xóa vendor")
     @DeleteMapping("/delete-vendor/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> deleteCustomer(
             @PathVariable Long id
     ){

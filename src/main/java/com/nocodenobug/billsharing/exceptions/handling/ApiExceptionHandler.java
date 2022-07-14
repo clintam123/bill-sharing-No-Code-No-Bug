@@ -1,9 +1,10 @@
 package com.nocodenobug.billsharing.exceptions.handling;
 
+import com.nocodenobug.billsharing.exceptions.BadRequestException;
 import com.nocodenobug.billsharing.exceptions.NotFoundException;
 import com.nocodenobug.billsharing.exceptions.ProjectException;
-import com.nocodenobug.billsharing.response.DefaultResponse;
-import com.nocodenobug.billsharing.response.SampleResponse;
+import com.nocodenobug.billsharing.payload.response.DefaultResponse;
+import com.nocodenobug.billsharing.payload.response.SampleResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -24,8 +25,18 @@ import java.util.List;
 @RestControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = NotFoundException.class)
+    @ResponseStatus(value = HttpStatus.NOT_FOUND)
+    public SampleResponse handleNotFoundException(NotFoundException e) {
+        return SampleResponse.builder()
+                .success(false)
+                .message(e.getMessage())
+                .data(null)
+                .build();
+    }
+
+    @ExceptionHandler(value =BadRequestException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public SampleResponse handleProjectException(NotFoundException e) {
+    public SampleResponse handleBadRequestException(BadRequestException e) {
         return SampleResponse.builder()
                 .success(false)
                 .message(e.getMessage())

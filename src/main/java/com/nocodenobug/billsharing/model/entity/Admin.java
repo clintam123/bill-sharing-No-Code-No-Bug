@@ -1,21 +1,12 @@
 package com.nocodenobug.billsharing.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.nocodenobug.billsharing.constants.RegexConstants;
-
-
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
 
 @Entity
-@Getter
-@Setter
-public class Customer {
+@Table(name = "admin")
+public class Admin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
