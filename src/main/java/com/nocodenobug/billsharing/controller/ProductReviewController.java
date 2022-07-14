@@ -16,6 +16,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(
@@ -23,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
         name = "Review Resource")
 @Slf4j
 @RestController
-@RequestMapping("/api/v1.0/product-review")
+@RequestMapping("/api/v1/product-review")
 public class ProductReviewController {
     @Autowired
     private CreateReviewService createReviewService;
@@ -61,6 +62,7 @@ public class ProductReviewController {
                             content = {@Content(examples = {@ExampleObject(value = "")})})
             })
     @PostMapping("/create-review/{product_id}")
+    @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<?> createReview(
             @PathVariable("product_id") int productId,
             @RequestBody ProductReviewDto productReviewDto
@@ -71,6 +73,7 @@ public class ProductReviewController {
 
     @Operation(summary = "Update review", description = "Update review for product")
     @PutMapping("/update-review/{review_id}")
+    @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<?> updateReview(
             @PathVariable("review_id") int id,
             @RequestBody ProductReviewDto productReviewDto
@@ -80,6 +83,7 @@ public class ProductReviewController {
 
     @Operation(summary = "Delete review", description = "Delete product review")
     @DeleteMapping("/delete-review/{review_id}")
+    @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<?> deleteReview(
             @PathVariable("review_id") int id
     ){

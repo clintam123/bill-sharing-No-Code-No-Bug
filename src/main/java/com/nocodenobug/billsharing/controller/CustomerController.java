@@ -8,6 +8,7 @@ import com.nocodenobug.billsharing.service.customerservice.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +29,7 @@ public class CustomerController {
     private SearchCustomerBySdtService searchCustomerBySdtService;
 
     @GetMapping("/get-all")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> getAll(
             @RequestParam(value = "page") int page,
             @RequestParam(value = "page_size") int pageSize
@@ -50,6 +52,7 @@ public class CustomerController {
     }
 
     @GetMapping("/get-customer/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> getAll(
             @PathVariable Long id
     ){
@@ -63,6 +66,7 @@ public class CustomerController {
     }
 
     @PostMapping("/add-customer")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> addCustomer(@Validated @RequestBody CustomerDto customerDto){
        return ResponseEntity.ok(SampleResponse.builder()
                .success(true)
@@ -72,6 +76,7 @@ public class CustomerController {
        );
     }
     @PutMapping("/update-customer/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> updateCustomer(@PathVariable Long id,@Validated @RequestBody CustomerDto customerDto){
         return ResponseEntity.ok(SampleResponse.builder()
                 .success(true)
@@ -81,6 +86,7 @@ public class CustomerController {
         );
     }
     @DeleteMapping("/delete-customer/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> deleteCustomer(
             @PathVariable Long id
     ){

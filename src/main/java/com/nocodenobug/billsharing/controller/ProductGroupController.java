@@ -41,7 +41,6 @@ public class ProductGroupController {
             "page: trang hiện tại (bắt đầu từ 0), page_size: số record trong trang hiện tại," +
                     "vendor_id: id của cửa hàng ")
     @GetMapping("/vendor/{vendorId}")
-    @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<?> getProductGroups(@PathVariable long vendorId,
                                               @RequestParam(value = "page") int page,
                                               @RequestParam(value = "page_size") int pageSize){
@@ -85,6 +84,7 @@ public class ProductGroupController {
 
     @Operation(summary = "Update nhóm sản phẩm", description = "Update nhóm sản phẩm")
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('VENDOR')")
     public ResponseEntity<SampleResponse> update(@PathVariable Long id,@Validated @RequestBody ProductGroupDto productGroupDto) {
         return ResponseEntity.ok(
                 SampleResponse.builder()
@@ -97,6 +97,7 @@ public class ProductGroupController {
 
     @Operation(summary = "Delete nhóm sản phẩm(tất cả sản phẩm trong nhóm)", description = "Update nhóm sản phẩm(tất cả sản phẩm trong nhóm)")
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('VENDOR')")
     public ResponseEntity<SampleResponse> delete(@PathVariable Long id) {
         deleteProductGroupService.deleteProductGroup(id);
         return ResponseEntity.ok(

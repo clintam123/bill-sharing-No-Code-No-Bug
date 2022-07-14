@@ -8,6 +8,7 @@ import com.nocodenobug.billsharing.service.VendorService.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -60,6 +61,7 @@ public class VendorController {
         );
     }
     @PostMapping("/add-vendor")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> addVendor(@Validated  @RequestBody VendorDto vendorDto){
         return ResponseEntity.ok(SampleResponse.builder()
                 .success(true)
@@ -70,6 +72,7 @@ public class VendorController {
     }
 
     @PutMapping("/update-vendor/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> updateVendor(@PathVariable Long id,@Validated @RequestBody VendorDto vendorDto){
         return ResponseEntity.ok(SampleResponse.builder()
                 .success(true)
@@ -79,6 +82,7 @@ public class VendorController {
         );
     }
     @DeleteMapping("/delete-vendor/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> deleteCustomer(
             @PathVariable Long id
     ){

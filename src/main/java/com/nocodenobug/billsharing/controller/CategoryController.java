@@ -79,6 +79,7 @@ public class CategoryController {
 
     @Operation(summary = "Update thể loại", description = "Update thể loại")
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<SampleResponse> update(@PathVariable Long id, @Validated @RequestBody CategoryDto categoryDto) {
         return ResponseEntity.ok(
                 SampleResponse.builder()
@@ -91,6 +92,7 @@ public class CategoryController {
 
     @Operation(summary = "Xóa thể loại", description = "Xóa thể loại")
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<SampleResponse> delete(@PathVariable Long id) {
         deleteCategoryService.deleteCategory(id);
         return ResponseEntity.ok(

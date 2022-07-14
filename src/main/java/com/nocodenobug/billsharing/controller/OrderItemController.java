@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 @Tag(
@@ -29,6 +30,7 @@ public class OrderItemController {
 
     @Operation(summary = "Delete Order Item", description = "Delete order item with id")
     @DeleteMapping("{id}")
+    @PreAuthorize("hasAuthority('CUSTOMER')")
     public SampleResponse deleteOrderItem(@PathVariable("id") Long id){
         deleteOrderItemService.deleteOrderItem(id);
         return SampleResponse.builder()
@@ -40,6 +42,7 @@ public class OrderItemController {
 
     @Operation(summary = "Create order item", description = "Create new order item")
     @PostMapping
+    @PreAuthorize("hasAuthority('CUSTOMER')")
     public ResponseEntity<SampleResponse> createOrderItem(@Validated @RequestBody OrderItemDto orderItemDto){
         return ResponseEntity.ok(
                 SampleResponse.builder()
@@ -52,6 +55,7 @@ public class OrderItemController {
 
     @Operation(summary = "Update order item", description = "Update order item with id")
     @PutMapping("{id}")
+    @PreAuthorize("hasAuthority('CUSTOMER')")
     public ResponseEntity<SampleResponse> updateOrderItem(
             @PathVariable("id")  Long id,
           @Validated @RequestBody OrderItemDto orderItemDto){
