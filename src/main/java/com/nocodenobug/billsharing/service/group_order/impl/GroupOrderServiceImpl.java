@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 public class GroupOrderServiceImpl implements GroupOrderService {
     @Autowired
     private GroupLink groupLink;
+
     @Override
     public boolean checkLink(GroupLinkRequest link) {
         return link.getLink().equals(groupLink.getLink());

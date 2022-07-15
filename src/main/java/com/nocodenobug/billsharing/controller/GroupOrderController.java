@@ -9,6 +9,7 @@ import com.nocodenobug.billsharing.utils.GroupLinkUtils;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,19 +45,25 @@ public class GroupOrderController {
     @MessageMapping("/add-order-item") // request sent to this url -> method is called
     @SendTo("/topic/group-order/{userId}") // method return value sent to this url for all subscribers
     public OrderItemDto sendOrderItem(OrderItemDto orderItemDto) {
+        System.out.println("add-order-item");
         return orderItemDto;
     }
 
     @MessageMapping("/delete-order-item") // request sent to this url -> method is called
-    @SendTo("/topic/group-order/{userId}") // method return value sent to this url for all subscribers
-    public OrderItemDto deleteOrderItem(OrderItemDto orderItemDto) {
-        return orderItemDto;
+    @SendTo("/topic/public") // method return value sent to this url for all subscribers
+    public OrderItemDto deleteOrderItem(@Payload Long id) {
+        OrderItemDto orderItemDto1=new OrderItemDto();
+        orderItemDto1.setContent("aloalo");
+        orderItemDto1.setId(Long.parseLong("1"));
+        return orderItemDto1;
     }
 
     @MessageMapping("/update-order-item") // request sent to this url -> method is called
     @SendTo("/topic/group-order/{userId}") // method return value sent to this url for all subscribers
     public OrderItemDto updateOrderItem(OrderItemDto orderItemDto) {
+
         return orderItemDto;
+
     }
 
 
