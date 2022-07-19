@@ -1,9 +1,7 @@
 package com.nocodenobug.billsharing.controller;
 
 import com.nocodenobug.billsharing.model.dto.VendorDto;
-import com.nocodenobug.billsharing.payload.response.Pagination;
-import com.nocodenobug.billsharing.payload.response.SamplePagingResponse;
-import com.nocodenobug.billsharing.payload.response.SampleResponse;
+import com.nocodenobug.billsharing.payload.response.*;
 import com.nocodenobug.billsharing.service.VendorService.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -45,15 +43,7 @@ public class VendorController {
         if (vendorDtoPage==null){
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(SamplePagingResponse.builder()
-                .success(true)
-                .message("get vendor succsess")
-                .data(vendorDtoPage.getContent())
-                .pagination(Pagination.builder().page(page).pageSize(pageSize)
-                        .totalItem(vendorDtoPage.getTotalElements())
-                        .totalPage(vendorDtoPage.getTotalPages())
-                        .build())
-                .build());
+        return ResponseEntity.ok(DefaultPagingResponse.success(vendorDtoPage));
     }
 
     @Operation(summary = "Lấy vendor theo Id", description = "Lấy vendor theo Id")
@@ -62,34 +52,20 @@ public class VendorController {
             @PathVariable Long id
     ){
         VendorDto vendorDto=getVendorByIdService.getVendorById(id);
-        return ResponseEntity.ok(SampleResponse.builder()
-                .success(true)
-                .message("get vendor succsess")
-                .data(vendorDto)
-                .build()
-        );
+        return ResponseEntity.ok(DefaultResponse.success(vendorDto));
     }
     @Operation(summary = "Tạo vendor", description = "Tạo vendor")
     @PostMapping("/add-vendor")
     @PreAuthorize("hasRole('VENDOR')")
     public ResponseEntity<?> addVendor(@Validated  @RequestBody VendorDto vendorDto){
-        return ResponseEntity.ok(SampleResponse.builder()
-                .success(true)
-                .message("add vendor success")
-                .data(createVendorService.createVendor(vendorDto))
-                .build()
-        );
+        return ResponseEntity.ok(DefaultResponse.success(createVendorService.createVendor(vendorDto)));
     }
+
     @Operation(summary = "Update vendor", description = "Update vendor")
     @PutMapping("/update-vendor/{id}")
     @PreAuthorize("hasRole('VENDOR')")
     public ResponseEntity<?> updateVendor(@PathVariable Long id,@Validated @RequestBody VendorDto vendorDto){
-        return ResponseEntity.ok(SampleResponse.builder()
-                .success(true)
-                .message("update vendor success")
-                .data(updateVendorService.updateVendor(id,vendorDto))
-                .build()
-        );
+        return ResponseEntity.ok(DefaultResponse.success(updateVendorService.updateVendor(id,vendorDto)));
     }
     @Operation(summary = "Xóa vendor", description = "Xóa vendor")
     @DeleteMapping("/delete-vendor/{id}")
@@ -112,11 +88,6 @@ public class VendorController {
             @PathVariable String phone
     ){
         VendorDto vendorDto=searchVendorBySdtService.searchVendorBySdt(phone);
-        return  ResponseEntity.ok(SampleResponse.builder()
-                        .success(true)
-                        .message("search success")
-                        .data(vendorDto)
-                        .build()
-                );
+        return  ResponseEntity.ok(DefaultResponse.success(vendorDto));
     }
 }

@@ -2,9 +2,7 @@ package com.nocodenobug.billsharing.controller;
 
 import com.nocodenobug.billsharing.model.dto.ProductGroupDetailDto;
 import com.nocodenobug.billsharing.model.dto.ProductGroupDto;
-import com.nocodenobug.billsharing.payload.response.Pagination;
-import com.nocodenobug.billsharing.payload.response.SamplePagingResponse;
-import com.nocodenobug.billsharing.payload.response.SampleResponse;
+import com.nocodenobug.billsharing.payload.response.*;
 import com.nocodenobug.billsharing.service.product_group.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -45,54 +43,31 @@ public class ProductGroupController {
                                               @RequestParam(value = "page") int page,
                                               @RequestParam(value = "page_size") int pageSize){
         Page<ProductGroupDetailDto> productGroupDtoPage = getAllProductGroupsService.getAllProductGroups(vendorId, page, pageSize);
-        return ResponseEntity.ok(
-                SamplePagingResponse.builder()
-                        .success(true)
-                        .message("Success")
-                        .data(productGroupDtoPage.getContent())
-                        .pagination(Pagination.builder().page(page).pageSize(pageSize)
-                                .totalPage(productGroupDtoPage.getTotalPages())
-                                .totalItem(productGroupDtoPage.getTotalElements()).build())
-                        .build()
-        );
+        return ResponseEntity.ok(DefaultPagingResponse.success(productGroupDtoPage));
     }
 
     @Operation(summary = "Lấy nhóm sản phẩm theo Id", description = "Lấy nhóm sản phẩm theo Id")
     @GetMapping("/{id}")
-    public ResponseEntity<SampleResponse> getById(@PathVariable Long id) {
-        return ResponseEntity.ok(
-                SampleResponse.builder()
-                        .success(true)
-                        .message("Success")
-                        .data(getByIdService.getProductGroupById(id))
-                        .build()
-        );
+    public ResponseEntity<?> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(DefaultResponse.success(getByIdService.getProductGroupById(id)));
     }
+
+
 
     @Operation(summary = "Tạo nhóm sản phẩm", description = "Tạo nhóm sản phẩm")
     @PostMapping("")
     @PreAuthorize("hasRole('VENDOR')")
-    public ResponseEntity<SampleResponse> create(@Validated @RequestBody ProductGroupDto productGroupDto) {
-        return ResponseEntity.ok(
-                SampleResponse.builder()
-                        .success(true)
-                        .message("Success")
-                        .data(createService.createProductGroup(productGroupDto))
-                        .build()
-        );
+    public ResponseEntity<?> create(@Validated @RequestBody ProductGroupDto productGroupDto) {
+        return ResponseEntity.ok(DefaultResponse.success(createService.createProductGroup(productGroupDto)));
     }
+
+
 
     @Operation(summary = "Update nhóm sản phẩm", description = "Update nhóm sản phẩm")
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('VENDOR')")
-    public ResponseEntity<SampleResponse> update(@PathVariable Long id,@Validated @RequestBody ProductGroupDto productGroupDto) {
-        return ResponseEntity.ok(
-                SampleResponse.builder()
-                        .success(true)
-                        .message("Success")
-                        .data(updateService.updateProductGroup(id, productGroupDto))
-                        .build()
-        );
+    public ResponseEntity<?> update(@PathVariable Long id,@Validated @RequestBody ProductGroupDto productGroupDto) {
+        return ResponseEntity.ok(DefaultResponse.success(updateService.updateProductGroup(id, productGroupDto)));
     }
 
     @Operation(summary = "Delete nhóm sản phẩm(tất cả sản phẩm trong nhóm)", description = "Update nhóm sản phẩm(tất cả sản phẩm trong nhóm)")

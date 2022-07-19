@@ -1,9 +1,7 @@
 package com.nocodenobug.billsharing.controller;
 
 import com.nocodenobug.billsharing.model.dto.CustomerDto;
-import com.nocodenobug.billsharing.payload.response.Pagination;
-import com.nocodenobug.billsharing.payload.response.SamplePagingResponse;
-import com.nocodenobug.billsharing.payload.response.SampleResponse;
+import com.nocodenobug.billsharing.payload.response.*;
 import com.nocodenobug.billsharing.service.customerservice.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -46,15 +44,7 @@ public class CustomerController {
         if (customerDtoPage==null){
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(SamplePagingResponse.builder()
-                .success(true)
-                .message("get customer succsess")
-                .data(customerDtoPage.getContent())
-                .pagination(Pagination.builder().page(page).pageSize(pageSize)
-                        .totalItem(customerDtoPage.getTotalElements())
-                        .totalPage(customerDtoPage.getTotalPages())
-                        .build())
-                .build());
+        return ResponseEntity.ok(DefaultPagingResponse.success(customerDtoPage));
 
     }
     @Operation(summary = "Lấy customer theo Id", description = "Lấy customer theo Id")
@@ -64,34 +54,19 @@ public class CustomerController {
             @PathVariable Long id
     ){
         CustomerDto customerDto=getCustomerByIdService.getById(id);
-        return ResponseEntity.ok(SampleResponse.builder()
-                .success(true)
-                .message("get customer succsess")
-                .data(customerDto)
-                .build()
-        );
+        return ResponseEntity.ok(DefaultResponse.success(customerDto));
     }
     @Operation(summary = "Tạo customer", description = "Tạo customer")
     @PostMapping("/add-customer")
     @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<?> addCustomer(@Validated @RequestBody CustomerDto customerDto){
-       return ResponseEntity.ok(SampleResponse.builder()
-               .success(true)
-               .message("add customer success")
-               .data(createCustomerService.createCustomer(customerDto))
-               .build()
-       );
+       return ResponseEntity.ok(DefaultResponse.success(createCustomerService.createCustomer(customerDto)));
     }
     @Operation(summary = "Update customer", description = "Update customer")
     @PutMapping("/update-customer/{id}")
     @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<?> updateCustomer(@PathVariable Long id,@Validated @RequestBody CustomerDto customerDto){
-        return ResponseEntity.ok(SampleResponse.builder()
-                .success(true)
-                .message("update customer success")
-                .data(updateCustomerService.updateCustomer(id,customerDto))
-                .build()
-        );
+        return ResponseEntity.ok(DefaultResponse.success(updateCustomerService.updateCustomer(id,customerDto)));
     }
     @Operation(summary = "Xóa customer", description = "Xóa customer")
     @DeleteMapping("/delete-customer/{id}")
@@ -114,12 +89,7 @@ public class CustomerController {
             @PathVariable String phone
     ){
         CustomerDto customerDto=searchCustomerBySdtService.findCustomerBySdt(phone);
-        return ResponseEntity.ok(SampleResponse.builder()
-                .success(true)
-                .message("Search success")
-                .data(customerDto)
-                .build()
-        );
+        return ResponseEntity.ok(DefaultResponse.success(customerDto));
     }
 
 

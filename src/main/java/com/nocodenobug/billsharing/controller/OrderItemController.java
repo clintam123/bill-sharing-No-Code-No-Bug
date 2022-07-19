@@ -1,6 +1,7 @@
 package com.nocodenobug.billsharing.controller;
 
 import com.nocodenobug.billsharing.model.dto.OrderItemDto;
+import com.nocodenobug.billsharing.payload.response.DefaultResponse;
 import com.nocodenobug.billsharing.payload.response.SampleResponse;
 import com.nocodenobug.billsharing.service.order_item.CreateOrderItemService;
 import com.nocodenobug.billsharing.service.order_item.DeleteOrderItemService;
@@ -43,29 +44,18 @@ public class OrderItemController {
     @Operation(summary = "Create order item", description = "Create new order item")
     @PostMapping
     @PreAuthorize("hasRole('CUSTOMER')")
-    public ResponseEntity<SampleResponse> createOrderItem(@Validated @RequestBody OrderItemDto orderItemDto){
-        return ResponseEntity.ok(
-                SampleResponse.builder()
-                .success(true)
-                .message("CreateSuccess")
-                .data(createOrderItemService.createOrderItem(orderItemDto))
-                .build());
+    public ResponseEntity<?> createOrderItem(@Validated @RequestBody OrderItemDto orderItemDto){
+        return ResponseEntity.ok(DefaultResponse.success( createOrderItemService.createOrderItem(orderItemDto)));
     }
 
 
     @Operation(summary = "Update order item", description = "Update order item with id")
     @PutMapping("{id}")
     @PreAuthorize("hasRole('CUSTOMER')")
-    public ResponseEntity<SampleResponse> updateOrderItem(
+    public ResponseEntity<?> updateOrderItem(
             @PathVariable("id")  Long id,
           @Validated @RequestBody OrderItemDto orderItemDto){
-        return ResponseEntity.ok(
-                SampleResponse.builder()
-                        .success(true)
-                        .message("Update Success")
-                        .data(updateOrderItemService.updateQuantityOrderItem(id,orderItemDto))
-                        .build()
-        );
+        return ResponseEntity.ok(DefaultResponse.success(updateOrderItemService.updateQuantityOrderItem(id,orderItemDto)));
     }
 
 
