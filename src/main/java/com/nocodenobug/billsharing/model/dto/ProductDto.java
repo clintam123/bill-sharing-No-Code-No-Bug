@@ -10,7 +10,6 @@ import javax.validation.constraints.Size;
 
 @Data
 public class ProductDto {
-    private Long id;
     @NotBlank(message = "Tên sản phẩm không được để trống")
     @Size(min = 1, max = 100, message = "Tên sản phẩm phải nhỏ hơn 100 kí tự")
     private String title;
@@ -26,4 +25,5 @@ public class ProductDto {
     private Long categoryId;
     @JsonProperty("product_group_id")
     private Long productGroupId;
+    private String publicImageId;
 }

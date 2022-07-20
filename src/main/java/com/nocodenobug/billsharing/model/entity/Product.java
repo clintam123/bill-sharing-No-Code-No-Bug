@@ -1,5 +1,6 @@
 package com.nocodenobug.billsharing.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.nocodenobug.billsharing.constants.ProductStatus;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -34,6 +35,10 @@ public class Product {
     @Column(name = "updated_at")
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
+    @Column(name = "public_image_id")
+    @JsonProperty("public_image_id")
+    private String publicImageId;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
