@@ -60,14 +60,14 @@ public class GroupOrderController {
         return orderItemDto;
     }
 
-    @MessageMapping("/delete-order-item/{pubsub}") // request sent to this url -> method is called
+    @MessageMapping("/delete-order-item/bill_sharing/{pubsub}") // request sent to this url -> method is called
 //    @SendTo("/topic/public") // method return value sent to this url for all subscribers
     public void deleteOrderItem(@Payload Long id,@DestinationVariable String pubsub) {
         OrderItemDto orderItemDto1=new OrderItemDto();
         orderItemDto1.setContent("aloalo");
         orderItemDto1.setId(Long.parseLong("1"));
-        System.out.println(pubsub);
-        simpMessagingTemplate.convertAndSend("/topic/public/" + pubsub, orderItemDto1);
+//        System.out.println(pubsub);
+        simpMessagingTemplate.convertAndSend("/topic/public/bill_sharing/" + pubsub, orderItemDto1);
     }
 
     @MessageMapping("/update-order-item") // request sent to this url -> method is called

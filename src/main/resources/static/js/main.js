@@ -1,6 +1,7 @@
 'use strict';
 var usernameForm = document.querySelector('#usernameForm');
 var pubsub;
+var linkpubsub;
 
 function getData(callback)
 {
@@ -12,7 +13,7 @@ function getData(callback)
 }
 function showData(link) {
      pubsub=link;
-     console.log(pubsub);
+     // console.log(pubsub);
 
 }
 
@@ -22,6 +23,8 @@ var username = null;
 
 
 function connect(event) {
+     linkpubsub =document.getElementById("pubsub").value;
+    //getLink
         getData(showData);
         var socket = new SockJS('/bill-sharing');
         stompClient = Stomp.over(socket);
@@ -29,7 +32,13 @@ function connect(event) {
          event.preventDefault();
 }
 function onConnected() {
-    stompClient.subscribe('/topic/public/'+pubsub, onMessageReceived);
+
+    if (linkpubsub==""){
+        stompClient.subscribe('/topic/public'+pubsub, onMessageReceived);
+    }else {
+        stompClient.subscribe('/topic/public'+linkpubsub, onMessageReceived);
+    }
+
 }
 
 function onError(error) {
@@ -43,7 +52,7 @@ function onMessageReceived(payload){
     }
     // console.log(message.content)
 }
-const api_url="/app/delete-order-item/";
+const api_url="/app/delete-order-item";
 async function delData(id ) {
     stompClient.send(api_url+pubsub, {}, JSON.stringify(id));
     // document.getElementById("data").style.display = "none";
