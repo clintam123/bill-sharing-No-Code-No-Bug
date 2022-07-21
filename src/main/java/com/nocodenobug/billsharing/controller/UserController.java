@@ -1,6 +1,5 @@
 package com.nocodenobug.billsharing.controller;
 
-import com.nocodenobug.billsharing.model.dto.CustomerDto;
 import com.nocodenobug.billsharing.model.dto.UserDto;
 import com.nocodenobug.billsharing.payload.request.UserChangeInfoRequest;
 import com.nocodenobug.billsharing.payload.response.DefaultPagingResponse;
