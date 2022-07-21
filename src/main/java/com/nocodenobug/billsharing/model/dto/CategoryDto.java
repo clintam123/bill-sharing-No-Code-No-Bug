@@ -1,8 +1,11 @@
 package com.nocodenobug.billsharing.model.dto;
 
-import lombok.Data;
-import org.hibernate.validator.constraints.Length;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.nocodenobug.billsharing.model.entity.Admin;
+import lombok.Data;
+
+import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -14,4 +17,12 @@ public class CategoryDto {
     private String title;
     private String content;
     private String code;
+
+    //private Admin admin;
+    @JsonProperty("user_id")
+    private Long userId;
+
+    @JsonProperty("image_url")
+    private String imageUrl;
+
 }

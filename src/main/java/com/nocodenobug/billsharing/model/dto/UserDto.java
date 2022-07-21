@@ -52,7 +52,8 @@ public class UserDto {
     @NotBlank(message = "role not blank")
     private String role;
 
-    private String publicImageId;
+    @JsonProperty("image_url")
+    private String imageUrl;
 
     private String provider;
 

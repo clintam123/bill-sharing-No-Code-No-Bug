@@ -12,6 +12,6 @@ public interface OrderRepository extends JpaRepository<Order,Long> {
 
     Page<Order> findAllByVendorIdAndStatusEquals(Long vendorId,Pageable pageable,Integer status);
 
-    Page<Order> findAllByCustomerIdAndStatusEquals(Long customerId, Pageable pageable, Integer status);
+    Page<Order> findAllByUserIdAndStatusEquals(Long userId, Pageable pageable, Integer status);
 
 }

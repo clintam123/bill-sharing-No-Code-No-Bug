@@ -34,10 +34,12 @@ public class CreateProductServiceImpl implements CreateProductService {
     public ProductDto createProduct(ProductDto newProduct) {
         CategoryDto category = categoryService.getCategoryById(newProduct.getCategoryId());
         ProductGroupDto productGroupDto = productGroupService.getProductGroupById(newProduct.getProductGroupId());
+
         Product product = modelMapper.map(newProduct, Product.class);
         product.setProductGroup(modelMapper.map(productGroupDto, ProductGroup.class));
         product.setCategory(modelMapper.map(category, Category.class));
-        productRepository.save(product);
+
+        newProduct.setId(productRepository.save(product).getId());
         return newProduct;
     }
 }

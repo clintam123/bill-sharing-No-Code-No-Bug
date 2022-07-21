@@ -68,6 +68,7 @@ public class UpdateOrderItemServiceImpl implements UpdateOrderItemService {
         double price = Double.parseDouble(productOld.getPrice() + "");
         BigDecimal total = BigDecimal.valueOf(price * quantity);
         orderItemId.setTotal(total);
+        orderItemId.setPrice(BigDecimal.valueOf(price));
 
         return modelMapper.map(orderItemReponsitory.save(orderItemId),OrderItemDto.class);
     }

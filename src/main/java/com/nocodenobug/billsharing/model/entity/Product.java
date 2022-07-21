@@ -39,15 +39,11 @@ public class Product {
     @JoinColumn(name = "category_id")
     private Category category;
 
-//    @Column(name = "category_id")
-//    private Long categoryId;
-
-//    @Column(name = "product_group_id")
-//    private Long productGroupId;
     @ManyToOne
     @JoinColumn(name = "product_group_id")
     private ProductGroup productGroup;
 
+    private String image_url;
     @PrePersist
     public void prePersist() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");

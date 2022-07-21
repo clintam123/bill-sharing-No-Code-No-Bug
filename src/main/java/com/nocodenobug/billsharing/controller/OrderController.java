@@ -1,9 +1,7 @@
 package com.nocodenobug.billsharing.controller;
 
 import com.nocodenobug.billsharing.model.dto.OrderDto;
-import com.nocodenobug.billsharing.response.Pagination;
-import com.nocodenobug.billsharing.response.SamplePagingResponse;
-import com.nocodenobug.billsharing.response.SampleResponse;
+import com.nocodenobug.billsharing.payload.response.*;
 import com.nocodenobug.billsharing.service.order.CreateOrderService;
 import com.nocodenobug.billsharing.service.order.DeleteOrderService;
 import com.nocodenobug.billsharing.service.order.GetOrderService;
@@ -17,6 +15,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,8 +23,8 @@ import org.springframework.web.bind.annotation.*;
         description = "Order resources that provides access to available Order data",
         name = "Order Resource")
 @RestController
-@RequestMapping("/api/v1.0/order")
-public class OrderRestController {
+@RequestMapping("/api/v1/order")
+public class OrderController {
 
     @Autowired
     private CreateOrderService createOrderService;
@@ -41,57 +40,53 @@ public class OrderRestController {
 
     @Operation(summary = "Get all order", description = "Get all")
     @GetMapping()
-    public ResponseEntity<SamplePagingResponse> findAllByOrder(
+    public ResponseEntity<?> findAllByOrder(
             @RequestParam(value = "page") int page,
             @RequestParam(value = "page_size") int page_size
     ){
         Page<OrderDto> order = getOrderService.findAllByStatus(page,page_size);
-        return ResponseEntity.ok(SamplePagingResponse.builder().message("GetSuccess").success(true)
-                .data(order.getContent()).pagination(Pagination.builder().page(page).pageSize(page_size)
-                        .totalPage(order.getTotalPages()).totalItem(order.getTotalElements()).build()).build());
+        return ResponseEntity.ok(DefaultPagingResponse.success(order));
     }
 
     @Operation(summary = "Get order", description = "Get order by id")
     @GetMapping("/{id}")
-    public ResponseEntity<SampleResponse> findByOrderId(
+    public ResponseEntity<?> findByOrderId(
             @PathVariable("id") Long id
     ){
         OrderDto order = getOrderService.findById(id);
-        return ResponseEntity.ok(SampleResponse.builder().message("GetSuccess")
-                .success(true).data(order).build());
+        return ResponseEntity.ok(DefaultResponse.success(order));
     }
 
     @Operation(summary = "Get vendor id", description = "Get vendor by id")
     @GetMapping("/vendor/{id}")
-    public ResponseEntity<SamplePagingResponse> findByAllVendorId(
+    @PreAuthorize("hasRole('VENDOR')")
+    public ResponseEntity<?> findByAllVendorId(
             @PathVariable("id") Long id,
             @RequestParam(value = "page") int page,
             @RequestParam(value = "page_size") int page_size
     ){
         Page<OrderDto> order = getOrderService.findAllByVendorId(id,page,page_size);
-        return ResponseEntity.ok(SamplePagingResponse.builder().message("GetSuccess").success(true).data(order.getContent())
-                .pagination(Pagination.builder().page(page).pageSize(page_size).totalPage(order.getTotalPages())
-                        .totalItem(order.getTotalElements()).build()).build());
+        return ResponseEntity.ok(DefaultPagingResponse.success(order));
     }
 
     @Operation(summary = "Get customer id", description = "Get customer by id")
     @GetMapping("/customer/{id}")
-    private ResponseEntity<SamplePagingResponse> findAllByCustomerId(
+    @PreAuthorize("hasRole('CUSTOMER')")
+    private ResponseEntity<?> findAllByCustomerId(
             @PathVariable("id") Long id,
             @RequestParam(value = "page") int page,
             @RequestParam(value = "page_size") int page_size
     ){
-        Page<OrderDto> orderDtos = getOrderService.findAllByCustomerId(id,page,page_size);
-        return ResponseEntity.ok(SamplePagingResponse.builder().success(true).message("Get CustomerId success")
-                .data(orderDtos.getContent()).pagination(Pagination.builder().page(page).pageSize(page_size)
-                        .totalPage(orderDtos.getTotalPages()).totalItem(orderDtos.getTotalElements()).build()).build());
+        Page<OrderDto> orderDtos = getOrderService.findAllByUserId(id,page,page_size);
+        return ResponseEntity.ok(DefaultPagingResponse.success(orderDtos));
     }
 
     @Operation(summary = "Delete Order", description = "Delete order with id")
     @DeleteMapping("/{id}")
-    public ResponseEntity<SampleResponse> deleteOrder(@PathVariable("id") Long id){
-        return ResponseEntity.ok(SampleResponse.builder().success(true).message("Delete success")
-                .data(deleteOrderService.deleteOrder(id)).build());
+    @PreAuthorize("hasRole('CUSTOMER')")
+    public ResponseEntity<?> deleteOrder(@PathVariable("id") Long id){
+        return ResponseEntity.ok(DefaultResponse.success(deleteOrderService.deleteOrder(id)));
+
     }
 
     @Operation(summary = "Create order", description = "Create new order")
@@ -108,21 +103,22 @@ public class OrderRestController {
                             content = {@Content(examples = {@ExampleObject(value = "")})})
             })
     @PostMapping()
-    public ResponseEntity<SampleResponse> createOrder(@Validated @RequestBody OrderDto orderDto){
-        return ResponseEntity.ok(SampleResponse.builder().
-                success(true).message("Create success").data(createOrderService.createOrder(orderDto)).build());
+    @PreAuthorize("hasRole('CUSTOMER')")
+    public ResponseEntity<?> createOrder(@Validated @RequestBody OrderDto orderDto){
+        return ResponseEntity.ok(DefaultResponse.success(createOrderService.createOrder(orderDto)));
     }
+
 
 
     @Operation(summary = "Update order", description = "Update order with id")
     @PutMapping("/{id}")
-    public ResponseEntity<SampleResponse> updateOrder(
+    @PreAuthorize("hasRole('CUSTOMER')")
+    public ResponseEntity<?> updateOrder(
             @PathVariable("id") Long id,@Validated @RequestBody OrderDto orderDto){
 
-        return ResponseEntity.ok(SampleResponse.builder().success(true).message("Update success")
-                .data(updateOrderService.updateOrder(id,orderDto)).build());
-    }
+        return ResponseEntity.ok(DefaultResponse.success(updateOrderService.updateOrder(id,orderDto)));
 
+    }
 
 
 }

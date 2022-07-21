@@ -1,22 +1,26 @@
 package com.nocodenobug.billsharing.model.entity;
 
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Data
+
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "registered_at")
-    private LocalDateTime registeredAt;
-
     @Column(name = "username")
     private String username;
+
+    @Column(name = "registered_at")
+    @CreationTimestamp
+    private LocalDateTime registeredAt;
+
 
     @Column(name = "password_hash")
     private String passwordHash;
@@ -34,8 +38,8 @@ public class User {
 
     private String role;
 
-    @Column(name = "public_image_id")
-    private String publicImageId;
+    @Column(name = "image_url")
+    private String imageUrl;
 
     private String provider;
 

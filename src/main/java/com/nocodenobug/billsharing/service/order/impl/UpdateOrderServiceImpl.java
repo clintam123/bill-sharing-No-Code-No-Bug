@@ -47,10 +47,7 @@ public class UpdateOrderServiceImpl implements UpdateOrderService {
         orderId.setCreatedAt(orderOld.getCreatedAt());
         orderId.setUpdatedAt(LocalDateTime.now());
         orderId.setStatus(orderOld.getStatus());
-        orderId.setTotal(BigDecimal.valueOf(getOrderItemService.getAmount(orderOld.getId())));
-
-        double total = Double.parseDouble(orderOld.getTotal()+"");
-        orderId.setGrandTotal(BigDecimal.valueOf(total + orderOld.getShipping() - orderDto.getDiscount()));
+        orderId.setGrandTotal(BigDecimal.valueOf(orderOld.getShipping() - orderDto.getDiscount()));
 
         return modelMapper.map(orderRepository.save(orderId),OrderDto.class);
     }
@@ -63,10 +60,7 @@ public class UpdateOrderServiceImpl implements UpdateOrderService {
             throw new NotFoundException(HttpStatus.NOT_FOUND.value(), "Order khong ton tai");
         }
 
-        orderId.setTotal(BigDecimal.valueOf(getOrderItemService.getAmount(id)));
-
-        double total = Double.parseDouble(orderId.getTotal()+"");
-        orderId.setGrandTotal(BigDecimal.valueOf(total + orderId.getShipping() - orderId.getDiscount()));
+        orderId.setGrandTotal(BigDecimal.valueOf(orderId.getShipping() - orderId.getDiscount()));
 
         return modelMapper.map(orderRepository.save(orderId),OrderDto.class);
     }

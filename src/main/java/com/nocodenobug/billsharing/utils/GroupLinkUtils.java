@@ -7,7 +7,7 @@ public class GroupLinkUtils {
     public static String generateRandomString() {
         int leftLimit = 48; // numeral '0'
         int rightLimit = 122; // letter 'z'
-        int targetStringLength = 10;
+        int targetStringLength = 6;
         Random random = new Random();
 
         String generatedString = random.ints(leftLimit, rightLimit + 1)
@@ -16,6 +16,6 @@ public class GroupLinkUtils {
                 .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
                 .toString();
 
-        return "/bill_sharing/" + generatedString;
+        return generatedString;
     }
 }
