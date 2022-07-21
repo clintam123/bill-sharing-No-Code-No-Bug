@@ -84,13 +84,9 @@ public class UserController {
             @PathVariable Long id
     ) {
         deleteUserService.deleteUser(id);
-        return ResponseEntity.ok(SampleResponse.builder()
-                .success(true)
-                .message("delete customer success")
-                .data("")
-                .build()
-        );
+        return ResponseEntity.ok(DefaultResponse.success("Xóa user thành công"));
     }
+
     @Operation(summary = "Tìm kiếm customer theo SDT", description = "Tìm kiếm customer theo SDT")
     @GetMapping("/search-customerByPhone/{phone}")
     public ResponseEntity<?> searchUserByPhone(
@@ -106,6 +102,6 @@ public class UserController {
             @PathVariable("user-id") Long userId,
             @RequestBody MultipartFile file
     ){
-        return ResponseEntity.ok(DefaultResponse.success(uploadUserImage.uploadAvatar(userId, file)));
+        return ResponseEntity.ok(DefaultResponse.success("Thay ảnh đại diện thành công", uploadUserImage.uploadAvatar(userId, file)));
     }
 }

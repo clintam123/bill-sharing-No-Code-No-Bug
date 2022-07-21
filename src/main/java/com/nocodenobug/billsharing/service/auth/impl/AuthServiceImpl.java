@@ -1,5 +1,7 @@
 package com.nocodenobug.billsharing.service.auth.impl;
 
+import com.cloudinary.Cloudinary;
+import com.nocodenobug.billsharing.constants.FolderConstants;
 import com.nocodenobug.billsharing.exceptions.BadRequestException;
 import com.nocodenobug.billsharing.exceptions.NotFoundException;
 import com.nocodenobug.billsharing.model.entity.Role;
@@ -40,7 +42,7 @@ public class AuthServiceImpl implements AuthService {
     private UserRepository userRepository;
 
     @Autowired
-    private RoleRepository roleRepository;
+    private Cloudinary cloudinary;
 
     @Autowired
     private PasswordEncoder encoder;
@@ -70,6 +72,7 @@ public class AuthServiceImpl implements AuthService {
 //        }
         User mapUser = modelMapper.map(signupRequest, User.class);
         mapUser.setPasswordHash(encoder.encode(signupRequest.getPassword()));
+        mapUser.setImageUrl(cloudinary.url().generate(FolderConstants.AVATAR_DEFAULT_IMAGE_PUBLIC_ID));
         System.out.println(mapUser);
         User newUser = userRepository.save(mapUser);
 
