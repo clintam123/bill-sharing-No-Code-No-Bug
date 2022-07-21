@@ -29,6 +29,8 @@ public class Category {
 //    @JoinColumn(name = "admin_id")
 //    private Admin admin;
 
-    @Column(name = "admin_id")
-    private Long adminId;
+    @Column(name = "user_id")
+    private Long userId;
+    @Column(name = "image_url")
+    private String imageUrl;
 }

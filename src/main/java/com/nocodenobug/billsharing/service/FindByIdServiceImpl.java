@@ -21,7 +21,7 @@ public class FindByIdServiceImpl implements FindByIdService {
     private OrderItemRepository orderItemRepository;
 
     @Autowired
-    private CustomerRepository customerRepository;
+    private UserRepository userRepository;
 
     @Autowired
     private VendorRepository vendorRepository;
@@ -64,12 +64,12 @@ public class FindByIdServiceImpl implements FindByIdService {
     }
 
     @Override
-    public Customer checkIdCustomer(Long id){
-        Optional<Customer> optional = customerRepository.findById(id);
+    public User checkIdUser(Long id){
+        Optional<User> optional = userRepository.findById(id);
         if(optional.isPresent()){
             return optional.get();
         }
-        throw new NotFoundException(HttpStatus.NOT_FOUND.value(), "Id customer NotFound");
+        throw new NotFoundException(HttpStatus.NOT_FOUND.value(), "Id user NotFound");
     }
 
 }

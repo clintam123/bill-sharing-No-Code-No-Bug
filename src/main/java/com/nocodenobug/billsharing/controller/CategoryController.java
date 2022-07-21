@@ -63,17 +63,17 @@ public class CategoryController {
         return ResponseEntity.ok(DefaultResponse.success(updateCategoryService.updateCategory(id, categoryDto)));
     }
 
-    @Operation(summary = "Xóa thể loại", description = "Xóa thể loại")
-    @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<SampleResponse> delete(@PathVariable Long id) {
-        deleteCategoryService.deleteCategory(id);
-        return ResponseEntity.ok(
-                SampleResponse.builder()
-                        .success(true)
-                        .message("Success")
-                        .data(null)
-                        .build()
-        );
-    }
+//    @Operation(summary = "Xóa thể loại", description = "Xóa thể loại")
+//    @DeleteMapping("/{id}")
+//    @PreAuthorize("hasRole('ADMIN')")
+//    public ResponseEntity<SampleResponse> delete(@PathVariable Long id) {
+//        deleteCategoryService.deleteCategory(id);
+//        return ResponseEntity.ok(
+//                SampleResponse.builder()
+//                        .success(true)
+//                        .message("Success")
+//                        .data(null)
+//                        .build()
+//        );
+//    }
 }

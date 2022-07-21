@@ -55,8 +55,11 @@ public class CreateOrderItemServiceImpl implements CreateOrderItemService {
                 // tính tổng tiền
                 int quantity = orderItemDto.getQuantity();
                 double price = Double.parseDouble(productOld.getPrice() + "");
+
                 BigDecimal total = BigDecimal.valueOf(price * quantity);
                 orderItem.setTotal(total);
+                orderItem.setPrice(BigDecimal.valueOf(price));
+
 
                 // lưu thông tin OrderItem
                 OrderItem orderItem1 = orderItemRepository.save(orderItem);
@@ -70,10 +73,9 @@ public class CreateOrderItemServiceImpl implements CreateOrderItemService {
                 // thiết lập order
                 orderItem1.setOrder(orderOld);
 
-                // thiêp lập tổng tiền order
+                // thiết lập tổng tiền order
                 updateOrderService.updateTotal(orderItemDto.getOrder().getId());
 
-                System.out.println(productOld.getQuantity() + "fghjklkjhgfdfghjkl");
 
                 return modelMapper.map(orderItem1, OrderItemDto.class);
         } else {

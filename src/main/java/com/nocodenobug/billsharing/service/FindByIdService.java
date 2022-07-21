@@ -11,5 +11,5 @@ public interface FindByIdService {
 
     Vendor checkIdVendor(Long id);
 
-    Customer checkIdCustomer(Long id);
+    User checkIdUser(Long id);
 }

@@ -20,7 +20,7 @@ public class UserDetailsImpl implements UserDetails {
     private Collection<? extends GrantedAuthority> authorities;
 
     public static UserDetailsImpl build(User user){
-        List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(user.getRole().getName()));
+        List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(user.getRole()));
         return new UserDetailsImpl(
                 user.getId(),
                 user.getUsername(),

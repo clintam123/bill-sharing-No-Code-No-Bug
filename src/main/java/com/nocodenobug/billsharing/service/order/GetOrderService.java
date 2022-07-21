@@ -9,7 +9,7 @@ public interface GetOrderService {
 
     Page<OrderDto> findAllByVendorId(Long id, int page, int page_size);
 
-    Page<OrderDto> findAllByCustomerId(Long id, int page, int page_size);
+    Page<OrderDto> findAllByUserId(Long id, int page, int page_size);
 
     OrderDto findById(Long id);
 }

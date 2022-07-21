@@ -36,8 +36,8 @@ public class GetOrderServiceImpl implements GetOrderService {
     }
 
     @Override
-    public Page<OrderDto> findAllByCustomerId(Long id, int page, int page_size){
-        Page<Order> orders = orderRepository.findAllByCustomerIdAndStatusEquals(id,PageRequest.of(page,page_size),OrderStatus.ACTIVE.getStatus());
+    public Page<OrderDto> findAllByUserId(Long id, int page, int page_size){
+        Page<Order> orders = orderRepository.findAllByUserIdAndStatusEquals(id,PageRequest.of(page,page_size),OrderStatus.ACTIVE.getStatus());
 
         return orders.map(order -> modelMapper.map(order, OrderDto.class));
     }

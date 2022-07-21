@@ -2,11 +2,16 @@ package com.nocodenobug.billsharing;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+
 @SpringBootApplication
+@EnableScheduling
+@EnableWebSocketMessageBroker
 public class BillSharingNoCodeNoBugApplication {
     public static void main(String[] args) {
         SpringApplication.run(BillSharingNoCodeNoBugApplication.class, args);

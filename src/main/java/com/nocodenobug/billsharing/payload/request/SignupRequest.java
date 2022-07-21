@@ -1,5 +1,6 @@
 package com.nocodenobug.billsharing.payload.request;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,12 +16,30 @@ public class SignupRequest {
     private String username;
 
     @NotBlank
-    @Size(min = 6, max = 40, message = "6 <= độ dài password <= 40")
+    @Size(min = 5, max = 40, message = "5 <= độ dài password <= 40")
     private String password;
 
     @NotBlank
     @Email
     private String email;
+
+    @NotBlank
+    @JsonProperty("first_name")
+    private String firstName;
+
+    @NotBlank
+    @JsonProperty("last_name")
+    private String lastName;
+
+    @NotBlank
+    @JsonProperty("image_url")
+    private String imageUrl;
+
+    @NotBlank
+    private String provider;
+
+    @NotBlank
+    private String phone;
 
     @NotBlank
     private String role;

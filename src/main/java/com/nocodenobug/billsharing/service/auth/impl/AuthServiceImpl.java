@@ -14,6 +14,7 @@ import com.nocodenobug.billsharing.service.auth.AuthService;
 import com.nocodenobug.billsharing.payload.request.ChangePasswordRequest;
 import com.nocodenobug.billsharing.utils.CurrentUserUtils;
 import com.nocodenobug.billsharing.utils.JwtUtils;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.access.AccessDeniedException;
@@ -29,6 +30,8 @@ import java.util.Objects;
 
 @Service
 public class AuthServiceImpl implements AuthService {
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -62,13 +65,13 @@ public class AuthServiceImpl implements AuthService {
         if (userRepository.existsByUsername(signupRequest.getUsername())) {
             throw new BadRequestException("Username đã được sử dụng!");
         }
-        if (Objects.equals(signupRequest.getRole(), "ROLE_ADMIN")) {
-            throw new AccessDeniedException("Không được phép tạo tài khoản admin!");
-        }
-        Role userRole = roleRepository.findByName(signupRequest.getRole())
-                .orElseThrow(() -> new NotFoundException(500 ,"Role not found"));
-        User newUser = userRepository.save(new User(signupRequest.getUsername(),
-                encoder.encode(signupRequest.getPassword()), signupRequest.getEmail(), userRole));
+//        if (Objects.equals(signupRequest.getRole(), "ROLE_ADMIN")) {
+//            throw new AccessDeniedException("Không được phép tạo tài khoản admin!");
+//        }
+        User mapUser = modelMapper.map(signupRequest, User.class);
+        mapUser.setPasswordHash(encoder.encode(signupRequest.getPassword()));
+        System.out.println(mapUser);
+        User newUser = userRepository.save(mapUser);
 
         return new UserInfoResponse(newUser.getId(), newUser.getUsername(), newUser.getEmail(), signupRequest.getRole());
     }

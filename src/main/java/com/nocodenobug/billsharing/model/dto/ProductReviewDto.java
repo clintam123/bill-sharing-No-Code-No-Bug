@@ -17,8 +17,8 @@ public class ProductReviewDto {
     private Integer rating;
     private String content;
 
-    @JsonProperty("customer_id")
-    private Integer customerId;
+    @JsonProperty("user_id")
+    private Integer userId;
 
     @JsonProperty("modified_at")
     private LocalDateTime modifiedAt;
