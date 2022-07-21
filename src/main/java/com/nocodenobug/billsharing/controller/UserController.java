@@ -5,10 +5,7 @@ import com.nocodenobug.billsharing.payload.request.UserChangeInfoRequest;
 import com.nocodenobug.billsharing.payload.response.DefaultPagingResponse;
 import com.nocodenobug.billsharing.payload.response.DefaultResponse;
 import com.nocodenobug.billsharing.payload.response.SampleResponse;
-import com.nocodenobug.billsharing.service.user.CreateUserService;
-import com.nocodenobug.billsharing.service.user.DeleteUserService;
-import com.nocodenobug.billsharing.service.user.GetUserService;
-import com.nocodenobug.billsharing.service.user.UpdateUserService;
+import com.nocodenobug.billsharing.service.user.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Tag(
         description = "Customer controller",
@@ -37,6 +35,9 @@ public class UserController {
 
     @Autowired
     private GetUserService getUserService;
+
+    @Autowired
+    private UploadUserImage uploadUserImage;
 
     @Operation(summary = "Lấy tất cả User", description =
             "page: trang hiện tại (bắt đầu từ 0), page_size: số record trong trang hiện tại,"
@@ -99,5 +100,12 @@ public class UserController {
         return ResponseEntity.ok(DefaultResponse.success(user));
     }
 
-
+    @Operation(summary = "Thay ảnh đại diện", description ="Thay ảnh đại diện")
+    @PostMapping("/change-avatar/{user-id}")
+    public ResponseEntity<?> changeAvatar(
+            @PathVariable("user-id") Long userId,
+            @RequestBody MultipartFile file
+    ){
+        return ResponseEntity.ok(DefaultResponse.success(uploadUserImage.uploadAvatar(userId, file)));
+    }
 }

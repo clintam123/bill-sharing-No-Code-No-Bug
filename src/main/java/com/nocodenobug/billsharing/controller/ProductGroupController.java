@@ -73,14 +73,8 @@ public class ProductGroupController {
     @Operation(summary = "Delete nhóm sản phẩm(tất cả sản phẩm trong nhóm)", description = "Update nhóm sản phẩm(tất cả sản phẩm trong nhóm)")
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('VENDOR')")
-    public ResponseEntity<SampleResponse> delete(@PathVariable Long id) {
+    public ResponseEntity<?> delete(@PathVariable Long id) {
         deleteProductGroupService.deleteProductGroup(id);
-        return ResponseEntity.ok(
-                SampleResponse.builder()
-                        .success(true)
-                        .message("Success")
-                        .data("")
-                        .build()
-        );
+        return ResponseEntity.ok(DefaultResponse.success("Xóa sản phẩm thành công"));
     }
 }

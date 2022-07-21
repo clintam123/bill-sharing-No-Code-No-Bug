@@ -32,13 +32,9 @@ public class OrderItemController {
     @Operation(summary = "Delete Order Item", description = "Delete order item with id")
     @DeleteMapping("{id}")
     @PreAuthorize("hasRole('CUSTOMER')")
-    public SampleResponse deleteOrderItem(@PathVariable("id") Long id){
+    public ResponseEntity<?> deleteOrderItem(@PathVariable("id") Long id){
         deleteOrderItemService.deleteOrderItem(id);
-        return SampleResponse.builder()
-                .success(true)
-                .message("Delete Success")
-                .data(null)
-                .build();
+        return ResponseEntity.ok(DefaultResponse.success("Order item deleted successfully"));
     }
 
     @Operation(summary = "Create order item", description = "Create new order item")

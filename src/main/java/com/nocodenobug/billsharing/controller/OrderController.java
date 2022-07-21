@@ -77,8 +77,8 @@ public class OrderController {
             @RequestParam(value = "page") int page,
             @RequestParam(value = "page_size") int page_size
     ){
-        Page<OrderDto> orderDtos = getOrderService.findAllByUserId(id,page,page_size);
-        return ResponseEntity.ok(DefaultPagingResponse.success(orderDtos));
+        Page<OrderDto> orderDto = getOrderService.findAllByUserId(id,page,page_size);
+        return ResponseEntity.ok(DefaultPagingResponse.success(orderDto));
     }
 
     @Operation(summary = "Delete Order", description = "Delete order with id")

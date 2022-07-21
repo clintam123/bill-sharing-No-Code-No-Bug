@@ -12,14 +12,17 @@ import java.time.LocalDateTime;
 
 @Service
 public class CreateReviewServiceImpl implements CreateReviewService {
-    @Autowired
-    private ProductReviewRepository productReviewRepository;
+    private final ProductReviewRepository productReviewRepository;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    private ModelMapper modelMapper;
+    public CreateReviewServiceImpl(ProductReviewRepository productReviewRepository, ModelMapper modelMapper) {
+        this.productReviewRepository = productReviewRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
-    public ProductReviewDto createReview(int productId, ProductReviewDto newReview) {
+    public ProductReviewDto createReview(Long productId, ProductReviewDto newReview) {
         newReview.setModifiedAt(LocalDateTime.now());
         ProductReview review = modelMapper.map(newReview, ProductReview.class);
         review.setProductId(productId);

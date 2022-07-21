@@ -26,22 +26,23 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/product-review")
 public class ProductReviewController {
-    @Autowired
-    private CreateReviewService createReviewService;
+    private final CreateReviewService createReviewService;
+    private final DeleteReviewService deleteReviewService;
+    private final GetReviewService getReviewService;
+    private final UpdateReviewService updateReviewService;
 
     @Autowired
-    private DeleteReviewService deleteReviewService;
-
-    @Autowired
-    private GetReviewService getReviewService;
-
-    @Autowired
-    private UpdateReviewService updateReviewService;
+    public ProductReviewController(CreateReviewService createReviewService, DeleteReviewService deleteReviewService, GetReviewService getReviewService, UpdateReviewService updateReviewService) {
+        this.createReviewService = createReviewService;
+        this.deleteReviewService = deleteReviewService;
+        this.getReviewService = getReviewService;
+        this.updateReviewService = updateReviewService;
+    }
 
     @Operation(summary = "Get review", description = "Get username and user's review by product id")
     @GetMapping("/get-review/{product_id}")
     public ResponseEntity<?> getReview(
-            @PathVariable("product_id") int id,
+            @PathVariable("product_id") Long id,
             @RequestParam(value = "page") int page,
             @RequestParam(value = "page_size") int pageSize
     ) {
@@ -59,12 +60,12 @@ public class ProductReviewController {
                     @ApiResponse(
                             responseCode = "404",
                             description = "${api.response-codes.notFound.desc}",
-                            content = {@Content(examples = {@ExampleObject(value = "")})})
+                            content = {@Content(examples = {@ExampleObject(value ="")})})
             })
     @PostMapping("/create-review/{product_id}")
     @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<?> createReview(
-            @PathVariable("product_id") int productId,
+            @PathVariable("product_id") Long productId,
             @RequestBody ProductReviewDto productReviewDto
     ){
 
@@ -75,7 +76,7 @@ public class ProductReviewController {
     @PutMapping("/update-review/{review_id}")
     @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<?> updateReview(
-            @PathVariable("review_id") int id,
+            @PathVariable("review_id") Long id,
             @RequestBody ProductReviewDto productReviewDto
     ){
         return ResponseEntity.ok(DefaultResponse.success(updateReviewService.updateReview(id, productReviewDto)));
@@ -85,7 +86,7 @@ public class ProductReviewController {
     @DeleteMapping("/delete-review/{review_id}")
     @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<?> deleteReview(
-            @PathVariable("review_id") int id
+            @PathVariable("review_id") Long id
     ){
         return ResponseEntity.ok(DefaultResponse.success(deleteReviewService.deleteReview(id)));
     }

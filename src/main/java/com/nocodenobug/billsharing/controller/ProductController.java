@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Tag(
         description = "Product controller",
@@ -24,14 +25,16 @@ public class ProductController {
     private final UpdateProductService updateService;
     private final DeleteProductService deleteService;
     private final GetProductsByCategoryTitle getProductsByCategoryTitle;
+    private final UploadProductImage uploadProductImage;
 
     @Autowired
-    public ProductController(CreateProductService createService, GetProductByIdService getService, UpdateProductService updateService, DeleteProductService deleteService, GetProductsByCategoryTitle getProductsByCategoryTitle) {
+    public ProductController(CreateProductService createService, GetProductByIdService getService, UpdateProductService updateService, DeleteProductService deleteService, GetProductsByCategoryTitle getProductsByCategoryTitle, UploadProductImage uploadProductImage) {
         this.createService = createService;
         this.getService = getService;
         this.updateService = updateService;
         this.deleteService = deleteService;
         this.getProductsByCategoryTitle = getProductsByCategoryTitle;
+        this.uploadProductImage = uploadProductImage;
     }
 
     @Operation(summary = "Lấy tất cả sản phẩm theo tên thể loại", description =
@@ -71,14 +74,16 @@ public class ProductController {
     @Operation(summary = "Xóa sản phẩm", description = "Xóa sản phẩm")
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('VENDOR')")
-    public ResponseEntity<SampleResponse> delete(@PathVariable Long id){
+    public ResponseEntity<?> delete(@PathVariable Long id){
         deleteService.deleteProduct(id);
-        return ResponseEntity.ok(
-                SampleResponse.builder()
-                        .success(true)
-                        .message("Success")
-                        .data(null)
-                        .build()
-        );
+        return ResponseEntity.ok(DefaultResponse.success("Xóa sản phẩm thành công"));
+    }
+
+    @Operation(summary = "Thêm hình ảnh sản phẩm", description = "Thêm hình ảnh sản phẩm")
+    @PostMapping("/upload-image/{product-id}")
+    public ResponseEntity<?> uploadImage(
+            @PathVariable("product-id") Long productId,
+            @RequestBody MultipartFile file){
+        return ResponseEntity.ok(DefaultResponse.success("Success", uploadProductImage.uploadProductImage(productId, file)));
     }
 }

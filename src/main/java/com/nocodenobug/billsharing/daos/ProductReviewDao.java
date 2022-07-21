@@ -17,16 +17,16 @@ public class ProductReviewDao {
     private final EntityManager entityManager;
 
     //Lấy ra tên người dùng và bình luận của họ, có paginng và sorting
-    public Page<?> getUserWithReviewByProductId(int productId, Pageable pageable) {
+    public Page<?> getUserWithReviewByProductId(Long productId, Pageable pageable) {
         String strQuery =
                 " "
                         + "SELECT  r.title AS title, "
                         + "        r.rating AS rating, "
                         + "        r.content AS content, "
                         + "        r.modified_at AS modified_at, "
-                        + "        concat(c.first_name,' ' ,c.last_name) AS customer_name "
+                        + "        concat(u.first_name,' ' ,u.last_name) AS customer_name "
                         + " FROM product_review r "
-                        + " JOIN customer c ON c.id = r.customer_id "
+                        + " JOIN user u ON u.id = r.user_id "
                         + " WHERE r.product_id = :productId "
                         + " ORDER BY r.modified_at DESC ";
 
@@ -46,13 +46,13 @@ public class ProductReviewDao {
         } else {
             query.setMaxResults(50);
         }
-        List list = query.getResultList();
+        List<?> list = query.getResultList();
 
-        return pageable == null ? new PageImpl(list) : new PageImpl(list, pageable, total);
+        return pageable == null ? new PageImpl<>(list) : new PageImpl<>(list, pageable, total);
     }
 
     //tính tổng sổ bình luận của sản phẩm
-    public int getTotalReviewByProductId(int productId) {
+    public int getTotalReviewByProductId(Long productId) {
         String strQuery =
                 " "
                         + "SELECT  count(*) "
