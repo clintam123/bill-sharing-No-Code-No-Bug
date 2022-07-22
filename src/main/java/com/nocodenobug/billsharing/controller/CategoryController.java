@@ -73,7 +73,7 @@ public class CategoryController {
 //    }
 
     @Operation(summary = "Update Image", description = "Update Image")
-    @PostMapping("/upadte-image/{category-id}")
+    @PostMapping("/update-image/{category-id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> updateImage(@PathVariable("category-id") Long categoryId, @RequestBody MultipartFile file) {
         return ResponseEntity.ok(DefaultResponse.success("Success", uploadCategoryImage.uploadCategoryImage(categoryId, file)));

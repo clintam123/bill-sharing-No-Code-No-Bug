@@ -80,8 +80,8 @@ public class ProductController {
     }
 
     @Operation(summary = "Thêm hình ảnh sản phẩm", description = "Thêm hình ảnh sản phẩm")
-    @PostMapping("/upload-image/{product-id}")
-    public ResponseEntity<?> uploadImage(
+    @PostMapping("/update-image/{product-id}")
+    public ResponseEntity<?> updateImage(
             @PathVariable("product-id") Long productId,
             @RequestBody MultipartFile file){
         return ResponseEntity.ok(DefaultResponse.success("Success", uploadProductImage.uploadProductImage(productId, file)));

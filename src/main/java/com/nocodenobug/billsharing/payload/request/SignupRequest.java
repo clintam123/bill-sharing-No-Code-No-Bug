@@ -31,9 +31,9 @@ public class SignupRequest {
     @JsonProperty("last_name")
     private String lastName;
 
-    @NotBlank
-    @JsonProperty("image_url")
-    private String imageUrl;
+//    @NotBlank
+//    @JsonProperty("image_url")
+//    private String imageUrl;
 
     @NotBlank
     private String provider;

@@ -4,7 +4,6 @@ import com.nocodenobug.billsharing.model.dto.UserDto;
 import com.nocodenobug.billsharing.payload.request.UserChangeInfoRequest;
 import com.nocodenobug.billsharing.payload.response.DefaultPagingResponse;
 import com.nocodenobug.billsharing.payload.response.DefaultResponse;
-import com.nocodenobug.billsharing.payload.response.SampleResponse;
 import com.nocodenobug.billsharing.service.user.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
