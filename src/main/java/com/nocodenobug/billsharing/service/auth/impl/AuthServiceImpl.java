@@ -27,6 +27,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Base64;
 import java.util.Objects;
 
 
@@ -82,12 +83,17 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public void changeMyPassword(ChangePasswordRequest userChangePassword) {
         UserDetailsImpl userDetails = CurrentUserUtils.getCurrentUserDetails();
-        Authentication authentication = authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(userDetails.getUsername(), userChangePassword.getCurrentPassword()));
+
+        if (!encoder.matches(userChangePassword.getCurrentPassword(), userDetails.getPasswordHash())){
+            throw new BadRequestException("Mật khẩu không đúng!");
+        }
+        if (Objects.equals(userChangePassword.getCurrentPassword(), userChangePassword.getNewPassword())) {
+            throw new BadRequestException("không thể đặt lại mật khẩu cũ!");
+        }
         if (!userChangePassword.getNewPassword().equals(userChangePassword.getNewPasswordConfirm())) {
             throw new BadRequestException("Xác nhận lại mật khẩu mới!");
         }
-        User user = userRepository.findById(userDetails.getId()).get();
+        User user = userRepository.getReferenceById(userDetails.getId());
         user.setPasswordHash(encoder.encode(userChangePassword.getNewPassword()));
         userRepository.save(user);
     }

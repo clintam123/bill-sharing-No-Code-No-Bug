@@ -1,7 +1,9 @@
 package com.nocodenobug.billsharing.controller;
 
+import com.nocodenobug.billsharing.payload.request.ChangePasswordRequest;
 import com.nocodenobug.billsharing.payload.request.LoginRequest;
 import com.nocodenobug.billsharing.payload.request.SignupRequest;
+import com.nocodenobug.billsharing.payload.response.DefaultResponse;
 import com.nocodenobug.billsharing.payload.response.SampleResponse;
 import com.nocodenobug.billsharing.payload.response.UserInfoResponse;
 import com.nocodenobug.billsharing.service.auth.AuthService;
@@ -49,5 +51,11 @@ public class AuthController {
         SampleResponse response = new SampleResponse(true, "Đăng xuất thành công!", null);
         return ResponseEntity.status(HttpStatus.ACCEPTED).header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
                 .body(response);
+    }
+
+    @PostMapping("/change-password")
+    public ResponseEntity<?> changePassword(@Validated @RequestBody ChangePasswordRequest userChangePassword) {
+        authService.changeMyPassword(userChangePassword);
+        return ResponseEntity.status(HttpStatus.OK).body(DefaultResponse.success("Đổi mật khẩu thành công!"));
     }
 }
