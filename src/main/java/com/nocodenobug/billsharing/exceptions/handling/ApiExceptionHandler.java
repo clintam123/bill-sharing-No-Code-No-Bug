@@ -3,6 +3,7 @@ package com.nocodenobug.billsharing.exceptions.handling;
 import com.nocodenobug.billsharing.exceptions.BadRequestException;
 import com.nocodenobug.billsharing.exceptions.NotFoundException;
 import com.nocodenobug.billsharing.exceptions.ProjectException;
+import com.nocodenobug.billsharing.exceptions.WrongFormatException;
 import com.nocodenobug.billsharing.payload.response.DefaultResponse;
 import com.nocodenobug.billsharing.payload.response.SampleResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -44,9 +45,15 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                 .build();
     }
 
+    @ExceptionHandler(value = WrongFormatException.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public DefaultResponse<?> handleWrongFormatException(WrongFormatException e) {
+        return this.handleProjectException(e);
+    }
+
     @ExceptionHandler(ProjectException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public DefaultResponse handleProjectException(ProjectException e) {
+    public DefaultResponse<?> handleProjectException(ProjectException e) {
         return DefaultResponse.error(e);
     }
 
