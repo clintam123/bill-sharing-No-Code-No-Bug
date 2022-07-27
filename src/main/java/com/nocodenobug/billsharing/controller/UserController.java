@@ -1,6 +1,7 @@
 package com.nocodenobug.billsharing.controller;
 
 import com.nocodenobug.billsharing.model.dto.UserDto;
+import com.nocodenobug.billsharing.model.entity.User;
 import com.nocodenobug.billsharing.payload.request.UserChangeInfoRequest;
 import com.nocodenobug.billsharing.payload.response.DefaultPagingResponse;
 import com.nocodenobug.billsharing.payload.response.DefaultResponse;
@@ -36,6 +37,9 @@ public class UserController {
     private GetUserService getUserService;
 
     @Autowired
+    private VerificationUserService verificationUserService;
+
+    @Autowired
     private UploadUserImage uploadUserImage;
 
     @Operation(summary = "Lấy tất cả User", description =
@@ -53,6 +57,18 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(DefaultPagingResponse.success(userDtoPage));
+
+    }
+    @Operation(summary = "Verification", description =
+            "Xác thực tài khoản "
+    )
+    @GetMapping("/{verificationCode}")
+    public ResponseEntity<?> Verification(
+            @PathVariable(name = "verificationCode") String verificationCode
+    ) {
+        UserDto userDto=verificationUserService.getUserByVerification(verificationCode);
+        userDto.setStatus(1);
+        return ResponseEntity.ok(DefaultResponse.success(createUserService.createUser(userDto)));
 
     }
 

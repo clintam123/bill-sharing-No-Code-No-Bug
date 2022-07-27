@@ -2,7 +2,7 @@ package com.nocodenobug.billsharing.controller;
 
 import com.nocodenobug.billsharing.model.dto.VendorDto;
 import com.nocodenobug.billsharing.payload.response.*;
-import com.nocodenobug.billsharing.service.VendorService.*;
+import com.nocodenobug.billsharing.service.vendor.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
