@@ -2,7 +2,10 @@ package com.nocodenobug.billsharing.service;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.nocodenobug.billsharing.exceptions.NotFoundException;
+import com.nocodenobug.billsharing.exceptions.WrongFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,10 +30,10 @@ public class CloudinaryService {
                 ));
                 return this.getUrlImage(uploadResult.get("public_id").toString());
             }else {
-                throw new IllegalArgumentException("File is not an image");
+                throw new WrongFormatException("File is not an image");
             }
-        } catch (IOException | IllegalArgumentException e) {
-            return null;
+        } catch (IOException e) {
+            throw new NotFoundException(HttpStatus.NOT_FOUND.value(), "File not found");
         }
     }
 

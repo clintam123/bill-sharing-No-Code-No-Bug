@@ -62,4 +62,10 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.ACCEPTED).header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
                 .body(response);
     }
+
+    @PostMapping("/change-password")
+    public ResponseEntity<?> changePassword(@Validated @RequestBody ChangePasswordRequest userChangePassword) {
+        authService.changeMyPassword(userChangePassword);
+        return ResponseEntity.status(HttpStatus.OK).body(DefaultResponse.success("Đổi mật khẩu thành công!"));
+    }
 }

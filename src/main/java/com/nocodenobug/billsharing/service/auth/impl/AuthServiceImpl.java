@@ -33,6 +33,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Base64;
 import java.util.Objects;
 
 
@@ -101,6 +102,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public void changeMyPassword(ChangePasswordRequest userChangePassword) {
         UserDetailsImpl userDetails = CurrentUserUtils.getCurrentUserDetails();
+
         if (!encoder.matches(userChangePassword.getCurrentPassword(), userDetails.getPasswordHash())){
             throw new BadRequestException("Mật khẩu không đúng!");
         }
