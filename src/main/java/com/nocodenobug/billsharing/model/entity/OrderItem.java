@@ -41,7 +41,10 @@ public class OrderItem {
     @JoinColumn(name = "order_id")
     private Order order;
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+//    @OneToOne
+//    @JoinColumn(name = "user_id")
+//    private User user;
+
+    @Column(name="user_id")
+    private Long userId;
 }

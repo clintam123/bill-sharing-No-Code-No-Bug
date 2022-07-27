@@ -35,7 +35,15 @@ public class OrderItemDto {
     @JsonProperty("product_id")
     private Long productId;
 
-    private User user;
+//    private User user;
+
+    @JsonProperty("user_id")
+    private Long userId;
+
+    private String username;
+
+    @JsonProperty("product_name")
+    private String productName;
 
 //    @JsonProperty("order_id")
 //    private Long orderId;

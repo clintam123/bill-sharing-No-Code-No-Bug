@@ -45,26 +45,20 @@ public class GroupOrderController {
     @PostMapping("")
     public ResponseEntity<?> checkLink(@Validated @RequestBody GroupLinkRequest link){
         System.out.println(link);
-//        return ResponseEntity.ok(SampleResponse.builder()
-//                .success(groupOrderService.checkLink(link))
-//                .message("Group link is valid")
-//                .data(link)
-//                .build()
-//        );
         return ResponseEntity.ok(groupOrderService.checkLink(link) ? DefaultResponse.success("Group link is valid", link) : DefaultResponse.error("Group link is invalid")
         );
     }
 
-    @MessageMapping("/add-order-item") // request sent to this url -> method is called
-    @SendTo("/topic/group-order/{userId}") // method return value sent to this url for all subscribers
-    public OrderItemDto sendOrderItem(OrderItemDto orderItemDto) {
+    @MessageMapping("/add-order-item/{link}") // request sent to this url -> method is called
+    @SendTo("/topic/group-order/{link}") // method return value sent to this url for all subscribers
+    public OrderItemDto sendOrderItem(OrderItemDto orderItemDto, @DestinationVariable String link) {
         System.out.println("add-order-item");
         return orderItemDto;
     }
 
     @MessageMapping("/delete-order-item/bill_sharing/{pubsub}") // request sent to this url -> method is called
 //    @SendTo("/topic/public") // method return value sent to this url for all subscribers
-    public void deleteOrderItem(@Payload Long id,@DestinationVariable String pubsub) {
+    public void deleteOrderItem(@Payload Long id, @DestinationVariable String pubsub) {
         OrderItemDto orderItemDto1=new OrderItemDto();
         orderItemDto1.setContent("aloalo");
         orderItemDto1.setId(Long.parseLong("1"));

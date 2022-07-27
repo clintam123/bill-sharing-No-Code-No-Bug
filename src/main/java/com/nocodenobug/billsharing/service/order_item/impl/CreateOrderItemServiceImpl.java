@@ -43,44 +43,8 @@ public class CreateOrderItemServiceImpl implements CreateOrderItemService {
     @Override
     public OrderItemDto createOrderItem(OrderItemDto orderItemDto) {
         OrderItem orderItem = modelMapper.map(orderItemDto, OrderItem.class);
-
-        Order orderOld = findByIdService.checkIdOrder(orderItemDto.getOrder().getId());
-        if (orderOld.getStatus() == OrderStatus.INACTIVE.getStatus()) {
-            throw new NotFoundException(HttpStatus.NOT_FOUND.value(), "Order khong ton tai");
-        }
-
-        Product productOld = findByIdService.checkIdProduct(orderItemDto.getProductId());
-
-        if (productOld != null) {
-                // tính tổng tiền
-                int quantity = orderItemDto.getQuantity();
-                double price = Double.parseDouble(productOld.getPrice() + "");
-
-                BigDecimal total = BigDecimal.valueOf(price * quantity);
-                orderItem.setTotal(total);
-                orderItem.setPrice(BigDecimal.valueOf(price));
-
-
-                // lưu thông tin OrderItem
-                OrderItem orderItem1 = orderItemRepository.save(orderItem);
-
-                // cập nhật lại số lượng trong product
-                int qtyProduct = productOld.getQuantity();
-                int qtyOrderItem = orderItem1.getQuantity();
-                int updateQuantity = qtyProduct - qtyOrderItem;
-                updateQuantityProduct(productOld.getId(), updateQuantity);
-
-                // thiết lập order
-                orderItem1.setOrder(orderOld);
-
-                // thiết lập tổng tiền order
-                updateOrderService.updateTotal(orderItemDto.getOrder().getId());
-
-
-                return modelMapper.map(orderItem1, OrderItemDto.class);
-        } else {
-            throw new NotFoundException(HttpStatus.NOT_FOUND.value(), "Sản phẩm không đủ số lượng");
-        }
+        orderItemRepository.save(orderItem);
+        return modelMapper.map(orderItem, OrderItemDto.class);
     }
 
     public Product updateQuantityProduct(Long id, Integer quantity) {
