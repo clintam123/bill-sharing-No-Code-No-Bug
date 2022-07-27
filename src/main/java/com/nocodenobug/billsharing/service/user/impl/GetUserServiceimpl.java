@@ -48,4 +48,14 @@ public class GetUserServiceimpl implements GetUserService {
         }
     }
 
+    @Override
+    public User finUserByEmail(String email) {
+        Optional<User> user=userRepository.findUserByEmail(email);
+        if (user.isPresent()){
+            return user.get();
+        }else {
+            throw new NotFoundException(HttpStatus.NOT_FOUND.value(), "Email user NotFound");
+        }
+    }
+
 }

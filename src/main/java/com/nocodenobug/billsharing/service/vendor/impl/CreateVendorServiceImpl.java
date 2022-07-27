@@ -1,9 +1,9 @@
-package com.nocodenobug.billsharing.service.VendorService.impl;
+package com.nocodenobug.billsharing.service.vendor.impl;
 
 import com.nocodenobug.billsharing.model.dto.VendorDto;
 import com.nocodenobug.billsharing.model.entity.Vendor;
 import com.nocodenobug.billsharing.repository.VendorRepository;
-import com.nocodenobug.billsharing.service.VendorService.CreateVendorService;
+import com.nocodenobug.billsharing.service.vendor.CreateVendorService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
