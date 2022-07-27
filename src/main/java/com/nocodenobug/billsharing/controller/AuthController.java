@@ -1,7 +1,9 @@
 package com.nocodenobug.billsharing.controller;
 
+import com.nocodenobug.billsharing.payload.request.ChangePasswordRequest;
 import com.nocodenobug.billsharing.payload.request.LoginRequest;
 import com.nocodenobug.billsharing.payload.request.SignupRequest;
+import com.nocodenobug.billsharing.payload.response.DefaultResponse;
 import com.nocodenobug.billsharing.payload.response.SampleResponse;
 import com.nocodenobug.billsharing.payload.response.UserInfoResponse;
 import com.nocodenobug.billsharing.service.auth.AuthService;
@@ -26,7 +28,11 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
-
+    @PostMapping("/change-password")
+    public ResponseEntity<?> changePassword(@Validated @RequestBody ChangePasswordRequest userChangePassword) {
+        authService.changeMyPassword(userChangePassword);
+        return ResponseEntity.status(HttpStatus.OK).body(DefaultResponse.success("Đổi mật khẩu thành công!"));
+    }
 
     @PostMapping("/login")
     public ResponseEntity<SampleResponse> loginUser(@Validated @RequestBody LoginRequest loginRequest) {

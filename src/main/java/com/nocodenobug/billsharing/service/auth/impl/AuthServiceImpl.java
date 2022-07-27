@@ -70,7 +70,6 @@ public class AuthServiceImpl implements AuthService {
                 userDetails.getEmail(), userDetails.getAuthorities().toString());
     }
 
-    @Transactional
     @Override
     public UserInfoResponse signUp(SignupRequest signupRequest) {
         System.out.println("signup");
@@ -98,17 +97,20 @@ public class AuthServiceImpl implements AuthService {
         System.out.println(newUser);
         return new UserInfoResponse(newUser.getId(), newUser.getUsername(), newUser.getEmail(), signupRequest.getRole());
     }
-    
+
     @Override
     public void changeMyPassword(ChangePasswordRequest userChangePassword) {
         UserDetailsImpl userDetails = CurrentUserUtils.getCurrentUserDetails();
-
-        Authentication authentication = authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(userDetails.getUsername(), userChangePassword.getCurrentPassword()));
+        if (!encoder.matches(userChangePassword.getCurrentPassword(), userDetails.getPasswordHash())){
+            throw new BadRequestException("Mật khẩu không đúng!");
+        }
+        if (Objects.equals(userChangePassword.getCurrentPassword(), userChangePassword.getNewPassword())) {
+            throw new BadRequestException("không thể đặt lại mật khẩu cũ!");
+        }
         if (!userChangePassword.getNewPassword().equals(userChangePassword.getNewPasswordConfirm())) {
             throw new BadRequestException("Xác nhận lại mật khẩu mới!");
         }
-        User user = userRepository.findById(userDetails.getId()).get();
+        User user = userRepository.getReferenceById(userDetails.getId());
         user.setPasswordHash(encoder.encode(userChangePassword.getNewPassword()));
         userRepository.save(user);
     }
