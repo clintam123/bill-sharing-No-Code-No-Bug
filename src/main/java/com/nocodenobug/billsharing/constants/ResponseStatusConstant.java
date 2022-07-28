@@ -1,8 +1,6 @@
 package com.nocodenobug.billsharing.constants;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
 public enum ResponseStatusConstant {

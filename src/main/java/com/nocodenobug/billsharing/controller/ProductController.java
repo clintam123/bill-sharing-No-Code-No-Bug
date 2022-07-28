@@ -1,6 +1,7 @@
 package com.nocodenobug.billsharing.controller;
 
 import com.nocodenobug.billsharing.model.dto.ProductDto;
+import com.nocodenobug.billsharing.payload.request.FilterRequest;
 import com.nocodenobug.billsharing.payload.response.*;
 import com.nocodenobug.billsharing.service.product.*;
 import io.swagger.v3.oas.annotations.Operation;
@@ -26,15 +27,17 @@ public class ProductController {
     private final DeleteProductService deleteService;
     private final GetProductsByCategoryTitle getProductsByCategoryTitle;
     private final UploadProductImage uploadProductImage;
+    private final GetProductByFilter getProductByFilterService;
 
     @Autowired
-    public ProductController(CreateProductService createService, GetProductByIdService getService, UpdateProductService updateService, DeleteProductService deleteService, GetProductsByCategoryTitle getProductsByCategoryTitle, UploadProductImage uploadProductImage) {
+    public ProductController(CreateProductService createService, GetProductByIdService getService, UpdateProductService updateService, DeleteProductService deleteService, GetProductsByCategoryTitle getProductsByCategoryTitle, UploadProductImage uploadProductImage, GetProductByFilter getProductByFilter) {
         this.createService = createService;
         this.getService = getService;
         this.updateService = updateService;
         this.deleteService = deleteService;
         this.getProductsByCategoryTitle = getProductsByCategoryTitle;
         this.uploadProductImage = uploadProductImage;
+        this.getProductByFilterService = getProductByFilter;
     }
 
     @Operation(summary = "Lấy tất cả sản phẩm theo tên thể loại", description =
@@ -80,10 +83,20 @@ public class ProductController {
     }
 
     @Operation(summary = "Thêm hình ảnh sản phẩm", description = "Thêm hình ảnh sản phẩm")
-    @PostMapping("/update-image/{product-id}")
+    @PostMapping(value = "/update-image/{product-id}", consumes = "multipart/form-data")
     public ResponseEntity<?> updateImage(
             @PathVariable("product-id") Long productId,
             @RequestBody MultipartFile file){
         return ResponseEntity.ok(DefaultResponse.success("Success", uploadProductImage.uploadProductImage(productId, file)));
+    }
+
+    @Operation(summary = "Lọc sản phẩm", description = "Filtering product by category, product group name and sort by rating or discounting")
+    @GetMapping("/product-filter")
+    public ResponseEntity<?> getProductByFilter(
+            @RequestParam("page") int page,
+            @RequestParam("page_size") int pageSize,
+            @RequestBody FilterRequest filters
+            ){
+        return ResponseEntity.ok(DefaultPagingResponse.success(getProductByFilterService.getProductByFilter(filters, page, pageSize)));
     }
 }

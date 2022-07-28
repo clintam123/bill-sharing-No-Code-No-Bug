@@ -51,6 +51,8 @@ public class VendorDto {
     @Column(name = "closing_time")
     private LocalTime closingTime;
 
+    private String logo;
+
     @JsonProperty("user_id")
     private Long userId;
 }

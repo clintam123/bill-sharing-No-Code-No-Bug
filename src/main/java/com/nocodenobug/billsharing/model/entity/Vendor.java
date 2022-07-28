@@ -46,6 +46,8 @@ public class Vendor {
 
     private String phone;
 
+    private String logo;
+
     @JsonProperty("user_id")
     @JoinColumn(name = "user_id")
     private Long userId;

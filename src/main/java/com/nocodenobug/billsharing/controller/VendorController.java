@@ -3,6 +3,7 @@ package com.nocodenobug.billsharing.controller;
 import com.nocodenobug.billsharing.model.dto.VendorDto;
 import com.nocodenobug.billsharing.payload.response.*;
 import com.nocodenobug.billsharing.service.vendor.*;
+import com.nocodenobug.billsharing.service.vendor.UploadVendorLogo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Tag(
         description = "vendor controller",
@@ -31,6 +33,10 @@ public class VendorController {
     private SearchVendorBySdtService searchVendorBySdtService;
     @Autowired
     private UpdateVendorService updateVendorService;
+    @Autowired
+    private GetProductOfVendor getProductOfVendor;
+    @Autowired
+    private UploadVendorLogo uploadVendorLogo;
     @Operation(summary = "Lấy tất cả vendor", description =
             "page: trang hiện tại (bắt đầu từ 0), page_size: số record trong trang hiện tại,"
                     )
@@ -89,5 +95,24 @@ public class VendorController {
     ){
         VendorDto vendorDto=searchVendorBySdtService.searchVendorBySdt(phone);
         return  ResponseEntity.ok(DefaultResponse.success(vendorDto));
+    }
+
+    @Operation(summary = "Danh sách món ăn của cửa hàng", description = "Lấy ra danh sách món ăn của cửa hàng")
+    @GetMapping("/vendor-product")
+    public ResponseEntity<?> getProductOfVendor(
+            @RequestParam("vendor_name") String vendorName,
+            @RequestParam(value = "page") int page,
+            @RequestParam(value = "page_size") int pageSize
+            ){
+        return ResponseEntity.ok(DefaultPagingResponse.success(getProductOfVendor.listProductOfVendor(vendorName, page, pageSize)));
+    }
+
+    @Operation(summary = "Upload logo cửa hàng", description = "Upload logo cửa hàng")
+    @PostMapping("/upload-logo/{vendor_id}")
+    public ResponseEntity<?> uploadVendorLogo(
+            @PathVariable("vendor_id") Long vendorId,
+            @RequestBody MultipartFile file
+            ){
+        return ResponseEntity.ok(DefaultResponse.success("Thay logo thanh cong", uploadVendorLogo.uploadLogo(vendorId, file)));
     }
 }

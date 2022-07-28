@@ -5,14 +5,11 @@ import com.nocodenobug.billsharing.constants.EmailConstants;
 import com.nocodenobug.billsharing.constants.FolderConstants;
 import com.nocodenobug.billsharing.constants.StatusConstants;
 import com.nocodenobug.billsharing.exceptions.BadRequestException;
-import com.nocodenobug.billsharing.exceptions.NotFoundException;
-import com.nocodenobug.billsharing.model.entity.Role;
 import com.nocodenobug.billsharing.model.entity.User;
 import com.nocodenobug.billsharing.payload.request.EmailDetails;
 import com.nocodenobug.billsharing.payload.request.LoginRequest;
 import com.nocodenobug.billsharing.payload.request.SignupRequest;
 import com.nocodenobug.billsharing.payload.response.UserInfoResponse;
-import com.nocodenobug.billsharing.repository.RoleRepository;
 import com.nocodenobug.billsharing.repository.UserRepository;
 import com.nocodenobug.billsharing.security.UserDetailsImpl;
 import com.nocodenobug.billsharing.service.auth.AuthService;
@@ -33,7 +30,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Base64;
 import java.util.Objects;
 
 
@@ -77,9 +73,9 @@ public class AuthServiceImpl implements AuthService {
         if (userRepository.existsByUsername(signupRequest.getUsername())) {
             throw new BadRequestException("Username đã được sử dụng!");
         }
-//        if (Objects.equals(signupRequest.getRole(), "ROLE_ADMIN")) {
-//            throw new AccessDeniedException("Không được phép tạo tài khoản admin!");
-//        }
+        if (Objects.equals(signupRequest.getRole(), "ROLE_ADMIN")) {
+            throw new AccessDeniedException("Không được phép tạo tài khoản admin!");
+        }
         User mapUser = modelMapper.map(signupRequest, User.class);
         mapUser.setPasswordHash(encoder.encode(signupRequest.getPassword()));
         mapUser.setImageUrl(cloudinary.url().generate(FolderConstants.AVATAR_DEFAULT_IMAGE_PUBLIC_ID));
@@ -129,6 +125,11 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public ResponseCookie cleanJwtCookie() {
         return jwtUtils.getCleanJwtCookie();
+    }
+
+    public boolean isLogin(){
+        UserDetailsImpl userDetails = CurrentUserUtils.getCurrentUserDetails();
+        return userDetails != null;
     }
 }
 

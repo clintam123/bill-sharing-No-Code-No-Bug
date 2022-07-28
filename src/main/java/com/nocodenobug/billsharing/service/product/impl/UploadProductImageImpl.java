@@ -2,12 +2,7 @@ package com.nocodenobug.billsharing.service.product.impl;
 
 import com.nocodenobug.billsharing.constants.FolderConstants;
 import com.nocodenobug.billsharing.exceptions.NotFoundException;
-import com.nocodenobug.billsharing.model.dto.CategoryDto;
-import com.nocodenobug.billsharing.model.dto.ProductDto;
-import com.nocodenobug.billsharing.model.dto.ProductGroupDto;
-import com.nocodenobug.billsharing.model.entity.Category;
 import com.nocodenobug.billsharing.model.entity.Product;
-import com.nocodenobug.billsharing.model.entity.ProductGroup;
 import com.nocodenobug.billsharing.repository.ProductRepository;
 import com.nocodenobug.billsharing.service.CloudinaryService;
 import com.nocodenobug.billsharing.service.category.GetCategoryByIdService;
@@ -15,13 +10,10 @@ import com.nocodenobug.billsharing.service.product.GetProductByIdService;
 import com.nocodenobug.billsharing.service.product.UploadProductImage;
 import com.nocodenobug.billsharing.service.product_group.GetProductGroupByIdService;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.time.LocalDateTime;
 
 @Service
 public class UploadProductImageImpl implements UploadProductImage {
