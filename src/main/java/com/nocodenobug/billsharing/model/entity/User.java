@@ -4,6 +4,7 @@ import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
@@ -26,16 +27,24 @@ public class User {
     @Column(name = "email")
     private String email;
 
+    private String imageUrl;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private AuthProvider provider;
+
+    private String providerId;
+
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
+
     public User(String username, String passwordHash, String email, Role role) {
         this.username = username;
         this.passwordHash = passwordHash;
         this.email = email;
         this.role = role;
     }
-
-    @ManyToOne
-    @JoinColumn(name = "role_id")
-    private Role role;
 
     public User() {
 
