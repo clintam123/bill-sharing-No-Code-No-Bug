@@ -1,20 +1,22 @@
+
 'use strict';
 var usernameForm = document.querySelector('#usernameForm');
+var login = document.querySelector('#loginForm');
 var pubsub;
 var linkpubsub;
 
 function getData(callback)
 {
-    fetch("/api/v1/group-order/get-group-link")
+    fetch("http://localhost:8080/api/v1/group-order/get-group-link")
         .then(response => response.json())
-        .then(data => data.link)
+        .then(data => pubsub=data['data']['link'])
         .then(callback)
 
 }
 function showData(link) {
-     pubsub=link;
-     // console.log(pubsub);
-
+//     pubsub=link;
+    console.log(pubsub);
+//
 }
 
 var stompClient = null;
@@ -23,20 +25,20 @@ var username = null;
 
 
 function connect(event) {
-     linkpubsub =document.getElementById("pubsub").value;
+    linkpubsub =document.getElementById("pubsub").value;
     //getLink
-        getData(showData);
-        var socket = new SockJS('/bill-sharing');
-        stompClient = Stomp.over(socket);
-        stompClient.connect({}, onConnected, onError);
-         event.preventDefault();
+    getData(showData);
+    var socket = new SockJS('/bill-sharing');
+    stompClient = Stomp.over(socket);
+    stompClient.connect({}, onConnected, onError);
+    event.preventDefault();
 }
 function onConnected() {
 
     if (linkpubsub==""){
-        stompClient.subscribe('/topic/public'+pubsub, onMessageReceived);
+        stompClient.subscribe('/topic/public/'+pubsub, onMessageReceived);
     }else {
-        stompClient.subscribe('/topic/public'+linkpubsub, onMessageReceived);
+        stompClient.subscribe('/topic/public/'+linkpubsub, onMessageReceived);
     }
 
 }
@@ -52,15 +54,38 @@ function onMessageReceived(payload){
     }
     // console.log(message.content)
 }
-const api_url="/app/delete-order-item";
+const api_url="/app/delete-order-item/";
 async function delData(id ) {
-    stompClient.send(api_url+pubsub, {}, JSON.stringify(id));
-    // document.getElementById("data").style.display = "none";
+    if (linkpubsub==""){
+        stompClient.send(api_url+pubsub, {}, JSON.stringify(id));
+        document.getElementById("data").style.display = "none";
+    }else {
+        stompClient.send(api_url+linkpubsub, {}, JSON.stringify(id));
+        document.getElementById("data").style.display = "none";
+    }
+
 }
 
 
 
 
+function login(event){
+    var account =
+        {
+            username: "admin",
+            password: "admin"
+        }
+    fetch("http://localhost:8080/api/v1/auth/login",{
+        method:"POST",
+        body:account
+    })
+        .then(response => response.json())
+        .then(response => console.log(response))
+    event.preventDefault();
+
+}
+login.addEventListener('submit',login,true)
 
 
 usernameForm.addEventListener('submit', connect, true)
+

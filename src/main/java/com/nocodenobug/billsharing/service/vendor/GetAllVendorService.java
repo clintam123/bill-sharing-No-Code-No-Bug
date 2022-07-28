@@ -1,4 +1,4 @@
-package com.nocodenobug.billsharing.service.VendorService;
+package com.nocodenobug.billsharing.service.vendor;
 
 import com.nocodenobug.billsharing.model.dto.VendorDto;
 import org.springframework.data.domain.Page;

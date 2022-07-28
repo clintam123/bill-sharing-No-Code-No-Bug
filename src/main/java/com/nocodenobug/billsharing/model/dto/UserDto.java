@@ -56,5 +56,7 @@ public class UserDto {
     private String imageUrl;
 
     private String provider;
+    private String verificationCode;
+    private Integer status;
 
 }

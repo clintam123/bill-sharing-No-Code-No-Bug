@@ -7,6 +7,7 @@ import com.nocodenobug.billsharing.payload.response.DefaultResponse;
 import com.nocodenobug.billsharing.payload.response.SampleResponse;
 import com.nocodenobug.billsharing.payload.response.UserInfoResponse;
 import com.nocodenobug.billsharing.service.auth.AuthService;
+import com.nocodenobug.billsharing.service.email.SendEmailService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -33,15 +34,18 @@ public class AuthController {
         ResponseCookie jwtCookie = authService.generateJwtCookie();
         userLoginResponse.setAccessToken(jwtCookie.getValue());
         SampleResponse response = new SampleResponse(true, "Đăng nhập thành công!", userLoginResponse);
+
         return ResponseEntity.status(HttpStatus.OK).header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
                 .body(response);
     }
 
     @PostMapping("/signup")
     public ResponseEntity<SampleResponse> signUpUser(@Validated @RequestBody SignupRequest signUpRequest) {
+
         UserInfoResponse userRegisterResponse = authService.signUp(signUpRequest);
 
         SampleResponse response = new SampleResponse(true, "Đăng ký thành công!", userRegisterResponse);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 

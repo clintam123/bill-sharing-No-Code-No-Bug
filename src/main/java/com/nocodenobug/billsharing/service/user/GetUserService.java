@@ -1,6 +1,7 @@
 package com.nocodenobug.billsharing.service.user;
 
 import com.nocodenobug.billsharing.model.dto.UserDto;
+import com.nocodenobug.billsharing.model.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
@@ -11,4 +12,6 @@ public interface GetUserService {
     UserDto getById(Long id);
 
     UserDto findUserBySdt(String sdt);
+
+    User finUserByEmail(String email);
 }

@@ -41,6 +41,8 @@ public class User {
     @Column(name = "image_url")
     private String imageUrl;
 
+    private Integer status;
+    private String verificationCode;
     private String provider;
 
 

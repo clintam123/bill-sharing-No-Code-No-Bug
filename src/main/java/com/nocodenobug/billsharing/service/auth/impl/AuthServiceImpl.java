@@ -1,11 +1,14 @@
 package com.nocodenobug.billsharing.service.auth.impl;
 
 import com.cloudinary.Cloudinary;
+import com.nocodenobug.billsharing.constants.EmailConstants;
 import com.nocodenobug.billsharing.constants.FolderConstants;
+import com.nocodenobug.billsharing.constants.StatusConstants;
 import com.nocodenobug.billsharing.exceptions.BadRequestException;
 import com.nocodenobug.billsharing.exceptions.NotFoundException;
 import com.nocodenobug.billsharing.model.entity.Role;
 import com.nocodenobug.billsharing.model.entity.User;
+import com.nocodenobug.billsharing.payload.request.EmailDetails;
 import com.nocodenobug.billsharing.payload.request.LoginRequest;
 import com.nocodenobug.billsharing.payload.request.SignupRequest;
 import com.nocodenobug.billsharing.payload.response.UserInfoResponse;
@@ -14,8 +17,10 @@ import com.nocodenobug.billsharing.repository.UserRepository;
 import com.nocodenobug.billsharing.security.UserDetailsImpl;
 import com.nocodenobug.billsharing.service.auth.AuthService;
 import com.nocodenobug.billsharing.payload.request.ChangePasswordRequest;
+import com.nocodenobug.billsharing.service.email.SendEmailService;
 import com.nocodenobug.billsharing.utils.CurrentUserUtils;
 import com.nocodenobug.billsharing.utils.JwtUtils;
+import net.bytebuddy.utility.RandomString;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseCookie;
@@ -26,6 +31,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Base64;
 import java.util.Objects;
@@ -51,6 +57,9 @@ public class AuthServiceImpl implements AuthService {
     @Autowired
     private JwtUtils jwtUtils;
 
+    @Autowired
+    private SendEmailService sendEmailService;
+
     @Override
     public UserInfoResponse login(LoginRequest loginRequest) {
         Authentication authentication = authenticationManager
@@ -74,9 +83,19 @@ public class AuthServiceImpl implements AuthService {
         User mapUser = modelMapper.map(signupRequest, User.class);
         mapUser.setPasswordHash(encoder.encode(signupRequest.getPassword()));
         mapUser.setImageUrl(cloudinary.url().generate(FolderConstants.AVATAR_DEFAULT_IMAGE_PUBLIC_ID));
-        System.out.println(mapUser);
-        User newUser = userRepository.save(mapUser);
 
+        String randomCode = RandomString.make(32);
+        mapUser.setVerificationCode(randomCode);
+
+        EmailDetails emailDetails=new EmailDetails();
+        emailDetails.setRecipient(signupRequest.getEmail());
+        emailDetails.setSubject(String.valueOf(EmailConstants.SUBJECT));
+        emailDetails.setMsgBody("http://localhost:8080/api/v1/user/"+mapUser.getVerificationCode());
+
+        sendEmailService.sendSimpleMail(emailDetails);
+        mapUser.setStatus(StatusConstants.INACTIVE.getValue());
+        User newUser = userRepository.save(mapUser);
+        System.out.println(newUser);
         return new UserInfoResponse(newUser.getId(), newUser.getUsername(), newUser.getEmail(), signupRequest.getRole());
     }
 

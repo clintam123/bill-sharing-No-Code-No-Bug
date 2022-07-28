@@ -1,16 +1,26 @@
 package com.nocodenobug.billsharing.controller;
 
+import com.nocodenobug.billsharing.constants.EmailConstants;
+import com.nocodenobug.billsharing.exceptions.BadRequestException;
 import com.nocodenobug.billsharing.model.dto.UserDto;
+import com.nocodenobug.billsharing.model.entity.User;
+import com.nocodenobug.billsharing.payload.request.EmailDetails;
 import com.nocodenobug.billsharing.payload.request.UserChangeInfoRequest;
 import com.nocodenobug.billsharing.payload.response.DefaultPagingResponse;
 import com.nocodenobug.billsharing.payload.response.DefaultResponse;
+import com.nocodenobug.billsharing.repository.UserRepository;
+import com.nocodenobug.billsharing.service.email.SendEmailService;
 import com.nocodenobug.billsharing.service.user.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -36,7 +46,19 @@ public class UserController {
     private GetUserService getUserService;
 
     @Autowired
+    private VerificationUserService verificationUserService;
+
+    @Autowired
     private UploadUserImage uploadUserImage;
+
+    @Autowired
+    private SendEmailService sendEmailService;
+
+    @Autowired
+    private PasswordEncoder encoder;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Operation(summary = "Lấy tất cả User", description =
             "page: trang hiện tại (bắt đầu từ 0), page_size: số record trong trang hiện tại,"
@@ -54,6 +76,32 @@ public class UserController {
         }
         return ResponseEntity.ok(DefaultPagingResponse.success(userDtoPage));
 
+    }
+    @Operation(summary = "Verification", description =
+            "Xác thực tài khoản "
+    )
+    @GetMapping("/{verificationCode}")
+    public ResponseEntity<?> Verification(
+            @PathVariable(name = "verificationCode") String verificationCode
+    ) {
+        UserDto userDto=verificationUserService.getUserByVerification(verificationCode);
+        userDto.setStatus(1);
+        return ResponseEntity.ok(DefaultResponse.success(createUserService.createUser(userDto)));
+
+    }
+    @GetMapping("/forgot-password/{email}")
+    public ResponseEntity<?> forgot(@PathVariable (name = "email") String email){
+        User user=getUserService.finUserByEmail(email);
+        String newPassword=RandomString.make(32);
+        user.setPasswordHash(encoder.encode(newPassword));
+        EmailDetails emailDetails=new EmailDetails();
+        emailDetails.setRecipient(email);
+        emailDetails.setSubject(String.valueOf(EmailConstants.SUBJECT));
+
+        emailDetails.setMsgBody("Your password:"+newPassword);
+        sendEmailService.sendSimpleMail(emailDetails);
+
+        return   ResponseEntity.ok(DefaultResponse.success(userRepository.save(user)));
     }
 
     @Operation(summary = "Lấy user theo Id", description = "Lấy user theo Id")
