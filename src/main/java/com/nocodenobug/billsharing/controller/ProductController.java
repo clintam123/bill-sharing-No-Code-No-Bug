@@ -30,7 +30,8 @@ public class ProductController {
     private final GetProductByFilter getProductByFilterService;
 
     @Autowired
-    public ProductController(CreateProductService createService, GetProductByIdService getService, UpdateProductService updateService, DeleteProductService deleteService, GetProductsByCategoryTitle getProductsByCategoryTitle, UploadProductImage uploadProductImage, GetProductByFilter getProductByFilter) {
+    public ProductController(CreateProductService createService, GetProductByIdService getService, UpdateProductService updateService, DeleteProductService deleteService,
+                             GetProductsByCategoryTitle getProductsByCategoryTitle, UploadProductImage uploadProductImage, GetProductByFilter getProductByFilter) {
         this.createService = createService;
         this.getService = getService;
         this.updateService = updateService;

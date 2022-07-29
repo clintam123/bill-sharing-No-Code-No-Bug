@@ -54,9 +54,9 @@ public class UserDto {
 
     @JsonProperty("image_url")
     private String imageUrl;
-
     private String provider;
     private String verificationCode;
     private Integer status;
+
 
 }

@@ -1,14 +1,18 @@
 package com.nocodenobug.billsharing.model.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+
 
 @Entity
 @Data
-
+@NoArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +24,6 @@ public class User {
     @Column(name = "registered_at")
     @CreationTimestamp
     private LocalDateTime registeredAt;
-
 
     @Column(name = "password_hash")
     private String passwordHash;
@@ -43,7 +46,20 @@ public class User {
 
     private Integer status;
     private String verificationCode;
-    private String provider;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private AuthProvider provider;
+    private String providerId;
+
+
+    public User(String username, String passwordHash, String email, String role, String providerId) {
+        this.username = username;
+        this.passwordHash = passwordHash;
+        this.email = email;
+        this.role = role;
+        this.providerId = providerId;
+    }
 
 
 }

@@ -10,4 +10,5 @@ public class FolderConstants {
     public static final String CATEGORY_IMAGE_FOLDER = IMAGE_FOLDER + "/categories";
     public static final String VENDOR_LOGO_FOLDER = IMAGE_FOLDER + "/vendors";
     public static final String VENDOR_DEFAULT_LOGO_PUBLIC_ID = VENDOR_LOGO_FOLDER + "/default-logo";
+
 }

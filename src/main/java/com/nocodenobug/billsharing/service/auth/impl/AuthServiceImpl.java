@@ -30,6 +30,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Base64;
 import java.util.Objects;
 
 
@@ -76,6 +77,7 @@ public class AuthServiceImpl implements AuthService {
         if (Objects.equals(signupRequest.getRole(), "ROLE_ADMIN")) {
             throw new AccessDeniedException("Không được phép tạo tài khoản admin!");
         }
+
         User mapUser = modelMapper.map(signupRequest, User.class);
         mapUser.setPasswordHash(encoder.encode(signupRequest.getPassword()));
         mapUser.setImageUrl(cloudinary.url().generate(FolderConstants.AVATAR_DEFAULT_IMAGE_PUBLIC_ID));
