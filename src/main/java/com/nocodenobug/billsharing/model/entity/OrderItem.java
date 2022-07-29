@@ -22,6 +22,7 @@ public class OrderItem {
     private Integer quantity;
     private String content;
     private BigDecimal total;
+    private BigDecimal price;
 
     @Column(name = "created_at")
     @CreationTimestamp
@@ -35,15 +36,15 @@ public class OrderItem {
     @Column(name = "product_id")
     private Long productId;
 
-//    @JsonProperty("order_id")
-//    @Column(name = "order_id")
-//    private Long orderId;
 
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;
 
-    @OneToOne
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
+//    @OneToOne
+//    @JoinColumn(name = "user_id")
+//    private User user;
+
+    @Column(name="user_id")
+    private Long userId;
 }

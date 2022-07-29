@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
         description = "Order resources that provides access to available Order data",
         name = "Order Resource")
 @RestController
-@RequestMapping("/api/v1.0/order")
+@RequestMapping("/api/v1/order")
 public class OrderController {
 
     @Autowired
@@ -77,8 +77,8 @@ public class OrderController {
             @RequestParam(value = "page") int page,
             @RequestParam(value = "page_size") int page_size
     ){
-        Page<OrderDto> orderDtos = getOrderService.findAllByCustomerId(id,page,page_size);
-        return ResponseEntity.ok(DefaultPagingResponse.success(orderDtos));
+        Page<OrderDto> orderDto = getOrderService.findAllByUserId(id,page,page_size);
+        return ResponseEntity.ok(DefaultPagingResponse.success(orderDto));
     }
 
     @Operation(summary = "Delete Order", description = "Delete order with id")

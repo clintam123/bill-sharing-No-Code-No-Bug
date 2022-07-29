@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.nocodenobug.billsharing.model.entity.Admin;
 import lombok.Data;
 
+import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -18,7 +19,10 @@ public class CategoryDto {
     private String code;
 
     //private Admin admin;
-    @JsonProperty("admin_id")
-    private Long adminId;
+    @JsonProperty("user_id")
+    private Long userId;
+
+    @JsonProperty("image_url")
+    private String imageUrl;
 
 }

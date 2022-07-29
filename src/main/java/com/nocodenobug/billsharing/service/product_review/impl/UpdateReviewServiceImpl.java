@@ -15,11 +15,15 @@ import java.util.Optional;
 
 @Service
 public class UpdateReviewServiceImpl implements UpdateReviewService {
+    private final ProductReviewRepository productReviewRepository;
+
     @Autowired
-    private ProductReviewRepository productReviewRepository;
+    public UpdateReviewServiceImpl(ProductReviewRepository productReviewRepository) {
+        this.productReviewRepository = productReviewRepository;
+    }
 
     @Override
-    public ProductReviewDto updateReview(int reviewId, ProductReviewDto review) {
+    public ProductReviewDto updateReview(Long reviewId, ProductReviewDto review) {
         Optional<ProductReview> productReview = productReviewRepository.findById(reviewId);
         if (productReview.isPresent()) {
             ProductReview product = productReview.get();

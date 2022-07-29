@@ -27,6 +27,9 @@ public class GetProductByIdServiceImpl implements GetProductByIdService {
         Product product = productRepository.findById(id).orElseThrow(
                 () -> new NotFoundException(HttpStatus.NOT_FOUND.value(), "Product with id" + id + " Not Found")
         );
-        return modelMapper.map(product, ProductDto.class);
+        ProductDto productDto = modelMapper.map(product, ProductDto.class);
+        productDto.setCategoryId(product.getCategory().getId());
+        productDto.setProductGroupId(product.getProductGroup().getId());
+        return productDto;
     }
 }

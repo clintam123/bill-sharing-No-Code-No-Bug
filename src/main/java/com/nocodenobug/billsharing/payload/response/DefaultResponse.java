@@ -21,6 +21,21 @@ public class DefaultResponse<T> {
         return response;
     }
 
+    public static <T> DefaultResponse<T> success(String message) {
+        DefaultResponse<T> response = new DefaultResponse<>();
+        response.setStatus(ResponseStatusConstant.SUCCESS.getCode());
+        response.setMessage(message);
+        return response;
+    }
+
+    public static <T> DefaultResponse<T> success(String message, T body) {
+        DefaultResponse<T> response = new DefaultResponse<>();
+        response.setStatus(ResponseStatusConstant.SUCCESS.getCode());
+        response.setMessage(message);
+        response.setData(body);
+        return response;
+    }
+
     public static <T> DefaultResponse<T> error(ProjectException e) {
         DefaultResponse<T> response = new DefaultResponse<>();
         response.setStatus(e.getCode());

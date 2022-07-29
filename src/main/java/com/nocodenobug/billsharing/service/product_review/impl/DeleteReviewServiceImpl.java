@@ -12,11 +12,15 @@ import java.util.Optional;
 
 @Service
 public class DeleteReviewServiceImpl implements DeleteReviewService {
+    private final ProductReviewRepository productReviewRepository;
+
     @Autowired
-    private ProductReviewRepository productReviewRepository;
+    public DeleteReviewServiceImpl(ProductReviewRepository productReviewRepository) {
+        this.productReviewRepository = productReviewRepository;
+    }
 
     @Override
-    public Boolean deleteReview(int reviewId) {
+    public Boolean deleteReview(Long reviewId) {
         productReviewRepository.deleteById(reviewId);
         Optional<ProductReview> product = productReviewRepository.findById(reviewId);
         product.map(productReview -> new ObjectNotFoundException(ResponseStatusConstant.NOT_FOUND_REVIEW));

@@ -1,10 +1,13 @@
 package com.nocodenobug.billsharing.controller;
 
+import com.nocodenobug.billsharing.payload.request.ChangePasswordRequest;
 import com.nocodenobug.billsharing.payload.request.LoginRequest;
 import com.nocodenobug.billsharing.payload.request.SignupRequest;
+import com.nocodenobug.billsharing.payload.response.DefaultResponse;
 import com.nocodenobug.billsharing.payload.response.SampleResponse;
 import com.nocodenobug.billsharing.payload.response.UserInfoResponse;
 import com.nocodenobug.billsharing.service.auth.AuthService;
+import com.nocodenobug.billsharing.service.email.SendEmailService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -29,16 +32,20 @@ public class AuthController {
     public ResponseEntity<SampleResponse> loginUser(@Validated @RequestBody LoginRequest loginRequest) {
         UserInfoResponse userLoginResponse = authService.login(loginRequest);
         ResponseCookie jwtCookie = authService.generateJwtCookie();
+        userLoginResponse.setAccessToken(jwtCookie.getValue());
         SampleResponse response = new SampleResponse(true, "Đăng nhập thành công!", userLoginResponse);
+
         return ResponseEntity.status(HttpStatus.OK).header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
                 .body(response);
     }
 
     @PostMapping("/signup")
     public ResponseEntity<SampleResponse> signUpUser(@Validated @RequestBody SignupRequest signUpRequest) {
+
         UserInfoResponse userRegisterResponse = authService.signUp(signUpRequest);
 
         SampleResponse response = new SampleResponse(true, "Đăng ký thành công!", userRegisterResponse);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
@@ -49,5 +56,11 @@ public class AuthController {
         SampleResponse response = new SampleResponse(true, "Đăng xuất thành công!", null);
         return ResponseEntity.status(HttpStatus.ACCEPTED).header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
                 .body(response);
+    }
+
+    @PostMapping("/change-password")
+    public ResponseEntity<?> changePassword(@Validated @RequestBody ChangePasswordRequest userChangePassword) {
+        authService.changeMyPassword(userChangePassword);
+        return ResponseEntity.status(HttpStatus.OK).body(DefaultResponse.success("Đổi mật khẩu thành công!"));
     }
 }

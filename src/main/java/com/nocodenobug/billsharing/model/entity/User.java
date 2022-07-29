@@ -1,14 +1,18 @@
 package com.nocodenobug.billsharing.model.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
+
 @Entity
 @Data
+@NoArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,15 +20,23 @@ public class User {
 
     @Column(name = "username")
     private String username;
-    @Column(name = "password_hash")
-    private String passwordHash;
 
     @Column(name = "registered_at")
     @CreationTimestamp
     private LocalDateTime registeredAt;
-//    @Column(name = "last_login")
-//    private LocalDateTime lastLogin;
-    @Column(name = "email")
+
+    @Column(name = "password_hash")
+    private String passwordHash;
+
+
+    @Column(name = "first_name")
+    private String firstName;
+
+    @Column(name = "last_name")
+    private String lastName;
+
+    private String phone;
+
     private String email;
 
     private String imageUrl;
@@ -33,20 +45,19 @@ public class User {
     @Enumerated(EnumType.STRING)
     private AuthProvider provider;
 
+    private String role;
     private String providerId;
 
-    @ManyToOne
-    @JoinColumn(name = "role_id")
-    private Role role;
+    private Integer status;
+    private String verificationCode;
 
-    public User(String username, String passwordHash, String email, Role role) {
+    public User(String username, String passwordHash, String email, String role,String providerId) {
         this.username = username;
         this.passwordHash = passwordHash;
         this.email = email;
         this.role = role;
+        this.providerId = providerId;
     }
 
-    public User() {
 
-    }
 }

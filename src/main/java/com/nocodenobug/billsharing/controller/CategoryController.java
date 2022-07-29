@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Tag(
    description = "Category controller",
@@ -18,20 +19,20 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/category")
 public class CategoryController {
-
-
     private final CreateCategoryService createCategoryService;
     private final DeleteCategoryService deleteCategoryService;
     private final GetAllCategoriesService getAllCategoriesService;
     private final GetCategoryByIdService getCategoryByIdService;
     private final UpdateCategoryService updateCategoryService;
+    private final UploadCategoryImage uploadCategoryImage;
 
-    public CategoryController(CreateCategoryService createCategoryService, DeleteCategoryService deleteCategoryService, GetAllCategoriesService getAllCategoriesService, GetCategoryByIdService getCategoryByIdService, UpdateCategoryService updateCategoryService) {
+    public CategoryController(CreateCategoryService createCategoryService, DeleteCategoryService deleteCategoryService, GetAllCategoriesService getAllCategoriesService, GetCategoryByIdService getCategoryByIdService, UpdateCategoryService updateCategoryService, UploadCategoryImage uploadCategoryImage) {
         this.createCategoryService = createCategoryService;
         this.deleteCategoryService = deleteCategoryService;
         this.getAllCategoriesService = getAllCategoriesService;
         this.getCategoryByIdService = getCategoryByIdService;
         this.updateCategoryService = updateCategoryService;
+        this.uploadCategoryImage = uploadCategoryImage;
     }
 
     @Operation(summary = "Lấy tất cả category", description =
@@ -63,17 +64,18 @@ public class CategoryController {
         return ResponseEntity.ok(DefaultResponse.success(updateCategoryService.updateCategory(id, categoryDto)));
     }
 
-    @Operation(summary = "Xóa thể loại", description = "Xóa thể loại")
-    @DeleteMapping("/{id}")
+//    @Operation(summary = "Xóa thể loại", description = "Xóa thể loại")
+//    @DeleteMapping("/{id}")
+//    @PreAuthorize("hasRole('ADMIN')")
+//    public ResponseEntity<?> delete(@PathVariable Long id) {
+//        deleteCategoryService.deleteCategory(id);
+//        return ResponseEntity.ok(DefaultResponse.success("Delete category success"));
+//    }
+
+    @Operation(summary = "Update Image", description = "Update Image")
+    @PostMapping("/update-image/{category-id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<SampleResponse> delete(@PathVariable Long id) {
-        deleteCategoryService.deleteCategory(id);
-        return ResponseEntity.ok(
-                SampleResponse.builder()
-                        .success(true)
-                        .message("Success")
-                        .data(null)
-                        .build()
-        );
+    public ResponseEntity<?> updateImage(@PathVariable("category-id") Long categoryId, @RequestBody MultipartFile file) {
+        return ResponseEntity.ok(DefaultResponse.success("Success", uploadCategoryImage.uploadCategoryImage(categoryId, file)));
     }
 }

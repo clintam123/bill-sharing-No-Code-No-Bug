@@ -2,7 +2,7 @@ package com.nocodenobug.billsharing.controller;
 
 import com.nocodenobug.billsharing.model.dto.VendorDto;
 import com.nocodenobug.billsharing.payload.response.*;
-import com.nocodenobug.billsharing.service.VendorService.*;
+import com.nocodenobug.billsharing.service.vendor.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,21 +67,21 @@ public class VendorController {
     public ResponseEntity<?> updateVendor(@PathVariable Long id,@Validated @RequestBody VendorDto vendorDto){
         return ResponseEntity.ok(DefaultResponse.success(updateVendorService.updateVendor(id,vendorDto)));
     }
-    @Operation(summary = "Xóa vendor", description = "Xóa vendor")
-    @DeleteMapping("/delete-vendor/{id}")
-    @PreAuthorize("hasRole('VENDOR')")
-    public ResponseEntity<?> deleteCustomer(
-            @PathVariable Long id
-    ){
-
-        deleteVendorService.deleteVendor(id);
-        return ResponseEntity.ok(SampleResponse.builder()
-                 .success(true)
-                 .message("delete vendor success")
-                 .data("")
-                 .build()
-                );
-    }
+//    @Operation(summary = "Xóa vendor", description = "Xóa vendor")
+//    @DeleteMapping("/delete-vendor/{id}")
+//    @PreAuthorize("hasRole('VENDOR')")
+//    public ResponseEntity<?> deleteCustomer(
+//            @PathVariable Long id
+//    ){
+//
+//        deleteVendorService.deleteVendor(id);
+//        return ResponseEntity.ok(SampleResponse.builder()
+//                 .success(true)
+//                 .message("delete vendor success")
+//                 .data("")
+//                 .build()
+//                );
+//    }
     @Operation(summary = "Tìm kiếm vendor theo SDT", description = "Tìm kiếm vendor theo SDT")
     @GetMapping("/search-vendorByPhone/{phone}")
     public ResponseEntity<?> searchVendorByPhone(

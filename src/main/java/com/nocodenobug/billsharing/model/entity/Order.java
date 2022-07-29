@@ -25,7 +25,6 @@ public class Order {
 
     private Integer status;
     private Float shipping;
-    private BigDecimal total;
     private Float discount;
     private BigDecimal grandTotal;
 
@@ -41,18 +40,10 @@ public class Order {
     @Column(name = "vendor_id")
     private Long vendorId;
 
-    @JsonProperty("customer_id")
-    @Column(name = "customer_id")
-    private Long customerId;
+    @JsonProperty("user_id")
+    @Column(name = "user_id")
+    private Long userId;
 
-//    @ManyToOne
-//    @JoinColumn(name = "vendor_id")
-//    private Vendor vendor;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "customer_id")
-//    private Customer customer;
-//
     @JsonIgnore
     @OneToMany(mappedBy = "order")
     private List<OrderItem> orderItems;

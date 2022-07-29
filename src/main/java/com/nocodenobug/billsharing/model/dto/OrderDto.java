@@ -26,13 +26,14 @@ public class OrderDto {
     private Long id;
     private Integer status;
 
-    @Min(value = 1,message = "Tiến shipping phải lớn hơn không")
+    @Min(value = 1,message = "Tiền shipping phải lớn hơn không")
     private Float shipping;
 
-    private BigDecimal total;
 
-    @Min(value = 1,message = "Tiến discount phải lớn hơn không")
+    @Min(value = 1,message = "Tiền discount phải lớn hơn không")
     private Float discount;
+
+    @JsonProperty("grandTotal")
     private BigDecimal grandTotal;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -40,9 +41,9 @@ public class OrderDto {
     @JsonProperty("vendor_id")
     private Long vendorId;
 
-    @JsonProperty("customer_id")
-    private Long customerId;
+    @JsonProperty("user_id")
+    private Long userId;
 
     @JsonProperty("order_items")
-    private List<OrderItem> orderItems;
+    private List<OrderItemDto> orderItems;
 }

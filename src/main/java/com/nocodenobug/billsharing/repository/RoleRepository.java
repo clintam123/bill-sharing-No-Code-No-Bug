@@ -1,6 +1,5 @@
 package com.nocodenobug.billsharing.repository;
 
-import com.nocodenobug.billsharing.constants.ERole;
 import com.nocodenobug.billsharing.model.entity.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 

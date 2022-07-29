@@ -22,6 +22,7 @@ public class ProductDto {
     @Positive(message = "Số lượng sản phẩm phải lớn hơn 0")
     private int quantity;
 
+    private String image_url;
     @JsonProperty("category_id")
     private Long categoryId;
     @JsonProperty("product_group_id")

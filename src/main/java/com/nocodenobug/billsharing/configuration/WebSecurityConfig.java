@@ -85,8 +85,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/webjars/**",
             // -- Swagger UI v3 (OpenAPI)
             "/v3/api-docs/**",
-            "/swagger-ui/**"
+            "/swagger-ui/**",
             // other public endpoints of your API may be appended to this array
+            "/ws/**",
     };
 
     @Override
@@ -138,13 +139,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .failureHandler(oAuth2AuthenticationFailureHandler);
         ;
 
+//                .antMatchers("/api/v1/auth/**").permitAll()
+////                .antMatchers("/api/**").permitAll()
+//                .antMatchers(AUTH_WHITELIST).permitAll()
+//                .antMatchers("/ws/**").permitAll()
+//                .antMatchers("/api/v1/**").authenticated();
+
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
     }
 
-//    @Override
-//    public void configure(WebSecurity web) throws Exception {
-//        web.ignoring().antMatchers("/swagger-ui/index.html");
-//    }
 }

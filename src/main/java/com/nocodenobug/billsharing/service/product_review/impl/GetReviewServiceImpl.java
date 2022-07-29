@@ -11,13 +11,16 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class GetReviewServiceImpl implements GetReviewService {
+    private final ProductReviewDao productReviewDao;
 
     @Autowired
-    private ProductReviewDao productReviewDao;
+    public GetReviewServiceImpl(ProductReviewDao productReviewDao) {
+        this.productReviewDao = productReviewDao;
+    }
 
     @Override
-    public Page getReviewsOfProduct(int productId, int page, int pageSize) {
-        Page reviews = productReviewDao.getUserWithReviewByProductId(productId, PageRequest.of(page, pageSize));
+    public Page<?> getReviewsOfProduct(Long productId, int page, int pageSize) {
+        Page<?> reviews = productReviewDao.getUserWithReviewByProductId(productId, PageRequest.of(page, pageSize));
         if (reviews.isEmpty()) {
             throw new ObjectNotFoundException(ResponseStatusConstant.NO_MORE_COMMENT);
         }

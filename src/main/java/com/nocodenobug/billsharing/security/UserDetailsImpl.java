@@ -33,7 +33,7 @@ public class UserDetailsImpl implements OAuth2User, UserDetails {
     }
 
     public static UserDetailsImpl build(User user){
-        List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(user.getRole().getName()));
+        List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(user.getRole()));
         return new UserDetailsImpl(
                 user.getId(),
                 user.getUsername(),

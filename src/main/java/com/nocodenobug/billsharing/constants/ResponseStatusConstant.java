@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 public enum ResponseStatusConstant {
     COMMON_FAIL(0, "Hệ thống đang gặp sự cố vui lòng thử lại sau."),
+    FAIL(0, "Thất bại"),
     SUCCESS(1, "Thành công."),
 
     NOT_FOUND_PRODUCT_REVIEW(100, "Sản phẩm chưa có đánh giá nào"),

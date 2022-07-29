@@ -9,17 +9,17 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @SqlResultSetMapping(
-    name = "CustomerReviewDto",
-    classes =
+        name = "CustomerReviewDto",
+        classes =
         @ConstructorResult(
-            targetClass = CustomerReviewDto.class,
-            columns = {
-              @ColumnResult(name = "customer_name", type = String.class),
-              @ColumnResult(name = "title", type = String.class),
-              @ColumnResult(name = "rating", type = Integer.class),
-              @ColumnResult(name = "content", type = String.class),
-              @ColumnResult(name = "modified_at", type = LocalDateTime.class),
-            }))
+                targetClass = CustomerReviewDto.class,
+                columns = {
+                        @ColumnResult(name = "customer_name", type = String.class),
+                        @ColumnResult(name = "title", type = String.class),
+                        @ColumnResult(name = "rating", type = Integer.class),
+                        @ColumnResult(name = "content", type = String.class),
+                        @ColumnResult(name = "modified_at", type = LocalDateTime.class),
+                }))
 @Entity
 @Getter
 @Setter
