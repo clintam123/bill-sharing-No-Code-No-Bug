@@ -62,8 +62,8 @@ public class ProductController {
     @Operation(summary = "Tạo sản phẩm", description = "Tạo sản phẩm")
     @PostMapping("")
     @PreAuthorize("hasRole('VENDOR')")
-    public ResponseEntity<?> create(@Validated @RequestBody ProductDto productDto){
-        return ResponseEntity.ok(DefaultResponse.success(createService.createProduct(productDto)));
+    public ResponseEntity<?> create(@Validated @RequestBody ProductDto productDto, @RequestBody MultipartFile file){
+        return ResponseEntity.ok(DefaultResponse.success(createService.createProduct(productDto, file)));
     }
 
     @Operation(summary = "Update sản phẩm", description = "Update sản phẩm")

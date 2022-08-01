@@ -1,6 +1,5 @@
 package com.nocodenobug.billsharing.service.auth.impl;
 
-import com.cloudinary.Cloudinary;
 import com.nocodenobug.billsharing.constants.EmailConstants;
 import com.nocodenobug.billsharing.constants.FolderConstants;
 import com.nocodenobug.billsharing.constants.StatusConstants;
@@ -12,6 +11,7 @@ import com.nocodenobug.billsharing.payload.request.SignupRequest;
 import com.nocodenobug.billsharing.payload.response.UserInfoResponse;
 import com.nocodenobug.billsharing.repository.UserRepository;
 import com.nocodenobug.billsharing.security.UserDetailsImpl;
+import com.nocodenobug.billsharing.service.CloudinaryService;
 import com.nocodenobug.billsharing.service.auth.AuthService;
 import com.nocodenobug.billsharing.payload.request.ChangePasswordRequest;
 import com.nocodenobug.billsharing.service.email.SendEmailService;
@@ -45,7 +45,7 @@ public class AuthServiceImpl implements AuthService {
     private UserRepository userRepository;
 
     @Autowired
-    private Cloudinary cloudinary;
+    private CloudinaryService cloudinaryService;
 
     @Autowired
     private PasswordEncoder encoder;
@@ -78,8 +78,7 @@ public class AuthServiceImpl implements AuthService {
         }
         User mapUser = modelMapper.map(signupRequest, User.class);
         mapUser.setPasswordHash(encoder.encode(signupRequest.getPassword()));
-        mapUser.setImageUrl(cloudinary.url().generate(FolderConstants.AVATAR_DEFAULT_IMAGE_PUBLIC_ID));
-
+        mapUser.setImageUrl(cloudinaryService.getUrlImage(FolderConstants.AVATAR_DEFAULT_IMAGE_PUBLIC_ID));
         String randomCode = RandomString.make(32);
         mapUser.setVerificationCode(randomCode);
 

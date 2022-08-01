@@ -63,8 +63,8 @@ public class VendorController {
     @Operation(summary = "Tạo vendor", description = "Tạo vendor")
     @PostMapping("/add-vendor")
     @PreAuthorize("hasRole('VENDOR')")
-    public ResponseEntity<?> addVendor(@Validated  @RequestBody VendorDto vendorDto){
-        return ResponseEntity.ok(DefaultResponse.success(createVendorService.createVendor(vendorDto)));
+    public ResponseEntity<?> addVendor(@Validated  @RequestBody VendorDto vendorDto, @RequestBody MultipartFile file){
+        return ResponseEntity.ok(DefaultResponse.success(createVendorService.createVendor(vendorDto, file)));
     }
 
     @Operation(summary = "Update vendor", description = "Update vendor")

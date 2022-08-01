@@ -4,8 +4,10 @@ import com.nocodenobug.billsharing.constants.FolderConstants;
 import com.nocodenobug.billsharing.model.dto.CategoryDto;
 import com.nocodenobug.billsharing.model.entity.Category;
 import com.nocodenobug.billsharing.repository.CategoryRepository;
+import com.nocodenobug.billsharing.security.UserDetailsImpl;
 import com.nocodenobug.billsharing.service.CloudinaryService;
 import com.nocodenobug.billsharing.service.category.CreateCategoryService;
+import com.nocodenobug.billsharing.utils.CurrentUserUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,8 @@ public class CreateCategoryServiceImpl  implements CreateCategoryService {
         Category category = modelMapper.map(newCategory, Category.class);
         String imgUrl = cloudinaryService.uploadImage(file, FolderConstants.CATEGORY_IMAGE_FOLDER);
         category.setImageUrl(imgUrl);
+        UserDetailsImpl currentUser = CurrentUserUtils.getCurrentUserDetails();
+        category.setUserId(currentUser.getId());
         return modelMapper.map(categoryRepository.save(category), CategoryDto.class);
     }
 }

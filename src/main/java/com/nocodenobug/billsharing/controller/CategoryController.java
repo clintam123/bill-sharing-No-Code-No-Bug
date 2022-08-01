@@ -1,16 +1,15 @@
 package com.nocodenobug.billsharing.controller;
 
 import com.nocodenobug.billsharing.model.dto.CategoryDto;
-import com.nocodenobug.billsharing.model.entity.Category;
 import com.nocodenobug.billsharing.payload.response.*;
+import com.nocodenobug.billsharing.security.UserDetailsImpl;
 import com.nocodenobug.billsharing.service.category.*;
+import com.nocodenobug.billsharing.utils.CurrentUserUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -44,6 +43,8 @@ public class CategoryController {
     public ResponseEntity<?> getCategories(@RequestParam(value = "page") int page,
                                            @RequestParam(value = "page_size") int pageSize) {
         Page<CategoryDto> categoryDtoPage = getAllCategoriesService.getAllCategories(page, pageSize);
+        UserDetailsImpl currentUser = CurrentUserUtils.getCurrentUserDetails();
+        System.out.println("====================" + currentUser.getId());
         return ResponseEntity.ok(DefaultPagingResponse.success(categoryDtoPage));
     }
 
@@ -81,21 +82,4 @@ public class CategoryController {
     public ResponseEntity<?> updateImage(@PathVariable("category-id") Long categoryId, @RequestBody MultipartFile file) {
         return ResponseEntity.ok(DefaultResponse.success("Success", uploadCategoryImage.uploadCategoryImage(categoryId, file)));
     }
-//
-//    @GetMapping("test/{id}")
-//    public String testUpload(Model model, @PathVariable("id") Long id){
-//        model.addAttribute("category", getCategoryByIdService.getCategoryById(id));
-//        return "test";
-//    }
-//
-//    @PostMapping("test/{id}")
-//    public String success(@PathVariable("id") Long id, MultipartFile file, @ModelAttribute Category category){
-//        uploadCategoryImage.uploadCategoryImage(id, file);
-//        return "redirect:/api/v1/category/success";
-//    }
-//
-//    @GetMapping("/success")
-//    public String test(){
-//        return "success";
-//    }
 }

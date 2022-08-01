@@ -15,6 +15,7 @@ import com.nocodenobug.billsharing.service.product_group.GetProductGroupByIdServ
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 
@@ -37,11 +38,11 @@ public class CreateProductServiceImpl implements CreateProductService {
 
 
     @Override
-    public ProductDto createProduct(ProductDto newProduct) {
+    public ProductDto createProduct(ProductDto newProduct, MultipartFile file) {
         CategoryDto category = categoryService.getCategoryById(newProduct.getCategoryId());
         ProductGroupDto productGroupDto = productGroupService.getProductGroupById(newProduct.getProductGroupId());
 
-        newProduct.setImage_url(cloudinaryService.getUrlImage(FolderConstants.PRODUCT_DEFAULT_IMAGE_PUBLIC_ID));
+        newProduct.setImage_url(cloudinaryService.uploadImage(file, FolderConstants.PRODUCT_IMAGE_FOLDER));
         Product product = modelMapper.map(newProduct, Product.class);
         product.setProductGroup(modelMapper.map(productGroupDto, ProductGroup.class));
         product.setCategory(modelMapper.map(category, Category.class));
