@@ -76,6 +76,7 @@
         <dependency>
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
+            <version>7.0.4.Final</version>
         </dependency>
         <dependency>
             <groupId>org.springdoc</groupId>
@@ -101,6 +102,11 @@
         <dependency>
             <groupId>net.bytebuddy</groupId>
             <artifactId>byte-buddy</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4.7</version>
         </dependency>
 
     </dependencies>
