@@ -73,9 +73,9 @@ public class AuthServiceImpl implements AuthService {
         if (userRepository.existsByUsername(signupRequest.getUsername())) {
             throw new BadRequestException("Username đã được sử dụng!");
         }
-        if (Objects.equals(signupRequest.getRole(), "ROLE_ADMIN")) {
-            throw new AccessDeniedException("Không được phép tạo tài khoản admin!");
-        }
+//        if (Objects.equals(signupRequest.getRole(), "ROLE_ADMIN")) {
+//            throw new AccessDeniedException("Không được phép tạo tài khoản admin!");
+//        }
         User mapUser = modelMapper.map(signupRequest, User.class);
         mapUser.setPasswordHash(encoder.encode(signupRequest.getPassword()));
         mapUser.setImageUrl(cloudinaryService.getUrlImage(FolderConstants.AVATAR_DEFAULT_IMAGE_PUBLIC_ID));
