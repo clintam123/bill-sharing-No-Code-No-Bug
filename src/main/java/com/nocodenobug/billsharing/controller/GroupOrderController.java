@@ -2,7 +2,7 @@ package com.nocodenobug.billsharing.controller;
 
 import com.nocodenobug.billsharing.model.dto.OrderItemDto;
 import com.nocodenobug.billsharing.model.entity.GroupLink;
-import com.nocodenobug.billsharing.model.entity.redis.Order;
+import com.nocodenobug.billsharing.model.entity.redis.OrderRedis;
 import com.nocodenobug.billsharing.payload.request.GroupLinkRequest;
 import com.nocodenobug.billsharing.payload.response.DefaultResponse;
 import com.nocodenobug.billsharing.service.group_order.LinkService;
@@ -43,7 +43,7 @@ public class GroupOrderController {
     }
 
     @SubscribeMapping("/group-order/{link}")
-    public Order sendOrder(@DestinationVariable String link) {
+    public OrderRedis sendOrder(@DestinationVariable String link) {
         System.out.println("subscribe mapping");
         return orderService.findByLink(link);
     }
@@ -51,21 +51,27 @@ public class GroupOrderController {
 
     @MessageMapping("/add-order-item/{link}") // request sent to this url -> method is called
     @SendTo("/topic/group-order/{link}") // method return value sent to this url for all subscribers
-    public Order addOrderItem(OrderItemDto orderItemDto, @DestinationVariable String link) {
+    public OrderRedis addOrderItem(OrderItemDto orderItemDto, @DestinationVariable String link) {
         System.out.println("orderItemDto: " + orderItemDto);
         return orderService.addOrderItem(link, orderItemDto);
     }
 
     @MessageMapping("/update-order-item/{link}") // request sent to this url -> method is called
     @SendTo("/topic/group-order/{link}") // method return value sent to this url for all subscribers
-    public Order updateOrderItem(OrderItemDto orderItemDto, @DestinationVariable String link) {
+    public OrderRedis updateOrderItem(OrderItemDto orderItemDto, @DestinationVariable String link) {
         return orderService.updateOrderItem(link, orderItemDto);
     }
 
     @MessageMapping("/delete-order-item/{link}") // request sent to this url -> method is called
     @SendTo("/topic/group-order/{link}") // method return value sent to this url for all subscribers
-    public Order deleteOrderItem(OrderItemDto orderItemDto, @DestinationVariable String link) {
+    public OrderRedis deleteOrderItem(OrderItemDto orderItemDto, @DestinationVariable String link) {
         return orderService.deleteOrderItem(link, orderItemDto);
+    }
+
+    @PostMapping("/order/{link}")
+    public ResponseEntity<?> saveOrder(@PathVariable String link){
+        orderService.saveOrder(link);
+        return ResponseEntity.ok(DefaultResponse.success("Success"));
     }
 
 }

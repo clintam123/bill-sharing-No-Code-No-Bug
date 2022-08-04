@@ -12,7 +12,7 @@ import java.util.List;
 @Data
 @Document
 @RequiredArgsConstructor(staticName = "of")
-public class Order {
+public class OrderRedis {
     @Id
     @Indexed
     private Long id;
@@ -39,5 +39,5 @@ public class Order {
     private Long userId;
 
     @NonNull
-    private List<OrderItem> orderItems;
+    private List<OrderItemRedis> orderItemRedis;
 }

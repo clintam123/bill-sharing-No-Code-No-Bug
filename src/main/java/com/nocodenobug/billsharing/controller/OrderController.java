@@ -1,7 +1,7 @@
 package com.nocodenobug.billsharing.controller;
 
 import com.nocodenobug.billsharing.model.dto.OrderDto;
-import com.nocodenobug.billsharing.model.entity.redis.Order;
+import com.nocodenobug.billsharing.model.entity.redis.OrderRedis;
 import com.nocodenobug.billsharing.payload.response.*;
 import com.nocodenobug.billsharing.service.group_order.OrderService;
 import com.nocodenobug.billsharing.service.order.CreateOrderService;
@@ -44,7 +44,7 @@ public class OrderController {
     private UpdateOrderService updateOrderService;
 
     @GetMapping("link/{link}")
-    public Order findByLink(@PathVariable String link){
+    public OrderRedis findByLink(@PathVariable String link){
         return orderService.findByLink(link);
     }
 

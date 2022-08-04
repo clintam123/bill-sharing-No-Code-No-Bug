@@ -2,6 +2,7 @@ package com.nocodenobug.billsharing.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -15,7 +16,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Table(name="`order`")
+@Table(name="`orders`")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,16 +37,14 @@ public class Order {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    @JsonProperty("vendor_id")
     @Column(name = "vendor_id")
     private Long vendorId;
 
-    @JsonProperty("user_id")
     @Column(name = "user_id")
     private Long userId;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems;
 
 }

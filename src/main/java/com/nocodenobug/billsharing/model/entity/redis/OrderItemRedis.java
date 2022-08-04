@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 @Document
 @RequiredArgsConstructor(staticName = "of")
 @NoArgsConstructor
-public class OrderItem {
+public class OrderItemRedis {
     @Indexed
     @NonNull
     private Integer quantity;
