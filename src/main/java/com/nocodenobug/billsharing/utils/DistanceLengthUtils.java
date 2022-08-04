@@ -52,7 +52,7 @@ public class DistanceLengthUtils {
             distanceResponse.setSummary((node.get("routes").get(index).get("summary")+"").replace("\"","").trim());
             distanceResponse.setTime((node.get("routes").get(index).get("legs").get(0).get("duration").get("text")+"").replace("\"","").trim());
 //
-            mapper.writerWithDefaultPrettyPrinter().writeValue(System.out,node.get("routes").get(index));
+//            mapper.writerWithDefaultPrettyPrinter().writeValue(System.out,node.get("routes").get(index));
             return distanceResponse;
         }
         return null;
