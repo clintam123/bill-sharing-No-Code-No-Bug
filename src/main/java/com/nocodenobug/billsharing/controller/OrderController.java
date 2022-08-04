@@ -1,6 +1,7 @@
 package com.nocodenobug.billsharing.controller;
 
 import com.nocodenobug.billsharing.model.dto.OrderDto;
+import com.nocodenobug.billsharing.model.entity.Order;
 import com.nocodenobug.billsharing.payload.response.*;
 import com.nocodenobug.billsharing.service.order.CreateOrderService;
 import com.nocodenobug.billsharing.service.order.DeleteOrderService;
@@ -41,8 +42,8 @@ public class OrderController {
     @Operation(summary = "Get all order", description = "Get all")
     @GetMapping()
     public ResponseEntity<?> findAllByOrder(
-            @RequestParam(value = "page") int page,
-            @RequestParam(value = "page_size") int page_size
+            @RequestParam(value = "page") Integer page,
+            @RequestParam(value = "page_size") Integer page_size
     ){
         Page<OrderDto> order = getOrderService.findAllByStatus(page,page_size);
         return ResponseEntity.ok(DefaultPagingResponse.success(order));
@@ -62,30 +63,30 @@ public class OrderController {
     @PreAuthorize("hasRole('VENDOR')")
     public ResponseEntity<?> findByAllVendorId(
             @PathVariable("id") Long id,
-            @RequestParam(value = "page") int page,
-            @RequestParam(value = "page_size") int page_size
+            @RequestParam(value = "page") Integer page,
+            @RequestParam(value = "page_size") Integer page_size
     ){
         Page<OrderDto> order = getOrderService.findAllByVendorId(id,page,page_size);
         return ResponseEntity.ok(DefaultPagingResponse.success(order));
     }
 
-    @Operation(summary = "Get customer id", description = "Get customer by id")
-    @GetMapping("/customer/{id}")
+    @GetMapping("/user/{id}")
     @PreAuthorize("hasRole('CUSTOMER')")
-    private ResponseEntity<?> findAllByCustomerId(
+    public ResponseEntity<?> findByALlUserId(
             @PathVariable("id") Long id,
-            @RequestParam(value = "page") int page,
-            @RequestParam(value = "page_size") int page_size
+            @RequestParam(value = "page") Integer page,
+            @RequestParam(value = "page_size") Integer page_size
     ){
-        Page<OrderDto> orderDto = getOrderService.findAllByUserId(id,page,page_size);
-        return ResponseEntity.ok(DefaultPagingResponse.success(orderDto));
+        Page<OrderDto> orderDtos = getOrderService.findAllByUserId(id,page,page_size);
+        return ResponseEntity.ok(DefaultPagingResponse.success(orderDtos));
     }
 
     @Operation(summary = "Delete Order", description = "Delete order with id")
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<?> deleteOrder(@PathVariable("id") Long id){
-        return ResponseEntity.ok(DefaultResponse.success(deleteOrderService.deleteOrder(id)));
+        return ResponseEntity.ok(DefaultResponse.success
+                (deleteOrderService.deleteOrder(id)));
 
     }
 

@@ -21,26 +21,31 @@ public class GetOrderServiceImpl implements GetOrderService {
     private ModelMapper modelMapper;
 
     @Override
-    public Page<OrderDto> findAllByStatus(int page, int pageSize){
-        Page<Order> order = orderRepository.findByStatusEquals(
+    public Page<OrderDto> findAllByStatus(Integer page, Integer pageSize){
+        Page<Order> orders = orderRepository.findByStatusEquals(
                 OrderStatus.ACTIVE.getStatus(), PageRequest.of(page,pageSize));
 
-        return order.map(order1 -> modelMapper.map(order1, OrderDto.class));
+        return orders.map(order -> modelMapper.map(order, OrderDto.class));
     }
 
+
     @Override
-    public Page<OrderDto> findAllByVendorId(Long id, int page, int page_size){
-        Page<Order> orders = orderRepository.findAllByVendorIdAndStatusEquals(id,PageRequest.of(page,page_size),OrderStatus.ACTIVE.getStatus());
+    public Page<OrderDto> findAllByVendorId(Long id, Integer page, Integer page_size){
+
+        Page<Order> orders = orderRepository.findAllByVendorIdAndStatusEquals(
+                id,PageRequest.of(page,page_size),OrderStatus.ACTIVE.getStatus());
 
         return orders.map(order -> modelMapper.map(order,OrderDto.class));
     }
 
     @Override
-    public Page<OrderDto> findAllByUserId(Long id, int page, int page_size){
-        Page<Order> orders = orderRepository.findAllByUserIdAndStatusEquals(id,PageRequest.of(page,page_size),OrderStatus.ACTIVE.getStatus());
+    public Page<OrderDto> findAllByUserId(Long id, Integer page, Integer page_size){
 
-        return orders.map(order -> modelMapper.map(order, OrderDto.class));
+        Page<Order> orders = orderRepository.findAllByUserIdAndStatusEquals(
+                id,PageRequest.of(page,page_size),OrderStatus.ACTIVE.getStatus());
+        return orders.map(order -> modelMapper.map(order,OrderDto.class));
     }
+
 
     @Override
     public OrderDto findById(Long id){
