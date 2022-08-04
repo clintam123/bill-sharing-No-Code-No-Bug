@@ -5,7 +5,6 @@ import com.nocodenobug.billsharing.constants.FolderConstants;
 import com.nocodenobug.billsharing.model.dto.UserDto;
 import com.nocodenobug.billsharing.model.entity.User;
 import com.nocodenobug.billsharing.repository.UserRepository;
-import com.nocodenobug.billsharing.service.CloudinaryService;
 import com.nocodenobug.billsharing.service.user.CreateUserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

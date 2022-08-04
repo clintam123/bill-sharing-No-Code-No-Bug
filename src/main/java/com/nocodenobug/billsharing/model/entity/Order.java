@@ -2,7 +2,6 @@ package com.nocodenobug.billsharing.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -10,7 +9,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -27,6 +25,8 @@ public class Order {
     private Float shipping;
     private Float discount;
     private BigDecimal grandTotal;
+
+    private String link;
 
     @Column(name = "created_at")
     @CreationTimestamp
