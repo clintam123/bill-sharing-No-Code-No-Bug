@@ -2,10 +2,8 @@ package com.nocodenobug.billsharing.model.dto;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.nocodenobug.billsharing.model.entity.Admin;
 import lombok.Data;
 
-import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 

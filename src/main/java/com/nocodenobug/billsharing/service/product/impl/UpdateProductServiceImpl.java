@@ -1,12 +1,8 @@
 package com.nocodenobug.billsharing.service.product.impl;
 
 import com.nocodenobug.billsharing.exceptions.NotFoundException;
-import com.nocodenobug.billsharing.model.dto.CategoryDto;
 import com.nocodenobug.billsharing.model.dto.ProductDto;
-import com.nocodenobug.billsharing.model.dto.ProductGroupDto;
-import com.nocodenobug.billsharing.model.entity.Category;
 import com.nocodenobug.billsharing.model.entity.Product;
-import com.nocodenobug.billsharing.model.entity.ProductGroup;
 import com.nocodenobug.billsharing.repository.ProductRepository;
 import com.nocodenobug.billsharing.service.category.GetCategoryByIdService;
 import com.nocodenobug.billsharing.service.product.UpdateProductService;

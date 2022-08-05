@@ -1,7 +1,5 @@
 package com.nocodenobug.billsharing.configuration;
 
-import com.nocodenobug.billsharing.model.entity.GroupLink;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
@@ -27,30 +25,31 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         registry.enableSimpleBroker("/topic");
-        registry.setApplicationDestinationPrefixes("/app");
+        registry.setApplicationDestinationPrefixes("/app", "/topic");
+        registry.setUserDestinationPrefix("/topic");
     }
 
-//    @Override
-//    public void configureClientInboundChannel(ChannelRegistration registration){
-//        registration.interceptors(new ChannelInterceptor() {
-//            @Override
-//            public Message<?> preSend(Message<?> message, MessageChannel channel) {
-//                StompHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
-//
-//                assert accessor != null;
-//                if(StompCommand.CONNECT.equals(accessor.getCommand())){
-//                    System.out.println("Connect ");
-//                } else if(StompCommand.SUBSCRIBE.equals(accessor.getCommand())){
-//                    System.out.println("Subscribe ");
-//
-//                } else if(StompCommand.SEND.equals(accessor.getCommand())){
-//                    System.out.println("Send message " );
-//                } else if(StompCommand.DISCONNECT.equals(accessor.getCommand())){
-//                    System.out.println("Exit ");
-//                } else {
-//                }
-//                return message;
-//            }
-//        });
-//}
+    @Override
+    public void configureClientInboundChannel(ChannelRegistration registration){
+        registration.interceptors(new ChannelInterceptor() {
+            @Override
+            public Message<?> preSend(Message<?> message, MessageChannel channel) {
+                StompHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
+
+                assert accessor != null;
+                if(StompCommand.CONNECT.equals(accessor.getCommand())){
+                    System.out.println("Connect ");
+                } else if(StompCommand.SUBSCRIBE.equals(accessor.getCommand())){
+                    System.out.println("Subscribe ");
+
+                } else if(StompCommand.SEND.equals(accessor.getCommand())){
+                    System.out.println("Send message " );
+                } else if(StompCommand.DISCONNECT.equals(accessor.getCommand())){
+                    System.out.println("Exit ");
+                } else {
+                }
+                return message;
+            }
+        });
+}
 }

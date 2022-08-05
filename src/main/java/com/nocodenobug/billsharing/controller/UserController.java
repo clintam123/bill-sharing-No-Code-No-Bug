@@ -1,7 +1,6 @@
 package com.nocodenobug.billsharing.controller;
 
 import com.nocodenobug.billsharing.constants.EmailConstants;
-import com.nocodenobug.billsharing.exceptions.BadRequestException;
 import com.nocodenobug.billsharing.model.dto.UserDto;
 import com.nocodenobug.billsharing.model.entity.User;
 import com.nocodenobug.billsharing.payload.request.EmailDetails;
@@ -18,8 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;

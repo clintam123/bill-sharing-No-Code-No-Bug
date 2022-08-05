@@ -152,11 +152,11 @@ CREATE TABLE IF NOT EXISTS `bill_sharing`.`vendor`
 
 
 -- -----------------------------------------------------
--- Table `bill_sharing`.`order`
+-- Table `bill_sharing`.`orderRedis`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `bill_sharing`.`order`;
+DROP TABLE IF EXISTS `bill_sharing`.`orderRedis`;
 
-CREATE TABLE IF NOT EXISTS `bill_sharing`.`order`
+CREATE TABLE IF NOT EXISTS `bill_sharing`.`orderRedis`
 (
     `id`          BIGINT   NOT NULL AUTO_INCREMENT,
     `status`      SMALLINT NOT NULL DEFAULT '0',
@@ -267,7 +267,7 @@ CREATE TABLE IF NOT EXISTS `bill_sharing`.`order_item`
             REFERENCES `bill_sharing`.`customer` (`id`),
     CONSTRAINT `fk_order_item_order`
         FOREIGN KEY (`order_id`)
-            REFERENCES `bill_sharing`.`order` (`id`),
+            REFERENCES `bill_sharing`.`orderRedis` (`id`),
     CONSTRAINT `fk_order_item_product`
         FOREIGN KEY (`product_id`)
             REFERENCES `bill_sharing`.`product` (`id`)

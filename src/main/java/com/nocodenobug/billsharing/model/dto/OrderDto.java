@@ -1,7 +1,6 @@
 package com.nocodenobug.billsharing.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.nocodenobug.billsharing.model.entity.OrderItem;
 import lombok.Getter;
 import lombok.Setter;
 
