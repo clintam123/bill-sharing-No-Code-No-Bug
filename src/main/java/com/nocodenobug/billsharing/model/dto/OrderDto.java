@@ -4,7 +4,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.nocodenobug.billsharing.model.entity.OrderItem;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.Value;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.Min;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -26,6 +30,7 @@ public class OrderDto {
 
     @JsonProperty("grandTotal")
     private BigDecimal grandTotal;
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 

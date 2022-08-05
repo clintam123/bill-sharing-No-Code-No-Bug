@@ -5,13 +5,19 @@ import com.nocodenobug.billsharing.service.order.StatisticalService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 @Tag(
-        description = "Order Statistics resources that provides access to available Order Statistics  data",
-        name = "Order Statistics Resource")
+        description = "Tài nguyên Thống kê Đơn hàng cung cấp quyền truy cập vào dữ liệu Thống kê Đơn hàng có sẵn",
+        name = "Tài Nguyên Thống Kê Đơn Hàng")
 @RestController
 @RequestMapping("/api/v1/statistics")
 public class OrderStatisticsController {
@@ -21,60 +27,52 @@ public class OrderStatisticsController {
 
     // phía admin xem thống kê tổng tất cả các vendor
 
-    @Operation(summary = "Statistics Of Order Of All Vendor", description = "Statistics Of Order Of All Vendor resources")
+    @Operation(summary = "Thống kê đơn đặt hàng của tất cả nhà cung cấp", description = "Tài nguyên thống kê đơn hàng Thống kê đơn đặt hàng của tất cả nhà cung cấp")
     @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/order-all-vendor")
+    @GetMapping("/order-vendors")
     public ResponseEntity<?> statisticsOfOrderOfAllVendor(
-            @RequestParam("start_date") String start_date,
-            @RequestParam("end_date") String end_date
-    ){
+            @RequestParam(value = "start_date") String start_date,
+            @RequestParam(value = "end_date") String end_date) {
         return ResponseEntity.ok(DefaultResponse.success(
-                statisticalService.statisticsOrderVendor(start_date,end_date)));
+                statisticalService.statisticsOrderVendor(start_date, end_date)));
     }
 
 
-    @Operation(summary = "Statistics Of Total Order Of All Vendor", description = "Statistics Of Total Order Of All Vendor resources")
+    @Operation(summary = "Thống kê tổng đơn đặt hàng của tất cả nhà cung cấp", description = "Thống kê tổng số đơn đặt hàng của tất cả nhà cung cấp")
     @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/total-order-all-vendor")
+    @GetMapping("/revenue-vendors")
     public ResponseEntity<?> statisticsOfTotalOrderOfAllVendor(
             @RequestParam("start_date") String start_date,
             @RequestParam("end_date") String end_date
-    ){
+    ) {
         return ResponseEntity.ok(DefaultResponse.success(
-                statisticalService.totalOrderVendor(start_date,end_date)));
+                statisticalService.totalOrderVendor(start_date, end_date)));
     }
 
     // phía vendor xem thống kê và tổng doanh thu của mình
-    @Operation(summary = "Vendor Order Statistics", description = "Vendor Order Statistics resources")
+    @Operation(summary = "Thống kê đơn đặt hàng của nhà cung cấp theo vendor", description = "Tài nguyên thống kê đơn hàng của nhà cung cấp")
     @PreAuthorize("hasRole('VENDOR')")
     @GetMapping("/order-vendor/{id}")
     public ResponseEntity<?> vendorOrderStatistics(
             @PathVariable("id") Long vendor_id,
             @RequestParam("start_date") String start_date,
             @RequestParam("end_date") String end_date
-    ){
+    ) {
         return ResponseEntity.ok((DefaultResponse.success(
-                statisticalService.vendorOrderStatistics(vendor_id,start_date,end_date)
-        )));
+                statisticalService.vendorOrderStatistics(vendor_id, start_date, end_date))));
     }
 
-    @Operation(summary = "Statistics Of Vendor Total Order", description = "Statistics Of Vendor Total Order resources")
+    @Operation(summary = "Thống kê tổng đơn hàng của nhà cung cấp theo vendor", description = "Tài nguyên thống kê tổng đơn hàng của nhà cung cấp")
     @PreAuthorize("hasRole('VENDOR')")
-    @GetMapping("/total-order-vendor/{id}")
+    @GetMapping("/revenue-vendors/{id}")
     public ResponseEntity<?> statisticsOfVendorTotalOrder(
             @PathVariable("id") Long vendor_id,
             @RequestParam("start_date") String start_date,
             @RequestParam("end_date") String end_date
-    ){
+    ) {
         return ResponseEntity.ok((DefaultResponse.success(
-                statisticalService.statisticsOfVendorTotalOrder(vendor_id,start_date,end_date)
-        )));
+                statisticalService.statisticsOfVendorTotalOrder(vendor_id, start_date, end_date))));
     }
-
-
-
-
-
 
 
 }

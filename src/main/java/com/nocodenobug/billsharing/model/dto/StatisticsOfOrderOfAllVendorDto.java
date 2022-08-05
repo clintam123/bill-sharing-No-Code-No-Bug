@@ -14,7 +14,7 @@ import javax.persistence.*;
         @ConstructorResult(
                 targetClass = StatisticsOfOrderOfAllVendorDto.class,
                 columns = {
-                        @ColumnResult(name = "id", type = Integer.class),
+                        @ColumnResult(name = "id", type = Long.class),
                         @ColumnResult(name = "profile", type = String.class),
                         @ColumnResult(name = "username", type = String.class),
                         @ColumnResult(name = "fullname", type = String.class),
@@ -28,7 +28,7 @@ import javax.persistence.*;
 public class StatisticsOfOrderOfAllVendorDto {
 
     @Id
-    private Integer id;
+    private Long id;
     private String profile;
     private String username;
     private String fullname;

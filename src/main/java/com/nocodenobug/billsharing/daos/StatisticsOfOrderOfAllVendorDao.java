@@ -5,6 +5,8 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -12,7 +14,7 @@ import java.util.List;
 public class StatisticsOfOrderOfAllVendorDao {
     private final EntityManager entityManager;
 
-    public List<?> statisticsOrderVendor(String start_date, String end_date) {
+    public List<?> statisticsOrderVendor(LocalDate start_date, LocalDate end_date) {
         String strQuery =
                 " "
                         + " SELECT od.id AS id, "

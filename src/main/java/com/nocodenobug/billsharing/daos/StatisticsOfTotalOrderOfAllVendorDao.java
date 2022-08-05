@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -14,7 +15,7 @@ public class StatisticsOfTotalOrderOfAllVendorDao {
 
     private final EntityManager entityManager;
 
-    public List<?> statisticalTotalOrderVendor(String start_date, String end_date){
+    public List<?> statisticalTotalOrderVendor(LocalDate start_date, LocalDate end_date){
         String strQuery =
                 " "
                 +"SELECT od.vendor_id as vendor_id,"
