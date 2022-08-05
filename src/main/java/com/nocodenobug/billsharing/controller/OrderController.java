@@ -1,7 +1,9 @@
 package com.nocodenobug.billsharing.controller;
 
 import com.nocodenobug.billsharing.model.dto.OrderDto;
+import com.nocodenobug.billsharing.model.entity.redis.OrderRedis;
 import com.nocodenobug.billsharing.payload.response.*;
+import com.nocodenobug.billsharing.service.group_order.OrderService;
 import com.nocodenobug.billsharing.service.order.CreateOrderService;
 import com.nocodenobug.billsharing.service.order.DeleteOrderService;
 import com.nocodenobug.billsharing.service.order.GetOrderService;
@@ -27,6 +29,9 @@ import org.springframework.web.bind.annotation.*;
 public class OrderController {
 
     @Autowired
+    private OrderService orderService;
+
+    @Autowired
     private CreateOrderService createOrderService;
 
     @Autowired
@@ -38,6 +43,11 @@ public class OrderController {
     @Autowired
     private UpdateOrderService updateOrderService;
 
+    @GetMapping("link/{link}")
+    public OrderRedis findByLink(@PathVariable String link){
+        return orderService.findByLink(link);
+    }
+
     @Operation(summary = "Get all order", description = "Get all")
     @GetMapping()
     public ResponseEntity<?> findAllByOrder(
@@ -48,14 +58,14 @@ public class OrderController {
         return ResponseEntity.ok(DefaultPagingResponse.success(order));
     }
 
-    @Operation(summary = "Get order", description = "Get order by id")
-    @GetMapping("/{id}")
-    public ResponseEntity<?> findByOrderId(
-            @PathVariable("id") Long id
-    ){
-        OrderDto order = getOrderService.findById(id);
-        return ResponseEntity.ok(DefaultResponse.success(order));
-    }
+//    @Operation(summary = "Get order", description = "Get order by id")
+//    @GetMapping("/{id}")
+//    public ResponseEntity<?> findByOrderId(
+//            @PathVariable("id") Long id
+//    ){
+//        OrderDto order = getOrderService.findById(id);
+//        return ResponseEntity.ok(DefaultResponse.success(order));
+//    }
 
     @Operation(summary = "Get vendor id", description = "Get vendor by id")
     @GetMapping("/vendor/{id}")

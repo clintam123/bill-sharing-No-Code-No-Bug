@@ -12,8 +12,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Getter
-@Setter
+@Data
 @Table(name="order_item")
 public class OrderItem {
     @Id
@@ -35,7 +34,6 @@ public class OrderItem {
     @JsonProperty("product_id")
     @Column(name = "product_id")
     private Long productId;
-
 
     @ManyToOne
     @JoinColumn(name = "order_id")
