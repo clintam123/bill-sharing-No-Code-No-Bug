@@ -37,3 +37,4 @@ public class OrderDto {
     @JsonProperty("order_items")
     private List<OrderItemDto> orderItems;
 }
+

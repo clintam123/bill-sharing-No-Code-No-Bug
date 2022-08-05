@@ -51,44 +51,43 @@ public class OrderController {
     @Operation(summary = "Get all order", description = "Get all")
     @GetMapping()
     public ResponseEntity<?> findAllByOrder(
-            @RequestParam(value = "page") int page,
-            @RequestParam(value = "page_size") int page_size
+            @RequestParam(value = "page") Integer page,
+            @RequestParam(value = "page_size") Integer page_size
     ){
         Page<OrderDto> order = getOrderService.findAllByStatus(page,page_size);
         return ResponseEntity.ok(DefaultPagingResponse.success(order));
     }
 
-//    @Operation(summary = "Get order", description = "Get order by id")
-//    @GetMapping("/{id}")
-//    public ResponseEntity<?> findByOrderId(
-//            @PathVariable("id") Long id
-//    ){
-//        OrderDto order = getOrderService.findById(id);
-//        return ResponseEntity.ok(DefaultResponse.success(order));
-//    }
+    @Operation(summary = "Get order", description = "Get order by id")
+    @GetMapping("/{id}")
+    public ResponseEntity<?> findByOrderId(
+            @PathVariable("id") Long id
+    ){
+        OrderDto order = getOrderService.findById(id);
+        return ResponseEntity.ok(DefaultResponse.success(order));
+    }
 
     @Operation(summary = "Get vendor id", description = "Get vendor by id")
     @GetMapping("/vendor/{id}")
     @PreAuthorize("hasRole('VENDOR')")
     public ResponseEntity<?> findByAllVendorId(
             @PathVariable("id") Long id,
-            @RequestParam(value = "page") int page,
-            @RequestParam(value = "page_size") int page_size
+            @RequestParam(value = "page") Integer page,
+            @RequestParam(value = "page_size") Integer page_size
     ){
         Page<OrderDto> order = getOrderService.findAllByVendorId(id,page,page_size);
         return ResponseEntity.ok(DefaultPagingResponse.success(order));
     }
 
-    @Operation(summary = "Get customer id", description = "Get customer by id")
-    @GetMapping("/customer/{id}")
+    @GetMapping("/user/{id}")
     @PreAuthorize("hasRole('CUSTOMER')")
-    private ResponseEntity<?> findAllByCustomerId(
+    public ResponseEntity<?> findByAllUserId(
             @PathVariable("id") Long id,
-            @RequestParam(value = "page") int page,
-            @RequestParam(value = "page_size") int page_size
+            @RequestParam(value = "page") Integer page,
+            @RequestParam(value = "page_size") Integer page_size
     ){
-        Page<OrderDto> orderDto = getOrderService.findAllByUserId(id,page,page_size);
-        return ResponseEntity.ok(DefaultPagingResponse.success(orderDto));
+        Page<OrderDto> orderDtos = getOrderService.findAllByUserId(id,page,page_size);
+        return ResponseEntity.ok(DefaultPagingResponse.success(orderDtos));
     }
 
     @Operation(summary = "Delete Order", description = "Delete order with id")

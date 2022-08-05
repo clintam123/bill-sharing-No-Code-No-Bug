@@ -5,3 +5,4 @@ import com.nocodenobug.billsharing.model.dto.CategoryDto;
 public interface CreateCategoryService {
     CategoryDto createCategory(CategoryDto category);
 }
+
