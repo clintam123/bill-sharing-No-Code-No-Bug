@@ -64,13 +64,13 @@ public class CategoryController {
         return ResponseEntity.ok(DefaultResponse.success(updateCategoryService.updateCategory(id, categoryDto)));
     }
 
-//    @Operation(summary = "Xóa thể loại", description = "Xóa thể loại")
-//    @DeleteMapping("/{id}")
-//    @PreAuthorize("hasRole('ADMIN')")
-//    public ResponseEntity<?> delete(@PathVariable Long id) {
-//        deleteCategoryService.deleteCategory(id);
-//        return ResponseEntity.ok(DefaultResponse.success("Delete category success"));
-//    }
+    @Operation(summary = "Xóa thể loại", description = "Xóa thể loại")
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        deleteCategoryService.deleteCategory(id);
+        return ResponseEntity.ok(DefaultResponse.success("Delete category success"));
+    }
 
     @Operation(summary = "Update Image", description = "Update Image")
     @PostMapping("/update-image/{category-id}")
