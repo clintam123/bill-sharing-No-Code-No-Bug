@@ -16,8 +16,9 @@ public enum ResponseStatusConstant {
     NOT_FOUND_SATISTICS(103,"Không có giao dịch nào"),
 
     DATE_INVALID(104,"Ngày bắt đầu phải nhỏ hơn ngày kết thúc"),
+    NOT_FOUND_VENDORID(105,"Vendor Id Không tồn tại"),
 
-    NOT_FOUND_VENDORID(105,"Vendor Id Không tồn tại")
+    FORBIDEN(403,"Bạn không có quyền truy xuất")
 
     ;
 

@@ -9,10 +9,10 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 
 @SqlResultSetMapping(
-        name = "StatisticsOfVendorTotalOrderDto",
+        name = "RevenueVendorDto",
         classes =
         @ConstructorResult(
-                targetClass = StatisticsOfVendorTotalOrderDto.class,
+                targetClass = RevenueVendorDto.class,
                 columns = {
                         @ColumnResult(name = "vendor_id", type = Long.class),
                         @ColumnResult(name = "grand_total", type = BigDecimal.class)
@@ -26,7 +26,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class StatisticsOfVendorTotalOrderDto {
+public class RevenueVendorDto {
 
         @Id
         private Long vendor_id;

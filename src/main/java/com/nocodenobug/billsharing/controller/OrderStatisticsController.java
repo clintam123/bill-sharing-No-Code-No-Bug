@@ -26,52 +26,51 @@ public class OrderStatisticsController {
     private StatisticalService statisticalService;
 
     // phía admin xem thống kê tổng tất cả các vendor
-
     @Operation(summary = "Thống kê đơn đặt hàng của tất cả nhà cung cấp", description = "Tài nguyên thống kê đơn hàng Thống kê đơn đặt hàng của tất cả nhà cung cấp")
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/order-vendors")
-    public ResponseEntity<?> statisticsOfOrderOfAllVendor(
+    public ResponseEntity<?> orderVendors(
             @RequestParam(value = "start_date") String start_date,
             @RequestParam(value = "end_date") String end_date) {
         return ResponseEntity.ok(DefaultResponse.success(
-                statisticalService.statisticsOrderVendor(start_date, end_date)));
+                statisticalService.orderVendors(start_date, end_date)));
     }
 
 
     @Operation(summary = "Thống kê tổng đơn đặt hàng của tất cả nhà cung cấp", description = "Thống kê tổng số đơn đặt hàng của tất cả nhà cung cấp")
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/revenue-vendors")
-    public ResponseEntity<?> statisticsOfTotalOrderOfAllVendor(
+    public ResponseEntity<?> revenueVendors(
             @RequestParam("start_date") String start_date,
             @RequestParam("end_date") String end_date
     ) {
         return ResponseEntity.ok(DefaultResponse.success(
-                statisticalService.totalOrderVendor(start_date, end_date)));
+                statisticalService.revenueVendors(start_date, end_date)));
     }
 
     // phía vendor xem thống kê và tổng doanh thu của mình
     @Operation(summary = "Thống kê đơn đặt hàng của nhà cung cấp theo vendor", description = "Tài nguyên thống kê đơn hàng của nhà cung cấp")
     @PreAuthorize("hasRole('VENDOR')")
     @GetMapping("/order-vendor/{id}")
-    public ResponseEntity<?> vendorOrderStatistics(
+    public ResponseEntity<?> orderVendor(
             @PathVariable("id") Long vendor_id,
             @RequestParam("start_date") String start_date,
             @RequestParam("end_date") String end_date
     ) {
         return ResponseEntity.ok((DefaultResponse.success(
-                statisticalService.vendorOrderStatistics(vendor_id, start_date, end_date))));
+                statisticalService.orderVendor(vendor_id, start_date, end_date))));
     }
 
     @Operation(summary = "Thống kê tổng đơn hàng của nhà cung cấp theo vendor", description = "Tài nguyên thống kê tổng đơn hàng của nhà cung cấp")
     @PreAuthorize("hasRole('VENDOR')")
-    @GetMapping("/revenue-vendors/{id}")
-    public ResponseEntity<?> statisticsOfVendorTotalOrder(
+    @GetMapping("/revenue-vendor/{id}")
+    public ResponseEntity<?> revenueVendor(
             @PathVariable("id") Long vendor_id,
             @RequestParam("start_date") String start_date,
             @RequestParam("end_date") String end_date
     ) {
         return ResponseEntity.ok((DefaultResponse.success(
-                statisticalService.statisticsOfVendorTotalOrder(vendor_id, start_date, end_date))));
+                statisticalService.revenueVendor(vendor_id, start_date, end_date))));
     }
 
 
