@@ -29,7 +29,12 @@ public class GetProductsByCategoryTitleImpl implements GetProductsByCategoryTitl
     public Page<ProductDto> getProductsByCategoryTitle(String title, int page, int pageSize) {
         Page<Product> products = productRepository.getProductByCategoryTitle(title, PageRequest.of(page, pageSize));
         if (products.getTotalElements() > 0) {
-            return products.map((product -> modelMapper.map(product, ProductDto.class)));
+            return products.map((product -> {
+                ProductDto productDto = modelMapper.map(product, ProductDto.class);
+                productDto.setCategoryId(product.getCategory().getId());
+                productDto.setProductGroupId(product.getProductGroup().getId());
+                return productDto;
+            }));
         }
         throw new NotFoundException(HttpStatus.NOT_FOUND.value(), "Product with category: " + title + " NotFound");
     }

@@ -1,6 +1,5 @@
 package com.nocodenobug.billsharing.payload.response;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,6 +18,7 @@ public class UserInfoResponse {
     private String email;
     private String role;
     private String accessToken;
+    private Long vendorId;
 
     public UserInfoResponse(Long id, String username, String email, String role) {
         this.id = id;

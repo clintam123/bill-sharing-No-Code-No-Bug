@@ -11,7 +11,7 @@ public interface GetUserService {
 
     UserDto getById(Long id);
 
-    UserDto findUserBySdt(String sdt);
+    Object getByUsernameOrPhone(String username, String phone);
 
     User finUserByEmail(String email);
 }

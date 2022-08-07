@@ -74,6 +74,7 @@ public class UserController {
         return ResponseEntity.ok(DefaultPagingResponse.success(userDtoPage));
 
     }
+
     @Operation(summary = "Verification", description =
             "Xác thực tài khoản "
     )
@@ -81,24 +82,25 @@ public class UserController {
     public ResponseEntity<?> Verification(
             @PathVariable(name = "verificationCode") String verificationCode
     ) {
-        UserDto userDto=verificationUserService.getUserByVerification(verificationCode);
+        UserDto userDto = verificationUserService.getUserByVerification(verificationCode);
         userDto.setStatus(1);
         return ResponseEntity.ok(DefaultResponse.success(createUserService.createUser(userDto)));
 
     }
+
     @GetMapping("/forgot-password/{email}")
-    public ResponseEntity<?> forgot(@PathVariable (name = "email") String email){
-        User user=getUserService.finUserByEmail(email);
-        String newPassword=RandomString.make(32);
+    public ResponseEntity<?> forgot(@PathVariable(name = "email") String email) {
+        User user = getUserService.finUserByEmail(email);
+        String newPassword = RandomString.make(32);
         user.setPasswordHash(encoder.encode(newPassword));
-        EmailDetails emailDetails=new EmailDetails();
+        EmailDetails emailDetails = new EmailDetails();
         emailDetails.setRecipient(email);
         emailDetails.setSubject(String.valueOf(EmailConstants.SUBJECT));
 
-        emailDetails.setMsgBody("Your password:"+newPassword);
+        emailDetails.setMsgBody("Your password:" + newPassword);
         sendEmailService.sendSimpleMail(emailDetails);
 
-        return   ResponseEntity.ok(DefaultResponse.success(userRepository.save(user)));
+        return ResponseEntity.ok(DefaultResponse.success(userRepository.save(user)));
     }
 
     @Operation(summary = "Lấy user theo Id", description = "Lấy user theo Id")
@@ -110,7 +112,6 @@ public class UserController {
         UserDto userDto = getUserService.getById(id);
         return ResponseEntity.ok(DefaultResponse.success(userDto));
     }
-
 
 
     @Operation(summary = "Update user", description = "Update user")
@@ -131,21 +132,22 @@ public class UserController {
         return ResponseEntity.ok(DefaultResponse.success("Xóa user thành công"));
     }
 
-    @Operation(summary = "Tìm kiếm customer theo SDT", description = "Tìm kiếm customer theo SDT")
-    @GetMapping("/search-customerByPhone/{phone}")
-    public ResponseEntity<?> searchUserByPhone(
-            @PathVariable String phone
-    ){
-        UserDto user=getUserService.findUserBySdt(phone);
-        return ResponseEntity.ok(DefaultResponse.success(user));
+    @Operation(summary = "Tìm kiếm user/vendor theo SDT hoặc username", description = "Tìm kiếm user/vendor theo SDT hoặc username")
+    @GetMapping("/search-username-phone")
+    public ResponseEntity<?> searchUserByPhoneOrUsername(
+            @RequestParam (value = "role") String role,
+            @RequestParam(value = "phone") String phone,
+            @RequestParam(value = "username") String username
+    ) {
+        return ResponseEntity.ok(DefaultResponse.success(getUserService));
     }
 
-    @Operation(summary = "Thay ảnh đại diện", description ="Thay ảnh đại diện")
+    @Operation(summary = "Thay ảnh đại diện", description = "Thay ảnh đại diện")
     @PostMapping("/change-avatar/{user-id}")
     public ResponseEntity<?> changeAvatar(
             @PathVariable("user-id") Long userId,
             @RequestBody MultipartFile file
-    ){
+    ) {
         return ResponseEntity.ok(DefaultResponse.success("Thay ảnh đại diện thành công", uploadUserImage.uploadAvatar(userId, file)));
     }
 }

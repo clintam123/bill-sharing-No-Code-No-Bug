@@ -20,10 +20,10 @@ public class GetVendorByIdServiceImpl implements GetVendorByIdService {
     private ModelMapper mapper;
 
     @Override
-    public VendorDto getVendorById(Long id){
-        Optional<Vendor> vendor= vendorRepository.findById(id);
-        if (vendor.isPresent()){
-            return mapper.map(vendor.get(),VendorDto.class);
+    public VendorDto getVendorById(Long id) {
+        Optional<Vendor> vendor = vendorRepository.findById(id);
+        if (vendor.isPresent()) {
+            return mapper.map(vendor.get(), VendorDto.class);
         }
 
         throw new NotFoundException(HttpStatus.NOT_FOUND.value(), "Id vendor NotFound");

@@ -19,7 +19,7 @@ public class VendorDto {
     private Integer id;
 
     @NotBlank
-    @Size(max = 200)
+    @Size(max = 50)
     private String intro;
 
     @NotBlank

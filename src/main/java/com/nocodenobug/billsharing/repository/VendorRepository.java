@@ -6,5 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface VendorRepository extends JpaRepository<Vendor,Long> {
-    Vendor findAllByPhone(String phone);
+//    Vendor findAllByPhone(String phone);
+    Vendor findByUserId(Long userId);
 }

@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Tag(
         description = "vendor controller",
-        name = "Các api về vendor (dành cho admin)"
+        name = "Các api về vendor (dành cho vendor)"
 )
 @RestController
 @RequestMapping("/api/v1/vendor")
@@ -37,65 +37,55 @@ public class VendorController {
     private GetProductOfVendor getProductOfVendor;
     @Autowired
     private UploadVendorLogo uploadVendorLogo;
+
     @Operation(summary = "Lấy tất cả vendor", description =
             "page: trang hiện tại (bắt đầu từ 0), page_size: số record trong trang hiện tại,"
-                    )
-    @GetMapping("/get-all")
+    )
+    @GetMapping("")
     public ResponseEntity<?> getAll(
             @RequestParam(value = "page") int page,
             @RequestParam(value = "page_size") int pageSize
-    ){
-        Page<VendorDto> vendorDtoPage=getAllVendorService.getAllVendor(page,pageSize);
-        if (vendorDtoPage==null){
+    ) {
+        Page<VendorDto> vendorDtoPage = getAllVendorService.getAllVendor(page, pageSize);
+        if (vendorDtoPage == null) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(DefaultPagingResponse.success(vendorDtoPage));
     }
 
     @Operation(summary = "Lấy vendor theo Id", description = "Lấy vendor theo Id")
-    @GetMapping("/get-vendor/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> getAll(
             @PathVariable Long id
-    ){
-        VendorDto vendorDto=getVendorByIdService.getVendorById(id);
+    ) {
+        VendorDto vendorDto = getVendorByIdService.getVendorById(id);
         return ResponseEntity.ok(DefaultResponse.success(vendorDto));
     }
+
     @Operation(summary = "Tạo vendor", description = "Tạo vendor")
-    @PostMapping("/add-vendor")
+    @PostMapping("")
     @PreAuthorize("hasRole('VENDOR')")
-    public ResponseEntity<?> addVendor(@Validated  @RequestBody VendorDto vendorDto){
+    public ResponseEntity<?> addVendor(@Validated @RequestBody VendorDto vendorDto) {
         return ResponseEntity.ok(DefaultResponse.success(createVendorService.createVendor(vendorDto)));
     }
 
     @Operation(summary = "Update vendor", description = "Update vendor")
-    @PutMapping("/update-vendor/{id}")
+    @PutMapping("/{id}")
     @PreAuthorize("hasRole('VENDOR')")
-    public ResponseEntity<?> updateVendor(@PathVariable Long id,@Validated @RequestBody VendorDto vendorDto){
-        return ResponseEntity.ok(DefaultResponse.success(updateVendorService.updateVendor(id,vendorDto)));
+    public ResponseEntity<?> updateVendor(@PathVariable Long id, @Validated @RequestBody VendorDto vendorDto) {
+        return ResponseEntity.ok(DefaultResponse.success(updateVendorService.updateVendor(id, vendorDto)));
     }
-//    @Operation(summary = "Xóa vendor", description = "Xóa vendor")
-//    @DeleteMapping("/delete-vendor/{id}")
-//    @PreAuthorize("hasRole('VENDOR')")
-//    public ResponseEntity<?> deleteCustomer(
-//            @PathVariable Long id
-//    ){
-//
-//        deleteVendorService.deleteVendor(id);
-//        return ResponseEntity.ok(SampleResponse.builder()
-//                 .success(true)
-//                 .message("delete vendor success")
-//                 .data("")
-//                 .build()
-//                );
+
+//    @Operation(summary = "Tìm kiếm vendor theo SDT", description = "Tìm kiếm vendor theo SDT")
+//    @GetMapping("")
+//    public ResponseEntity<?> searchVendorByPhone(
+//            @PathVariable String phone
+//    ) {
+//        VendorDto vendorDto = searchVendorBySdtService.searchVendorBySdt(phone);
+//        return ResponseEntity.ok(DefaultResponse.success(vendorDto));
 //    }
-    @Operation(summary = "Tìm kiếm vendor theo SDT", description = "Tìm kiếm vendor theo SDT")
-    @GetMapping("/search-vendorByPhone/{phone}")
-    public ResponseEntity<?> searchVendorByPhone(
-            @PathVariable String phone
-    ){
-        VendorDto vendorDto=searchVendorBySdtService.searchVendorBySdt(phone);
-        return  ResponseEntity.ok(DefaultResponse.success(vendorDto));
-    }
+
+
 
     @Operation(summary = "Danh sách món ăn của cửa hàng", description = "Lấy ra danh sách món ăn của cửa hàng")
     @GetMapping("/vendor-product")
@@ -103,7 +93,7 @@ public class VendorController {
             @RequestParam("vendor_name") String vendorName,
             @RequestParam(value = "page") int page,
             @RequestParam(value = "page_size") int pageSize
-            ){
+    ) {
         return ResponseEntity.ok(DefaultPagingResponse.success(getProductOfVendor.listProductOfVendor(vendorName, page, pageSize)));
     }
 
@@ -112,7 +102,7 @@ public class VendorController {
     public ResponseEntity<?> uploadVendorLogo(
             @PathVariable("vendor_id") Long vendorId,
             @RequestBody MultipartFile file
-            ){
+    ) {
         return ResponseEntity.ok(DefaultResponse.success("Thay logo thanh cong", uploadVendorLogo.uploadLogo(vendorId, file)));
     }
 }

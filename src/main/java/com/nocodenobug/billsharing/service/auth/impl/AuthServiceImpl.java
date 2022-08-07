@@ -6,11 +6,13 @@ import com.nocodenobug.billsharing.constants.FolderConstants;
 import com.nocodenobug.billsharing.constants.StatusConstants;
 import com.nocodenobug.billsharing.exceptions.BadRequestException;
 import com.nocodenobug.billsharing.model.entity.User;
+import com.nocodenobug.billsharing.model.entity.Vendor;
 import com.nocodenobug.billsharing.payload.request.EmailDetails;
 import com.nocodenobug.billsharing.payload.request.LoginRequest;
 import com.nocodenobug.billsharing.payload.request.SignupRequest;
 import com.nocodenobug.billsharing.payload.response.UserInfoResponse;
 import com.nocodenobug.billsharing.repository.UserRepository;
+import com.nocodenobug.billsharing.repository.VendorRepository;
 import com.nocodenobug.billsharing.security.UserDetailsImpl;
 import com.nocodenobug.billsharing.service.auth.AuthService;
 import com.nocodenobug.billsharing.payload.request.ChangePasswordRequest;
@@ -29,6 +31,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
+import java.util.Optional;
 
 
 @Service
@@ -54,12 +57,17 @@ public class AuthServiceImpl implements AuthService {
     @Autowired
     private SendEmailService sendEmailService;
 
+    @Autowired
+    private VendorRepository vendorRepository;
+
     @Override
     public UserInfoResponse login(LoginRequest loginRequest) {
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
         CurrentUserUtils.setCurrentUserDetails(authentication);
         UserDetailsImpl userDetails = CurrentUserUtils.getCurrentUserDetails();
+
+        Vendor vendor = vendorRepository.findByUserId(userDetails.getId());
 
         return UserInfoResponse.builder()
                 .id(userDetails.getId())
@@ -69,6 +77,7 @@ public class AuthServiceImpl implements AuthService {
                 .email(userDetails.getEmail())
                 .imageUrl(userDetails.getImageUrl())
                 .role(userDetails.getAuthorities().toString())
+                .vendorId(vendor == null ? null : vendor.getId())
                 .build();
     }
 
