@@ -85,18 +85,6 @@ public class VendorController {
 //        return ResponseEntity.ok(DefaultResponse.success(vendorDto));
 //    }
 
-
-
-    @Operation(summary = "Danh sách món ăn của cửa hàng", description = "Lấy ra danh sách món ăn của cửa hàng")
-    @GetMapping("/vendor-product")
-    public ResponseEntity<?> getProductOfVendor(
-            @RequestParam("vendor_name") String vendorName,
-            @RequestParam(value = "page") int page,
-            @RequestParam(value = "page_size") int pageSize
-    ) {
-        return ResponseEntity.ok(DefaultPagingResponse.success(getProductOfVendor.listProductOfVendor(vendorName, page, pageSize)));
-    }
-
     @Operation(summary = "Upload logo cửa hàng", description = "Upload logo cửa hàng")
     @PostMapping("/upload-logo/{vendor_id}")
     public ResponseEntity<?> uploadVendorLogo(

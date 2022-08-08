@@ -17,13 +17,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-//@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 
 @RestController
 @RequestMapping("/api/v1/auth")
 @Tag(
         description = "Authentication controller",
-        name = "Các api về đăng nhập, đăng xuất, "
+        name = "Các api về đăng nhập, đăng xuất "
 )
 public class AuthController {
     @Autowired
@@ -64,4 +63,6 @@ public class AuthController {
         authService.changeMyPassword(userChangePassword);
         return ResponseEntity.status(HttpStatus.OK).body(DefaultResponse.success("Đổi mật khẩu thành công!"));
     }
+
+
 }

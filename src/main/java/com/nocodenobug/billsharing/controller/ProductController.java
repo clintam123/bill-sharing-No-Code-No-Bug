@@ -48,7 +48,7 @@ public class ProductController {
     public ResponseEntity<?> findByCategoryTitle(@RequestParam(value = "category_title") String categoryTitle,
                                                               @RequestParam(value = "page") int page,
                                                               @RequestParam(value = "page_size") int pageSize){
-        Page<ProductDto> productPage = getProductsByCategoryTitle.getProductsByCategoryTitle(categoryTitle, page, pageSize);
+        Page<?> productPage = getProductsByCategoryTitle.getProductsByCategoryTitle(categoryTitle, page, pageSize);
         return ResponseEntity.ok(DefaultPagingResponse.success(productPage));
 
     }
@@ -91,7 +91,7 @@ public class ProductController {
     }
 
     @Operation(summary = "Lọc sản phẩm", description = "Filtering product by category, product group name and sort by rating or discounting")
-    @GetMapping("/product-filter")
+    @GetMapping("/filter")
     public ResponseEntity<?> getProductByFilter(
             @RequestParam("page") int page,
             @RequestParam("page_size") int pageSize,

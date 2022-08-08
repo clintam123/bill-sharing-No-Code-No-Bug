@@ -60,7 +60,7 @@ public class UserController {
     @Operation(summary = "Lấy tất cả User", description =
             "page: trang hiện tại (bắt đầu từ 0), page_size: số record trong trang hiện tại,"
     )
-    @GetMapping("/get-all")
+    @GetMapping("/")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> getAll(
             @RequestParam(value = "page") int page,
@@ -90,7 +90,7 @@ public class UserController {
 
     @GetMapping("/forgot-password/{email}")
     public ResponseEntity<?> forgot(@PathVariable(name = "email") String email) {
-        User user = getUserService.finUserByEmail(email);
+        User user = getUserService.findUserByEmail(email);
         String newPassword = RandomString.make(32);
         user.setPasswordHash(encoder.encode(newPassword));
         EmailDetails emailDetails = new EmailDetails();
@@ -133,13 +133,13 @@ public class UserController {
     }
 
     @Operation(summary = "Tìm kiếm user/vendor theo SDT hoặc username", description = "Tìm kiếm user/vendor theo SDT hoặc username")
-    @GetMapping("/search-username-phone")
+    @GetMapping("/search-role-username-phone")
     public ResponseEntity<?> searchUserByPhoneOrUsername(
             @RequestParam (value = "role") String role,
-            @RequestParam(value = "phone") String phone,
-            @RequestParam(value = "username") String username
+            @RequestParam(value = "username", required = false) String username,
+            @RequestParam(value = "phone", required = false) String phone
     ) {
-        return ResponseEntity.ok(DefaultResponse.success(getUserService));
+        return ResponseEntity.ok(DefaultResponse.success(getUserService.getByRoleAndUsernameOrPhone(role, username, phone)));
     }
 
     @Operation(summary = "Thay ảnh đại diện", description = "Thay ảnh đại diện")

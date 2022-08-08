@@ -1,14 +1,11 @@
 package com.nocodenobug.billsharing.payload.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @Builder
+@NoArgsConstructor
 public class UserInfoResponse {
     private Long id;
     private String username;
