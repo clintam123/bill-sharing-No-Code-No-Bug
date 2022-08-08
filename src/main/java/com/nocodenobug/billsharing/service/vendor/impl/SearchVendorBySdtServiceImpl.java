@@ -17,7 +17,6 @@ public class SearchVendorBySdtServiceImpl implements SearchVendorBySdtService {
 
     @Override
     public VendorDto searchVendorBySdt(String sdt){
-        Vendor vendor= vendorRepository.findAllByPhone(sdt);
-        return mapper.map(vendor,VendorDto.class);
+        return null;
     }
 }

@@ -19,7 +19,6 @@ public class DeleteCategoryServiceImpl implements DeleteCategoryService {
         this.modelMapper = modelMapper;
         this.getCategoryByIdService = getCategoryByIdService;
     }
-
     @Override
     public void deleteCategory(long id) {
         getCategoryByIdService.getCategoryById(id);

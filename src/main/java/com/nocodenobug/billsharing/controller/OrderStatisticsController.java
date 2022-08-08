@@ -20,7 +20,7 @@ import java.time.format.DateTimeFormatter;
         name = "Tài Nguyên Thống Kê Đơn Hàng")
 @RestController
 @RequestMapping("/api/v1/statistics")
-public class OrderStatisticsController {
+public class    OrderStatisticsController {
 
     @Autowired
     private StatisticalService statisticalService;

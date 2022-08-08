@@ -35,8 +35,7 @@ public class SignupRequest {
 //    @JsonProperty("image_url")
 //    private String imageUrl;
 
-    @NotBlank
-    private String provider;
+    private String provider = "local";
 
     @NotBlank
     private String phone;

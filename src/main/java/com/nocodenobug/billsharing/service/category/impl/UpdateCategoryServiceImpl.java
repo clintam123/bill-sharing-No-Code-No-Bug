@@ -23,11 +23,6 @@ public class UpdateCategoryServiceImpl implements UpdateCategoryService {
 
     @Override
     public CategoryDto updateCategory(Long id, CategoryDto newCategory) {
-//        if(categoryRepository.findById(id).isEmpty()){
-//            throw new NotFoundException(HttpStatus.NOT_FOUND.value(), "Id category NotFound");
-//        }
-//        Category category = modelMapper.map(newCategory, Category.class);
-//        category.setId(id);
 
         Category category = categoryRepository.findById(id).orElseThrow(
                 () -> new NotFoundException(HttpStatus.NOT_FOUND.value(), "Id category NotFound"));

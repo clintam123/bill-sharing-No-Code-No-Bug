@@ -22,7 +22,10 @@ public class BillSharingNoCodeNoBugApplication {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/api/**").allowedOrigins("http://localhost:3000").allowCredentials(true);
+                registry.addMapping("/api/**")
+                        .allowedOrigins("http://localhost:3000")
+                        .allowCredentials(true)
+                        .allowedMethods("GET", "POST", "PUT", "DELETE");
             }
         };
     }

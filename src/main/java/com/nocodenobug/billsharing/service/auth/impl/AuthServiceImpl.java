@@ -6,11 +6,13 @@ import com.nocodenobug.billsharing.constants.FolderConstants;
 import com.nocodenobug.billsharing.constants.StatusConstants;
 import com.nocodenobug.billsharing.exceptions.BadRequestException;
 import com.nocodenobug.billsharing.model.entity.User;
+import com.nocodenobug.billsharing.model.entity.Vendor;
 import com.nocodenobug.billsharing.payload.request.EmailDetails;
 import com.nocodenobug.billsharing.payload.request.LoginRequest;
 import com.nocodenobug.billsharing.payload.request.SignupRequest;
 import com.nocodenobug.billsharing.payload.response.UserInfoResponse;
 import com.nocodenobug.billsharing.repository.UserRepository;
+import com.nocodenobug.billsharing.repository.VendorRepository;
 import com.nocodenobug.billsharing.security.UserDetailsImpl;
 import com.nocodenobug.billsharing.service.auth.AuthService;
 import com.nocodenobug.billsharing.payload.request.ChangePasswordRequest;
@@ -29,6 +31,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
+import java.util.Optional;
 
 
 @Service
@@ -54,6 +57,9 @@ public class AuthServiceImpl implements AuthService {
     @Autowired
     private SendEmailService sendEmailService;
 
+    @Autowired
+    private VendorRepository vendorRepository;
+
     @Override
     public UserInfoResponse login(LoginRequest loginRequest) {
         Authentication authentication = authenticationManager
@@ -61,8 +67,18 @@ public class AuthServiceImpl implements AuthService {
         CurrentUserUtils.setCurrentUserDetails(authentication);
         UserDetailsImpl userDetails = CurrentUserUtils.getCurrentUserDetails();
 
-        return new UserInfoResponse(userDetails.getId(), userDetails.getUsername(),
-                userDetails.getEmail(), userDetails.getAuthorities().toString());
+        Vendor vendor = vendorRepository.findByUserId(userDetails.getId());
+
+        return UserInfoResponse.builder()
+                .id(userDetails.getId())
+                .username(userDetails.getUsername())
+                .fullName(userDetails.getFullName())
+                .phone(userDetails.getPhone())
+                .email(userDetails.getEmail())
+                .imageUrl(userDetails.getImageUrl())
+                .role(userDetails.getAuthorities().toString())
+                .vendorId(vendor == null ? null : vendor.getId())
+                .build();
     }
 
     @Override
@@ -81,23 +97,32 @@ public class AuthServiceImpl implements AuthService {
         String randomCode = RandomString.make(32);
         mapUser.setVerificationCode(randomCode);
 
-        EmailDetails emailDetails=new EmailDetails();
+        EmailDetails emailDetails = new EmailDetails();
         emailDetails.setRecipient(signupRequest.getEmail());
         emailDetails.setSubject(String.valueOf(EmailConstants.SUBJECT));
-        emailDetails.setMsgBody("http://localhost:8080/api/v1/user/"+mapUser.getVerificationCode());
+        emailDetails.setMsgBody("http://localhost:8080/api/v1/user/" + mapUser.getVerificationCode());
 
         sendEmailService.sendSimpleMail(emailDetails);
         mapUser.setStatus(StatusConstants.INACTIVE.getValue());
         User newUser = userRepository.save(mapUser);
         System.out.println(newUser);
-        return new UserInfoResponse(newUser.getId(), newUser.getUsername(), newUser.getEmail(), signupRequest.getRole());
+
+        return UserInfoResponse.builder()
+                .id(newUser.getId())
+                .username(newUser.getUsername())
+                .fullName(newUser.getLastName() + " " + newUser.getFirstName())
+                .phone(newUser.getPhone())
+                .email(newUser.getEmail())
+                .imageUrl(newUser.getImageUrl())
+                .role(newUser.getRole())
+                .build();
     }
 
     @Override
     public void changeMyPassword(ChangePasswordRequest userChangePassword) {
         UserDetailsImpl userDetails = CurrentUserUtils.getCurrentUserDetails();
 
-        if (!encoder.matches(userChangePassword.getCurrentPassword(), userDetails.getPasswordHash())){
+        if (!encoder.matches(userChangePassword.getCurrentPassword(), userDetails.getPasswordHash())) {
             throw new BadRequestException("Mật khẩu không đúng!");
         }
         if (Objects.equals(userChangePassword.getCurrentPassword(), userChangePassword.getNewPassword())) {
@@ -125,7 +150,7 @@ public class AuthServiceImpl implements AuthService {
         return jwtUtils.getCleanJwtCookie();
     }
 
-    public boolean isLogin(){
+    public boolean isLogin() {
         UserDetailsImpl userDetails = CurrentUserUtils.getCurrentUserDetails();
         return userDetails != null;
     }

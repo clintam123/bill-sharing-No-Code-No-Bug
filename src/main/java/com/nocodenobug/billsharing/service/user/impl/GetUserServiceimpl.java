@@ -38,14 +38,14 @@ public class GetUserServiceimpl implements GetUserService {
         }
         throw new NotFoundException(HttpStatus.BAD_REQUEST.value(), "Id user NotFound");
     }
+
     @Override
-    public UserDto findUserBySdt(String sdt){
-        Optional<User> user=userRepository.findUserByPhone(sdt);
-        if (user.isPresent()){
-            return mapper.map(user.get(),UserDto.class);
-        }else {
-            throw new NotFoundException(HttpStatus.NOT_FOUND.value(), "Phone number user NotFound");
+    public Object getByUsernameOrPhone(String username, String phone) {
+        Optional<User> user = userRepository.findByUsernameOrPhone(username, phone);
+        if(user == null) {
+            throw new NotFoundException(404, "user not found");
         }
+        return null;
     }
 
     @Override

@@ -46,7 +46,7 @@ public class ProductGroupController {
         return ResponseEntity.ok(DefaultPagingResponse.success(productGroupDtoPage));
     }
 
-    @Operation(summary = "Lấy nhóm sản phẩm theo Id", description = "Lấy nhóm sản phẩm theo Id")
+    @Operation(summary = "Lấy nhóm sản phẩm theo Id (có cả sản phẩm)", description = "Lấy nhóm sản phẩm theo Id")
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable Long id) {
         return ResponseEntity.ok(DefaultResponse.success(getByIdService.getProductGroupById(id)));
