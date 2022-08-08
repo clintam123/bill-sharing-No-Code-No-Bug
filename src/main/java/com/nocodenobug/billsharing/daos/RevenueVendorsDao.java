@@ -1,6 +1,6 @@
 package com.nocodenobug.billsharing.daos;
 
-import com.nocodenobug.billsharing.model.dto.StatisticsOfTotalOrderOfAllVendorDto;
+import com.nocodenobug.billsharing.model.dto.RevenueVendorsDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -11,11 +11,11 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class StatisticsOfTotalOrderOfAllVendorDao {
+public class RevenueVendorsDao {
 
     private final EntityManager entityManager;
 
-    public List<?> statisticalTotalOrderVendor(LocalDate start_date, LocalDate end_date){
+    public List<?> revenueVendors(LocalDate start_date, LocalDate end_date){
         String strQuery =
                 " "
                 +"SELECT od.vendor_id as vendor_id,"
@@ -24,7 +24,7 @@ public class StatisticsOfTotalOrderOfAllVendorDao {
                         +" where od.updated_at BETWEEN :start_date AND :end_date"
                         +" GROUP BY od.vendor_id";
 
-        Query query = entityManager.createNativeQuery(strQuery, StatisticsOfTotalOrderOfAllVendorDto.class);
+        Query query = entityManager.createNativeQuery(strQuery, RevenueVendorsDto.class);
         query.setParameter("start_date", start_date);
         query.setParameter("end_date", end_date);
 

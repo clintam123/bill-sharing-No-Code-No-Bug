@@ -8,17 +8,23 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @SqlResultSetMapping(
         name = "VendorOrderStatisticsDto",
         classes =
         @ConstructorResult(
-                targetClass = VendorOrderStatisticsDto.class,
+                targetClass = OrderVendorDto.class,
                 columns = {
                         @ColumnResult(name = "vendor_id", type = Long.class),
                         @ColumnResult(name = "shipping", type = Float.class),
                         @ColumnResult(name = "discount",type = Float.class),
+                        @ColumnResult(name = "username",type = String.class),
+                        @ColumnResult(name = "fullname",type = String.class),
                         @ColumnResult(name = "grand_total",type = BigDecimal.class),
+                        @ColumnResult(name = "created_at",type = LocalDate.class),
+                        @ColumnResult(name = "updated_at",type = LocalDate.class),
                         @ColumnResult(name = "profile",type = String.class)
                 }
         )
@@ -29,13 +35,17 @@ import java.math.BigDecimal;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class VendorOrderStatisticsDto {
+public class OrderVendorDto {
 
     @Id
     private Long vendor_id;
     private Float shipping;
     private Float discount;
+    private String username;
+    private String fullname;
     private BigDecimal grand_total;
+    private LocalDate created_at;
+    private LocalDate updated_at;
     private String profile;
 
 
