@@ -60,7 +60,7 @@ public class UserController {
     @Operation(summary = "Lấy tất cả User", description =
             "page: trang hiện tại (bắt đầu từ 0), page_size: số record trong trang hiện tại,"
     )
-    @GetMapping("/")
+    @GetMapping("")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> getAll(
             @RequestParam(value = "page") int page,
@@ -78,7 +78,7 @@ public class UserController {
     @Operation(summary = "Verification", description =
             "Xác thực tài khoản "
     )
-    @GetMapping("/{verificationCode}")
+    @GetMapping("/vertification/{verificationCode}")
     public ResponseEntity<?> Verification(
             @PathVariable(name = "verificationCode") String verificationCode
     ) {
@@ -104,7 +104,7 @@ public class UserController {
     }
 
     @Operation(summary = "Lấy user theo Id", description = "Lấy user theo Id")
-    @GetMapping("/get-user/{id}")
+    @GetMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN') or hasRole('CUSTOMER')")
     public ResponseEntity<?> getAll(
             @PathVariable Long id
@@ -115,7 +115,7 @@ public class UserController {
 
 
     @Operation(summary = "Update user", description = "Update user")
-    @PutMapping("/update-user/{id}")
+    @PutMapping("/{id}")
     @PreAuthorize("hasRole('CUSTOMER') or hasRole('ADMIN')")
     public ResponseEntity<?> updateUserInfo(@PathVariable Long id, @Validated @RequestBody UserChangeInfoRequest newUser) {
 
@@ -123,7 +123,7 @@ public class UserController {
     }
 
     @Operation(summary = "Xóa customer", description = "Xóa customer")
-    @DeleteMapping("/delete-user/{id}")
+    @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> deleteUser(
             @PathVariable Long id

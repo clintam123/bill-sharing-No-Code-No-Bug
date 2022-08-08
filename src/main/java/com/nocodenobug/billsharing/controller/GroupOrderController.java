@@ -7,6 +7,7 @@ import com.nocodenobug.billsharing.payload.request.GroupLinkRequest;
 import com.nocodenobug.billsharing.payload.response.DefaultResponse;
 import com.nocodenobug.billsharing.service.group_order.LinkService;
 import com.nocodenobug.billsharing.service.group_order.OrderService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -27,14 +28,13 @@ public class GroupOrderController {
     @Autowired
     private OrderService orderService;
 
-    @Autowired
-    private SimpMessagingTemplate simpMessagingTemplate;
-
+    @Operation(summary = "Lấy group link")
     @PostMapping("/get-group-link")
     public ResponseEntity<?> getGroupLink(@Validated @RequestBody GroupLinkRequest request){
         return ResponseEntity.ok(DefaultResponse.success(linkService.getGroupLink(request)));
     }
 
+    @Operation(summary = "Kiểm tra group link có tồn tại ko")
     @PostMapping("/check-link")
     public ResponseEntity<?> checkLink(@Validated @RequestBody GroupLink link){
         System.out.println(link);
@@ -68,6 +68,7 @@ public class GroupOrderController {
         return orderService.deleteOrderItem(link, orderItemDto);
     }
 
+    @Operation(summary = "Lưu order vào MySQL")
     @PostMapping("/order/{link}")
     public ResponseEntity<?> saveOrder(@PathVariable String link){
         orderService.saveOrder(link);

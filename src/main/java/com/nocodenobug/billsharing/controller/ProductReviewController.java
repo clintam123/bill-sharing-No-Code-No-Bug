@@ -40,7 +40,7 @@ public class ProductReviewController {
     }
 
     @Operation(summary = "Get review", description = "Get username and user's review by product id")
-    @GetMapping("/get-review/{product_id}")
+    @GetMapping("/product/{product_id}")
     public ResponseEntity<?> getReview(
             @PathVariable("product_id") Long id,
             @RequestParam(value = "page") int page,
@@ -62,7 +62,7 @@ public class ProductReviewController {
                             description = "${api.response-codes.notFound.desc}",
                             content = {@Content(examples = {@ExampleObject(value ="")})})
             })
-    @PostMapping("/create-review/{product_id}")
+    @PostMapping("/product/{product_id}")
     @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<?> createReview(
             @PathVariable("product_id") Long productId,
@@ -73,7 +73,7 @@ public class ProductReviewController {
     }
 
     @Operation(summary = "Update review", description = "Update review for product")
-    @PutMapping("/update-review/{review_id}")
+    @PutMapping("/{review_id}")
     @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<?> updateReview(
             @PathVariable("review_id") Long id,
@@ -83,7 +83,7 @@ public class ProductReviewController {
     }
 
     @Operation(summary = "Delete review", description = "Delete product review")
-    @DeleteMapping("/delete-review/{review_id}")
+    @DeleteMapping("/{review_id}")
     @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<?> deleteReview(
             @PathVariable("review_id") Long id

@@ -22,8 +22,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(
-        description = "Order resources that provides access to available Order data",
-        name = "Order Resource")
+        description = "Order controller ",
+        name = "Api về order")
 @RestController
 @RequestMapping("/api/v1/order")
 public class OrderController {
@@ -42,11 +42,6 @@ public class OrderController {
 
     @Autowired
     private UpdateOrderService updateOrderService;
-
-    @GetMapping("link/{link}")
-    public OrderRedis findByLink(@PathVariable String link){
-        return orderService.findByLink(link);
-    }
 
     @Operation(summary = "Get all order", description = "Get all")
     @GetMapping()
@@ -70,7 +65,7 @@ public class OrderController {
     @Operation(summary = "Get vendor id", description = "Get vendor by id")
     @GetMapping("/vendor/{id}")
     @PreAuthorize("hasRole('VENDOR')")
-    public ResponseEntity<?> findByAllVendorId(
+    public ResponseEntity<?> findAllByVendorId(
             @PathVariable("id") Long id,
             @RequestParam(value = "page") Integer page,
             @RequestParam(value = "page_size") Integer page_size
@@ -81,7 +76,7 @@ public class OrderController {
 
     @GetMapping("/user/{id}")
     @PreAuthorize("hasRole('CUSTOMER')")
-    public ResponseEntity<?> findByAllUserId(
+    public ResponseEntity<?> findAllByUserId(
             @PathVariable("id") Long id,
             @RequestParam(value = "page") Integer page,
             @RequestParam(value = "page_size") Integer page_size
