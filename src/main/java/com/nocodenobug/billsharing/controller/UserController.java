@@ -116,7 +116,7 @@ public class UserController {
 
     @Operation(summary = "Update user", description = "Update user")
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('CUSTOMER') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<?> updateUserInfo(@PathVariable Long id, @Validated @RequestBody UserChangeInfoRequest newUser) {
 
         return ResponseEntity.ok(DefaultResponse.success(updateUserService.updateUser(id, newUser)));
@@ -124,7 +124,7 @@ public class UserController {
 
     @Operation(summary = "Xóa customer", description = "Xóa customer")
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<?> deleteUser(
             @PathVariable Long id
     ) {
@@ -134,6 +134,7 @@ public class UserController {
 
     @Operation(summary = "Tìm kiếm user/vendor theo SDT hoặc username", description = "Tìm kiếm user/vendor theo SDT hoặc username")
     @GetMapping("/search-role-username-phone")
+    @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<?> searchUserByPhoneOrUsername(
             @RequestParam (value = "role") String role,
             @RequestParam(value = "username", required = false) String username,
@@ -144,6 +145,7 @@ public class UserController {
 
     @Operation(summary = "Thay ảnh đại diện", description = "Thay ảnh đại diện")
     @PostMapping("/change-avatar/{user-id}")
+    @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<?> changeAvatar(
             @PathVariable("user-id") Long userId,
             @RequestBody MultipartFile file

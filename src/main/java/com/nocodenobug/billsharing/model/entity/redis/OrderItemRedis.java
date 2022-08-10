@@ -39,4 +39,7 @@ public class OrderItemRedis {
 
     @Indexed @NonNull
     private String productName;
+
+    @NonNull
+    private String imageUrl;
 }

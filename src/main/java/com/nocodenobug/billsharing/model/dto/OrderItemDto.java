@@ -1,6 +1,5 @@
 package com.nocodenobug.billsharing.model.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.nocodenobug.billsharing.model.entity.Order;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,7 +17,7 @@ public class OrderItemDto {
 
     private Long id;
 
-    @Min(value = 1,message = "Số lượng phải lớn hơn không")
+    @Min(value = 1, message = "Số lượng phải lớn hơn không")
     private Integer quantity;
 
     @NotBlank(message = "Content Không được để trống")
@@ -30,16 +29,13 @@ public class OrderItemDto {
 
     private Long productId;
 
-//    private User user;
-
-
     private Long userId;
 
     private String username;
 
     private String productName;
 
-//    @JsonProperty("order_id")
-//    private Long orderId;
+    private String imageUrl;
+
     private Order order;
 }
