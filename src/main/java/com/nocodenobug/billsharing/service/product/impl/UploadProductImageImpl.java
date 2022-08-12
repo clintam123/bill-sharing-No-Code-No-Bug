@@ -42,7 +42,7 @@ public class UploadProductImageImpl implements UploadProductImage {
                 () -> new NotFoundException(HttpStatus.NOT_FOUND.value(), "product not found")
         );
         String imageUrl = cloudinaryService.uploadImage(file, FolderConstants.PRODUCT_IMAGE_FOLDER);
-        product.setImage_url(imageUrl);
+        product.setImageUrl(imageUrl);
         productRepository.save(product);
         return imageUrl;
     }

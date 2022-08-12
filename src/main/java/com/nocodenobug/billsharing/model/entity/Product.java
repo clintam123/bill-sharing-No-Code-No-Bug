@@ -42,12 +42,29 @@ public class Product {
     @JoinColumn(name = "product_group_id")
     private ProductGroup productGroup;
 
-    private String image_url;
+    private String imageUrl;
     @PrePersist
     public void prePersist() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
         String date =  LocalDateTime.now().format(formatter);
         this.sku = this.category.getCode() + ".sku." + date;
         this.status = ProductStatus.valueOf("ACTIVE");
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", sku='" + sku + '\'' +
+                ", price=" + price +
+                ", quantity=" + quantity +
+                ", discount=" + discount +
+                ", status=" + status +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", image_url='" + imageUrl + '\'' +
+                '}';
     }
 }

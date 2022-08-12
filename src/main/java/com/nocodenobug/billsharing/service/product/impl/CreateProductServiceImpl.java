@@ -41,7 +41,7 @@ public class CreateProductServiceImpl implements CreateProductService {
         CategoryDto category = categoryService.getCategoryById(newProduct.getCategoryId());
         ProductGroupDto productGroupDto = productGroupService.getProductGroupById(newProduct.getProductGroupId());
 
-        newProduct.setImage_url(cloudinaryService.getUrlImage(FolderConstants.PRODUCT_DEFAULT_IMAGE_PUBLIC_ID));
+        newProduct.setImageUrl(cloudinaryService.getUrlImage(FolderConstants.PRODUCT_DEFAULT_IMAGE_PUBLIC_ID));
         Product product = modelMapper.map(newProduct, Product.class);
         product.setProductGroup(modelMapper.map(productGroupDto, ProductGroup.class));
         product.setCategory(modelMapper.map(category, Category.class));

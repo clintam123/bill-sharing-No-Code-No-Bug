@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.InvocationTargetException;
+
 @Service
 public class UpdateProductServiceImpl implements UpdateProductService {
 
@@ -20,6 +22,9 @@ public class UpdateProductServiceImpl implements UpdateProductService {
     private final ModelMapper modelMapper;
     private final GetCategoryByIdService categoryService;
     private final GetProductGroupByIdService productGroupService;
+
+    @Autowired
+    private ModelMapper mapper;
 
     @Autowired
     public UpdateProductServiceImpl(ProductRepository productRepository, ModelMapper modelMapper, GetCategoryByIdService categoryService, GetProductGroupByIdService productGroupService) {
@@ -30,27 +35,14 @@ public class UpdateProductServiceImpl implements UpdateProductService {
     }
     @Override
     public ProductDto updateProduct(Long id, ProductDto newProduct) {
-//        if(productRepository.findById(id).isEmpty()){
-//            throw new NotFoundException(HttpStatus.NOT_FOUND.value(), "Product with id" + id + " Not Found");
-//        }
-//        CategoryDto category = categoryService.getCategoryById(newProduct.getCategoryId());
-//        ProductGroupDto productGroupDto = productGroupService.getProductGroupById(newProduct.getProductGroupId());
-//
-//        Product product = modelMapper.map(newProduct, Product.class);
-//        product.setId(id);
-//        product.setProductGroup(modelMapper.map(productGroupDto, ProductGroup.class));
-//        product.setCategory(modelMapper.map(category, Category.class));
-//
-//        newProduct.setId(productRepository.save(product).getId());
-//        return newProduct;
 
         Product product = productRepository.findById(id).orElseThrow(
                 () -> new NotFoundException(HttpStatus.NOT_FOUND.value(), "product not found")
         );
-        BeanUtils.copyProperties(newProduct, product);
-        product.setId(id);
+        mapper.map(newProduct, product);
+        System.out.println(product);
+        System.out.println(newProduct);
         productRepository.save(product);
-        newProduct.setId(id);
-        return newProduct;
+        return mapper.map(product, ProductDto.class);
     }
 }
