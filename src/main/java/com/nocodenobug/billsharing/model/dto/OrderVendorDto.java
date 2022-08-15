@@ -23,7 +23,7 @@ import java.time.LocalDate;
                         @ColumnResult(name = "grand_total", type = BigDecimal.class),
                         @ColumnResult(name = "created_at", type = LocalDate.class),
                         @ColumnResult(name = "updated_at", type = LocalDate.class),
-                        @ColumnResult(name = "profile", type = String.class)
+                        @ColumnResult(name = "intro", type = String.class)
                 }
         )
 )
@@ -44,7 +44,7 @@ public class OrderVendorDto {
     private BigDecimal grand_total;
     private LocalDate created_at;
     private LocalDate updated_at;
-    private String profile;
+    private String intro;
 
 
 }
