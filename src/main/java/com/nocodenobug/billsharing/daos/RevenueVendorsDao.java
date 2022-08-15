@@ -15,14 +15,20 @@ public class RevenueVendorsDao {
 
     private final EntityManager entityManager;
 
-    public List<?> revenueVendors(LocalDate start_date, LocalDate end_date){
+    public List<?> revenueVendors(LocalDate start_date, LocalDate end_date) {
         String strQuery =
                 " "
-                +"SELECT od.vendor_id as vendor_id,"
-                        +" sum(od.grand_total) as total_vendor"
-                        +" FROM team_3.orders od"
-                        +" where od.updated_at BETWEEN :start_date AND :end_date"
-                        +" GROUP BY od.vendor_id";
+                        + "SELECT od.vendor_id as vendor_id,"
+                        + " vd.intro as intro,"
+                        + " vd.address as address,"
+                        + " vd.district as district,"
+                        + " vd.province as province,"
+                        + " sum(od.grand_total) as revenue"
+                        + " FROM team_3.orders od"
+                        + " inner join team_3.vendor vd"
+                        + " on od.vendor_id = vd.id"
+                        + " where od.updated_at BETWEEN :start_date AND :end_date"
+                        + " GROUP BY od.vendor_id";
 
         Query query = entityManager.createNativeQuery(strQuery, RevenueVendorsDto.class);
         query.setParameter("start_date", start_date);

@@ -15,7 +15,11 @@ import java.math.BigDecimal;
                 targetClass = RevenueVendorsDto.class,
                 columns = {
                         @ColumnResult(name = "vendor_id", type = Integer.class),
-                        @ColumnResult(name = "total_vendor", type = BigDecimal.class)
+                        @ColumnResult(name = "intro", type = String.class),
+                        @ColumnResult(name = "address", type = String.class),
+                        @ColumnResult(name = "district", type = String.class),
+                        @ColumnResult(name = "province", type = String.class),
+                        @ColumnResult(name = "revenue", type = BigDecimal.class)
                 }
         )
 )
@@ -30,5 +34,9 @@ public class RevenueVendorsDto {
 
     @Id
     private Integer vendor_id;
-    private BigDecimal total_vendor;
+    private String intro;
+    private String address;
+    private String district;
+    private String province;
+    private BigDecimal revenue;
 }
