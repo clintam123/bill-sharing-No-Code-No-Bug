@@ -29,12 +29,10 @@ public class Vendor {
     private String province;
 
 
-    @JsonProperty("opening_time")
     @Column(name = "opening_time")
     private LocalTime openingTime;
 
 
-    @JsonProperty("closing_time")
     @Column(name = "closing_time")
     private LocalTime closingTime;
 
@@ -42,7 +40,6 @@ public class Vendor {
 
     private String logo;
 
-    @JsonProperty("user_id")
     @JoinColumn(name = "user_id")
     private Long userId;
 }
