@@ -11,14 +11,14 @@ import java.time.LocalDateTime;
 @Builder
 public class ProductReviewDto {
     @JsonProperty("product_id")
-    private Integer productId;
+    private Long productId;
 
     private String title;
     private Integer rating;
     private String content;
 
     @JsonProperty("user_id")
-    private Integer userId;
+    private Long userId;
 
     @JsonProperty("modified_at")
     private LocalDateTime modifiedAt;

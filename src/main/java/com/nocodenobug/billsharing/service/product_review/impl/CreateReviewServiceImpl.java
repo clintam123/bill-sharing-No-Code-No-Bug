@@ -33,6 +33,7 @@ public class CreateReviewServiceImpl implements CreateReviewService {
         review.setCreatedAt(LocalDateTime.now());
         review.setModifiedAt(newReview.getModifiedAt());
         productReviewRepository.save(review);
+        newReview.setProductId(productId);
         return newReview;
     }
 }
