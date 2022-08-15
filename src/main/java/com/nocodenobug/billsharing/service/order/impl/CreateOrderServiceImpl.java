@@ -2,6 +2,9 @@ package com.nocodenobug.billsharing.service.order.impl;
 
 import com.nocodenobug.billsharing.model.dto.OrderDto;
 import com.nocodenobug.billsharing.model.dto.OrderItemDto;
+import com.nocodenobug.billsharing.model.entity.OrderItem;
+import com.nocodenobug.billsharing.model.entity.redis.OrderItemRedis;
+import com.nocodenobug.billsharing.model.entity.redis.OrderRedis;
 import com.nocodenobug.billsharing.repository.OrderItemRepository;
 import com.nocodenobug.billsharing.repository.OrderRepository;
 import com.nocodenobug.billsharing.service.order.CreateOrderService;
@@ -12,6 +15,9 @@ import com.nocodenobug.billsharing.service.order_item.impl.CreateOrderItemServic
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class CreateOrderServiceImpl implements CreateOrderService {
@@ -36,22 +42,23 @@ public class CreateOrderServiceImpl implements CreateOrderService {
 
 
     @Override
-    public OrderDto createOrder(OrderDto orderDto){
-        Order order = orderRepository.save(modelMapper.map(orderDto,Order.class));
+    public OrderDto createOrder(OrderDto orderDto) {
+//        Order order = orderRepository.save(modelMapper.map(orderDto, Order.class));
+//        System.out.println(order);
+//
+//        for (OrderItemDto orderItem : orderDto.getOrderItems()) {
+//            System.out.println(orderItem);
+//            orderItem.setOrder(order);
+//            createOrderItemService.createOrderItem(orderItem);
+//        }
+//
+//        return modelMapper.map(order, OrderDto.class);
 
-        for(OrderItemDto orderItem : orderDto.getOrderItems()){
-            System.out.println(orderItem);
+        Order order = modelMapper.map(orderDto, Order.class);
+        for (OrderItem orderItem : order.getOrderItems()) {
             orderItem.setOrder(order);
-            createOrderItemService.createOrderItem(orderItem);
         }
-
-
-
-        return modelMapper.map(order, OrderDto.class);
+        return modelMapper.map(orderRepository.save(order), OrderDto.class);
 
     }
-
-
-
-
 }

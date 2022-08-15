@@ -33,7 +33,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderRedis addNewOrder(String link, GroupLinkRequest request) {
-        OrderRedis newOrderRedis = OrderRedis.of(OrderStatus.CHUA_THANH_TOAN.getStatus(), 1000f, 0f, BigDecimal.ZERO
+        OrderRedis newOrderRedis = OrderRedis.of(OrderStatus.CHUA_THANH_TOAN.getStatus(), 1000f, 0f, BigDecimal.valueOf(1000)
                 , link, request.getVendorId(), request.getUserId(), new ArrayList<>());
         return redisOrderRepository.save(newOrderRedis);
     }
@@ -56,7 +56,20 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderRedis addOrderItem(String link, OrderItemDto orderItemDto) {
         OrderRedis orderRedis = findByLink(link);
-        orderRedis.getOrderItemRedis().add(modelMapper.map(orderItemDto, OrderItemRedis.class));
+        List<OrderItemRedis> orderItemRedis = orderRedis.getOrderItemRedis();
+        boolean exists = false;
+        for (int i = 0; i < orderItemRedis.size(); i++) {
+            if (orderItemRedis.get(i).getUserId().equals(orderItemDto.getUserId()) && orderItemRedis.get(i).getProductId().equals(orderItemDto.getProductId())) {
+                exists = true;
+                OrderItemRedis item = orderItemRedis.get(i);
+                item.setQuantity(item.getQuantity() + orderItemDto.getQuantity());
+                item.setTotal(item.getTotal().add(orderItemDto.getTotal()));
+                break;
+            }
+        }
+        if (!exists) {
+            orderItemRedis.add(modelMapper.map(orderItemDto, OrderItemRedis.class));
+        }
         orderRedis.setGrandTotal(orderRedis.getGrandTotal().add(orderItemDto.getTotal()));
         return redisOrderRepository.save(orderRedis);
     }
@@ -100,7 +113,7 @@ public class OrderServiceImpl implements OrderService {
         OrderRedis orderRedis = findByLink(link);
         Order order = modelMapper.map(orderRedis, Order.class);
         List<OrderItem> orderItems = new ArrayList<>();
-        for(OrderItemRedis orderItemRedis: orderRedis.getOrderItemRedis()){
+        for (OrderItemRedis orderItemRedis : orderRedis.getOrderItemRedis()) {
             OrderItem orderItem = modelMapper.map(orderItemRedis, OrderItem.class);
             orderItem.setOrder(order);
             orderItems.add(orderItem);

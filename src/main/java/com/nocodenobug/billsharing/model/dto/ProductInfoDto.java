@@ -18,7 +18,7 @@ import javax.persistence.*;
                         @ColumnResult(name = "category", type = String.class),
                         @ColumnResult(name = "vendor", type = String.class),
                         @ColumnResult(name = "vendor_id", type = Long.class),
-                        @ColumnResult(name = "prince", type = Float.class),
+                        @ColumnResult(name = "price", type = Float.class),
                         @ColumnResult(name = "quantity", type = Integer.class),
                         @ColumnResult(name = "status", type = Integer.class),
                         @ColumnResult(name = "description", type = String.class),
@@ -38,15 +38,14 @@ public class ProductInfoDto {
     private Long product_id;
     private String product_name;
     private String category;
-    private String product_group;
     private String vendor;
     private Long vendor_id;
-    private Float prince;
+    private Float price;
     private Integer quantity;
     private Integer status;
     private String description;
     private Float discount;
     private Integer rating;
     private String product_image;
-    private Long vendor_logo;
+    private String vendor_logo;
 }

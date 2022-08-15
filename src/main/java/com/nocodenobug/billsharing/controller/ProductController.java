@@ -1,5 +1,6 @@
 package com.nocodenobug.billsharing.controller;
 
+import com.nocodenobug.billsharing.constants.ESort;
 import com.nocodenobug.billsharing.model.dto.ProductDto;
 import com.nocodenobug.billsharing.payload.request.FilterRequest;
 import com.nocodenobug.billsharing.payload.response.*;
@@ -46,23 +47,26 @@ public class ProductController {
 
     @GetMapping("/category")
     public ResponseEntity<?> findByCategoryTitle(@RequestParam(value = "category_title") String categoryTitle,
-                                                              @RequestParam(value = "page") int page,
-                                                              @RequestParam(value = "page_size") int pageSize){
-        Page<?> productPage = getProductsByCategoryTitle.getProductsByCategoryTitle(categoryTitle, page, pageSize);
-        return ResponseEntity.ok(DefaultPagingResponse.success(productPage));
+                                                 @RequestParam(value = "page") int page,
+                                                 @RequestParam(value = "page_size") int pageSize) {
+        FilterRequest filters = new FilterRequest(null, categoryTitle, null, ESort.RANDOM.getValue());
+        return ResponseEntity.ok(DefaultPagingResponse.success(getProductByFilterService.getProductByFilter(filters, page, pageSize)));    }
 
-    }
+//    @GetMapping("/category/{id}")
+//    public ResponseEntity<?> getByCategoryId(@PathVariable Long id) {
+//        return ResponseEntity.ok(DefaultResponse.success(getService.))
+//    }
 
     @Operation(summary = "Lấy sản phẩm theo Id", description = "Lấy sản phẩm theo Id")
     @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable Long id){
+    public ResponseEntity<?> getById(@PathVariable Long id) {
         return ResponseEntity.ok(DefaultResponse.success(getService.getProductById(id)));
     }
 
     @Operation(summary = "Tạo sản phẩm", description = "Tạo sản phẩm")
     @PostMapping("")
     @PreAuthorize("hasRole('VENDOR')")
-    public ResponseEntity<?> create(@Validated @RequestBody ProductDto productDto){
+    public ResponseEntity<?> create(@Validated @RequestBody ProductDto productDto) {
         return ResponseEntity.ok(DefaultResponse.success(createService.createProduct(productDto)));
     }
 
@@ -70,14 +74,14 @@ public class ProductController {
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('VENDOR')")
     public ResponseEntity<?> update(@PathVariable Long id,
-                                                 @Validated @RequestBody ProductDto productDto){
-        return ResponseEntity.ok(DefaultResponse.success(updateService.updateProduct(id ,productDto)));
+                                    @Validated @RequestBody ProductDto productDto) {
+        return ResponseEntity.ok(DefaultResponse.success(updateService.updateProduct(id, productDto)));
     }
 
     @Operation(summary = "Xóa sản phẩm", description = "Xóa sản phẩm")
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('VENDOR')")
-    public ResponseEntity<?> delete(@PathVariable Long id){
+    public ResponseEntity<?> delete(@PathVariable Long id) {
         deleteService.deleteProduct(id);
         return ResponseEntity.ok(DefaultResponse.success("Xóa sản phẩm thành công"));
     }
@@ -86,17 +90,17 @@ public class ProductController {
     @PostMapping(value = "/update-image/{product-id}", consumes = "multipart/form-data")
     public ResponseEntity<?> updateImage(
             @PathVariable("product-id") Long productId,
-            @RequestBody MultipartFile file){
+            @RequestBody MultipartFile file) {
         return ResponseEntity.ok(DefaultResponse.success("Success", uploadProductImage.uploadProductImage(productId, file)));
     }
 
     @Operation(summary = "Lọc sản phẩm", description = "Filtering product by category, product group name and sort by rating or discounting")
-    @GetMapping("/filter")
+    @PostMapping("/filter")
     public ResponseEntity<?> getProductByFilter(
             @RequestParam("page") int page,
             @RequestParam("page_size") int pageSize,
             @RequestBody FilterRequest filters
-            ){
+    ) {
         return ResponseEntity.ok(DefaultPagingResponse.success(getProductByFilterService.getProductByFilter(filters, page, pageSize)));
     }
 }

@@ -43,7 +43,6 @@ public class User {
 
     private Integer status;
     private String verificationCode;
-    private String provider;
 
 
 }

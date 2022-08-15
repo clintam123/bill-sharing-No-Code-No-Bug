@@ -51,7 +51,6 @@ public class FilterProductDao {
         if (filters.getCategoryTitle() != null){
             query.setParameter("category", "%"+filters.getCategoryTitle()+"%");
         }
-        System.out.println(query.toString());
 
         int total = 0;
         int index;
@@ -66,6 +65,12 @@ public class FilterProductDao {
         } else {
             query.setMaxResults(50);
         }
+
+//        System.out.println("Query: " + query.unwrap(org.hibernate.Query.class).getQueryString());
+//        System.out.println("Result list: " + query.getResultList());
+
+        System.out.println("------" +filters.getCategoryTitle() +"------");
+
         List<?> list = query.getResultList();
 
         return pageable == null ? new PageImpl<>(list) : new PageImpl<>(list, pageable, total);

@@ -86,7 +86,7 @@ public class VendorController {
 //    }
 
     @Operation(summary = "Upload logo cửa hàng", description = "Upload logo cửa hàng")
-    @PostMapping("/upload-logo/{vendor_id}")
+    @PostMapping("/update-image/{vendor_id}")
     public ResponseEntity<?> uploadVendorLogo(
             @PathVariable("vendor_id") Long vendorId,
             @RequestBody MultipartFile file

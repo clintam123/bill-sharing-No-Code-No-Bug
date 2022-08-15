@@ -31,7 +31,6 @@ public class OrderItem {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    @JsonProperty("product_id")
     @Column(name = "product_id")
     private Long productId;
 
