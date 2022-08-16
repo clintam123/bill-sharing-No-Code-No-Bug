@@ -68,7 +68,7 @@ public class AuthServiceImpl implements AuthService {
         UserDetailsImpl userDetails = CurrentUserUtils.getCurrentUserDetails();
 
         Vendor vendor = vendorRepository.findByUserId(userDetails.getId());
-
+//        if(vendor.)
         return UserInfoResponse.builder()
                 .id(userDetails.getId())
                 .username(userDetails.getUsername())
@@ -99,8 +99,8 @@ public class AuthServiceImpl implements AuthService {
 
         EmailDetails emailDetails = new EmailDetails();
         emailDetails.setRecipient(signupRequest.getEmail());
-        emailDetails.setSubject(String.valueOf(EmailConstants.SUBJECT));
-        emailDetails.setMsgBody("http://localhost:8080/api/v1/user/" + mapUser.getVerificationCode());
+        emailDetails.setSubject("Xác thực tài khoản : NoCodeNoBug");
+        emailDetails.setMsgBody("http://localhost:8080/api/v1/user/vertification/" + mapUser.getVerificationCode());
 
         sendEmailService.sendSimpleMail(emailDetails);
         mapUser.setStatus(StatusConstants.INACTIVE.getValue());

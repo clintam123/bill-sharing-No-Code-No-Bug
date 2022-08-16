@@ -15,8 +15,9 @@ public class DistanceLengthUtils {
         OkHttpClient client = new OkHttpClient();
         MediaType mediaType = MediaType.parse("text/plain");
         RequestBody body = RequestBody.create(mediaType, "");
+        String key="AIzaSyAgPnmD05QB0QpRjc2dk60y0C5gUPWryF4";
         Request request = new Request.Builder()
-                .url("https://maps.googleapis.com/maps/api/directions/json?origin="+origin+"&destination="+distation+"&language=vi&key=AIzaSyBCBfNm20V9CzumgUChdppVcpUK-vtD2bE&alternatives=true")
+                .url("https://maps.googleapis.com/maps/api/directions/json?origin="+origin+"&destination="+distation+"&language=vi&key="+key+"&alternatives=true")
                 .addHeader("Accept", "application/json")
                 .method("GET", null)
                 .build();

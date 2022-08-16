@@ -63,6 +63,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/swagger-ui/**",
             // other public endpoints of your API may be appended to this array
             "/ws/**",
+            "/api/v1/user/vertification/**"
     };
 
     @Override
