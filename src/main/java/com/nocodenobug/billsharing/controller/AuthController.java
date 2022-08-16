@@ -1,5 +1,6 @@
 package com.nocodenobug.billsharing.controller;
 
+import com.nocodenobug.billsharing.model.dto.VendorDto;
 import com.nocodenobug.billsharing.payload.request.ChangePasswordRequest;
 import com.nocodenobug.billsharing.payload.request.LoginRequest;
 import com.nocodenobug.billsharing.payload.request.SignupRequest;
@@ -8,12 +9,15 @@ import com.nocodenobug.billsharing.payload.response.SampleResponse;
 import com.nocodenobug.billsharing.payload.response.UserInfoResponse;
 import com.nocodenobug.billsharing.service.auth.AuthService;
 import com.nocodenobug.billsharing.service.email.SendEmailService;
+import com.nocodenobug.billsharing.service.vendor.CreateVendorService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +31,9 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
     @Autowired
     private AuthService authService;
+
+    @Autowired
+    private CreateVendorService createVendorService;
 
     @PostMapping("/login")
     public ResponseEntity<SampleResponse> loginUser(@Validated @RequestBody LoginRequest loginRequest) {
@@ -47,6 +54,12 @@ public class AuthController {
         SampleResponse response = new SampleResponse(true, "Đăng ký thành công!", userRegisterResponse);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @Operation(summary = "Tạo vendor", description = "Tạo vendor")
+    @PostMapping("/signup/vendor")
+    public ResponseEntity<?> addVendor(@Validated @RequestBody VendorDto vendorDto) {
+        return ResponseEntity.ok(DefaultResponse.success(createVendorService.createVendor(vendorDto)));
     }
 
     @PostMapping("/logout")

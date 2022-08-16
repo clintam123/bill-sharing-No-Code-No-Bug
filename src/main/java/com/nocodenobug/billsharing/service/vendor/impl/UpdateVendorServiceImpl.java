@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UpdateVendorServiceImpl implements UpdateVendorService {
     @Autowired
@@ -19,13 +21,15 @@ public class UpdateVendorServiceImpl implements UpdateVendorService {
     private ModelMapper mapper;
 
     @Override
-    public VendorDto updateVendor(Long id,VendorDto vendorDto){
-        if (vendorRepository.findById(id).isEmpty()){
-            throw new NotFoundException(HttpStatus.NOT_FOUND.value(), "Id vendor NotFound");
-
-        }
-        Vendor vendor=mapper.map(vendorDto,Vendor.class);
+    public VendorDto updateVendor(Long id, VendorDto vendorDto) {
+        Vendor vendor = vendorRepository.findById(id).orElseThrow(
+                () -> new NotFoundException(HttpStatus.NOT_FOUND.value(), "Id vendor NotFound")
+        );
+        String logo = vendor.getLogo();
+        vendor = mapper.map(vendorDto, Vendor.class);
         vendor.setId(id);
-        return mapper.map(vendorRepository.save(vendor),VendorDto.class);
+        vendor.setLogo(logo);
+        System.out.println("----" + vendor);
+        return mapper.map(vendorRepository.save(vendor), VendorDto.class);
     }
 }

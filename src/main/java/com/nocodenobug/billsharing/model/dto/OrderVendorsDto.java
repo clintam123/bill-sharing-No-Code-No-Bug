@@ -18,7 +18,7 @@ import java.time.LocalDate;
                         @ColumnResult(name = "id", type = Long.class),
                         @ColumnResult(name = "shipping", type = Float.class),
                         @ColumnResult(name = "discount", type = Float.class),
-                        @ColumnResult(name = "profile", type = String.class),
+                        @ColumnResult(name = "intro", type = String.class),
                         @ColumnResult(name = "username", type = String.class),
                         @ColumnResult(name = "fullname", type = String.class),
                         @ColumnResult(name = "grand_total", type = Float.class),
@@ -36,7 +36,7 @@ public class OrderVendorsDto {
     private Long id;
     private Float shipping;
     private Float discount;
-    private String profile;
+    private String intro;
     private String username;
     private String fullname;
     private Float grand_total;

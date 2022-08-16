@@ -19,7 +19,7 @@ public class OrderVendorsDao {
                         + " SELECT od.id AS id, "
                         + "        od.shipping AS shipping, "
                         + "        od.discount AS discount, "
-                        + "        vd.profile AS profile, "
+                        + "        vd.intro AS intro, "
                         + "        us.username AS username, "
                         + "        concat(us.last_name, ' ', us.first_name) AS fullname, "
                         + "        od.grand_total AS grand_total, "
@@ -27,9 +27,8 @@ public class OrderVendorsDao {
                         + "        od.updated_at AS updated_at "
                         + " FROM team_3.orders od "
                         + " INNER JOIN team_3.vendor vd ON vd.id = od.vendor_id "
-                        + " INNER JOIN team_3.user us ON us.id = vd.user_id"
+                        + " INNER JOIN team_3.user us ON us.id = od.user_id"
                         + " WHERE od.updated_at BETWEEN :start_date AND :end_date";
-//                        + " GROUP BY od.vendor_id ";
 
         Query query = entityManager.createNativeQuery(strQuery,"OrderVendorsDto");
         query.setParameter("start_date", start_date);

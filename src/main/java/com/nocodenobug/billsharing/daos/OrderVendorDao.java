@@ -23,12 +23,12 @@ public class OrderVendorDao {
                         + "        us.username AS username, "
                         + "        concat(us.last_name, ' ', us.first_name) AS fullname, "
                         + "        od.grand_total as grand_total, "
-                        + "        vd.profile as profile, "
+                        + "        vd.intro as intro, "
                         + "        od.created_at as created_at, "
                         + "        od.updated_at as updated_at "
                         + " FROM team_3.orders od "
                         + " INNER JOIN team_3.vendor vd ON vd.id = od.vendor_id "
-                        + " INNER JOIN team_3.user us ON us.id = vd.user_id"
+                        + " INNER JOIN team_3.user us ON us.id = od.user_id"
                         + " WHERE od.vendor_id = :vendorId AND od.updated_at BETWEEN :start_date AND :end_date";
 
         Query query = entityManager.createNativeQuery(strQuery,"VendorOrderStatisticsDto");

@@ -63,7 +63,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/swagger-ui/**",
             // other public endpoints of your API may be appended to this array
             "/ws/**",
-            "/api/v1/user/vertification/**"
+            "/api/v1/user/vertification/**",
+            "/api/v1/"
     };
 
     @Override
@@ -73,7 +74,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
                 .antMatchers("/api/v1/auth/**").permitAll()
-//                .antMatchers("/api/**").permitAll()
                 .antMatchers(AUTH_WHITELIST).permitAll()
                 .antMatchers("/ws/**").permitAll()
                 .antMatchers("/api/v1/**").authenticated();
