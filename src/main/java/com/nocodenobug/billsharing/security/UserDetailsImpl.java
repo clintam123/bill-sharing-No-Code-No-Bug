@@ -22,6 +22,7 @@ public class UserDetailsImpl implements UserDetails {
     private String phone;
     private String imageUrl;
     private String email;
+    private Integer status;
     private Collection<? extends GrantedAuthority> authorities;
 
     public static UserDetailsImpl build(User user){
@@ -35,6 +36,7 @@ public class UserDetailsImpl implements UserDetails {
                 .email(user.getEmail())
                 .imageUrl(user.getImageUrl())
                 .authorities(authorities)
+                .status(user.getStatus())
                 .build();
     }
 

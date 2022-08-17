@@ -11,13 +11,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DistanceLengthUtils {
+
+    private static final int SHIPPING_PER_KM = 2000;
+
+    private static Float getShipping(Float km) {
+        return SHIPPING_PER_KM * km;
+    }
+
     public static DistanceResponse getDistanceLength(String origin, String distation) throws IOException {
         OkHttpClient client = new OkHttpClient();
         MediaType mediaType = MediaType.parse("text/plain");
         RequestBody body = RequestBody.create(mediaType, "");
-        String key="AIzaSyAgPnmD05QB0QpRjc2dk60y0C5gUPWryF4";
+        String key = "AIzaSyAgPnmD05QB0QpRjc2dk60y0C5gUPWryF4";
         Request request = new Request.Builder()
-                .url("https://maps.googleapis.com/maps/api/directions/json?origin="+origin+"&destination="+distation+"&language=vi&key="+key+"&alternatives=true")
+                .url("https://maps.googleapis.com/maps/api/directions/json?origin=" + origin + "&destination=" + distation + "&language=vi&key=" + key + "&alternatives=true")
                 .addHeader("Accept", "application/json")
                 .method("GET", null)
                 .build();
@@ -30,29 +37,30 @@ public class DistanceLengthUtils {
             JSONObject json = new JSONObject(jsonData);
             ObjectMapper mapper = new ObjectMapper();
             JsonNode node = mapper.readTree(jsonData);
-            List<Float> list=new ArrayList<>();
+            List<Float> list = new ArrayList<>();
 //            return  node.get("routes").get(0).get("legs").get(0).get("distance").get("text")+"";
-            for (int i=0; i<node.get("routes").size();i++){
-              String x=   node.get("routes").get(i).get("legs").get(0).get("distance").get("text")+"";
+            for (int i = 0; i < node.get("routes").size(); i++) {
+                String x = node.get("routes").get(i).get("legs").get(0).get("distance").get("text") + "";
 //                System.out.println(x.substring(1,x.length()-4).replace(",","."));
 
-                list.add(Float.parseFloat(x.substring(1,x.length()-4).replace(",",".")));
+                list.add(Float.parseFloat(x.substring(1, x.length() - 4).replace(",", ".")));
 
             }
-            float min=list.get(0);
-            int index=0;
-            for(int i=0;i<list.size();i++){
-//                System.out.println(list.get(i));
-                if (list.get(i)<min){
-                    min=list.get(i);
-                    index=i;
+            float min = list.get(0);
+            int index = 0;
+            for (int i = 0; i < list.size(); i++) {
+//                System.out.println(list.get());
+                if (list.get(i) < min) {
+                    min = list.get(i);
+                    index = i;
                 }
             }
-            DistanceResponse distanceResponse=new DistanceResponse();
-            distanceResponse.setLength((node.get("routes").get(index).get("legs").get(0).get("distance").get("text")+"").replace("\"","").trim());
-            distanceResponse.setSummary((node.get("routes").get(index).get("summary")+"").replace("\"","").trim());
-            distanceResponse.setTime((node.get("routes").get(index).get("legs").get(0).get("duration").get("text")+"").replace("\"","").trim());
-//
+            DistanceResponse distanceResponse = new DistanceResponse();
+            distanceResponse.setLength((node.get("routes").get(index).get("legs").get(0).get("distance").get("text") + "").replace("\"", "").trim());
+            distanceResponse.setSummary((node.get("routes").get(index).get("summary") + "").replace("\"", "").trim());
+            distanceResponse.setTime((node.get("routes").get(index).get("legs").get(0).get("duration").get("text") + "").replace("\"", "").trim());
+            distanceResponse.setShipping(getShipping(Float.parseFloat(distanceResponse.getLength().replace(" km", "").replace(",", "."))));
+
 //            mapper.writerWithDefaultPrettyPrinter().writeValue(System.out,node.get("routes").get(index));
             return distanceResponse;
         }

@@ -15,11 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 
 @RestController
+@RequestMapping("/api/v1")
 public class DistanceLengthController {
     @Autowired
     private GetVendorByIdService getVendorByIdService;
 
-    @GetMapping("/getDistanceLength")
+    @GetMapping("/get-distance-length")
     public ResponseEntity getLength(@RequestParam(name = "origin") String origin,
                                     @RequestParam(name = "vendorId") Long id
     ) throws IOException {

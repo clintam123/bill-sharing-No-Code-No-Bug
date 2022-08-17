@@ -11,4 +11,5 @@ public class DistanceResponse {
     private String length;
     private String time;
     private String summary;
+    private Float shipping;
 }

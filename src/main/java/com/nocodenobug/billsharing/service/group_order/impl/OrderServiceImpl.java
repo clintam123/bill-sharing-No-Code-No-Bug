@@ -33,7 +33,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderRedis addNewOrder(String link, GroupLinkRequest request) {
-        OrderRedis newOrderRedis = OrderRedis.of(OrderStatus.CHUA_THANH_TOAN.getStatus(), 1000f, 0f, BigDecimal.valueOf(1000)
+        OrderRedis newOrderRedis = OrderRedis.of(OrderStatus.CHUA_THANH_TOAN.getStatus(),
+                request.getShipping(), 0f,
+                BigDecimal.valueOf(request.getShipping())
                 , link, request.getVendorId(), request.getUserId(), new ArrayList<>());
         return redisOrderRepository.save(newOrderRedis);
     }

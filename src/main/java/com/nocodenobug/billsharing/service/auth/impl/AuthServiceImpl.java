@@ -23,6 +23,7 @@ import net.bytebuddy.utility.RandomString;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseCookie;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -30,6 +31,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -67,6 +69,10 @@ public class AuthServiceImpl implements AuthService {
         CurrentUserUtils.setCurrentUserDetails(authentication);
         UserDetailsImpl userDetails = CurrentUserUtils.getCurrentUserDetails();
 
+        if(userDetails.getStatus() != 1){
+            throw new RuntimeException("Tài khoản chưa được kích hoạt");
+        }
+
         Vendor vendor = vendorRepository.findByUserId(userDetails.getId());
 //        if(vendor.)
         return UserInfoResponse.builder()
@@ -87,9 +93,9 @@ public class AuthServiceImpl implements AuthService {
         if (userRepository.existsByUsername(signupRequest.getUsername())) {
             throw new BadRequestException("Username đã được sử dụng!");
         }
-//        if (Objects.equals(signupRequest.getRole(), "ROLE_ADMIN")) {
-//            throw new AccessDeniedException("Không được phép tạo tài khoản admin!");
-//        }
+        if (Objects.equals(signupRequest.getRole(), "ROLE_ADMIN")) {
+            throw new AccessDeniedException("Không được phép tạo tài khoản admin!");
+        }
         User mapUser = modelMapper.map(signupRequest, User.class);
         mapUser.setPasswordHash(encoder.encode(signupRequest.getPassword()));
         mapUser.setImageUrl(cloudinary.url().generate(FolderConstants.AVATAR_DEFAULT_IMAGE_PUBLIC_ID));

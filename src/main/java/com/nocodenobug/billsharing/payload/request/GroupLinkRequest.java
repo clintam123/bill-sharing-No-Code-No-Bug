@@ -12,4 +12,6 @@ public class GroupLinkRequest {
     @NotBlank
     private Long vendorId;
 
+    private Float shipping;
+
 }
